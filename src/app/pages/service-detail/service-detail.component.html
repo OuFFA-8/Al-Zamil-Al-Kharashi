@@ -1,0 +1,385 @@
+<!-- service-detail.component.html -->
+<div>
+  @if (service(); as currentService) {
+
+  <div
+    class="banner-section relative w-full text-white min-h-72 flex flex-col items-center justify-center bg-center bg-cover "
+    [style.backgroundImage]="'url(' + currentService.bannerImageUrl + ')'">
+
+    <!-- 1. طبقة الـ Overlay تم وضعها هنا لتغطي كل شيء -->
+    <div class="absolute inset-0 bg-black bg-opacity-80 z-10"></div>
+
+    <!-- 2. حاوية جديدة للمحتوى لضمان ظهوره فوق الـ Overlay -->
+    <div class="relative z-20 w-full pt-24">
+
+      <!-- قسم العنوان (لم يتغير) -->
+      <div class="text-center">
+        <div class="px-4 pt-14">
+          <h1 class="text-4xl md:text-5xl lg:text-6xl hover:text-[#a39669] duration-300 font-bold pb-3">
+            {{ currentService.title | translate }}
+          </h1>
+          <button (click)="scrollToContent($event)" aria-label="Scroll down" class="mt-4 text-2xl animate-bounce">
+            <i class="fas fa-chevron-down text-[#a39669]"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- قسم المحتوى النصي (لم يتغير) -->
+      <div class="flex justify-center mx-10 py-20">
+        <div [dir]="getTextDirection()" [class]="'content-column w-full max-w-4xl text-white space-y-8 leading-relaxed ' + (isArabic() ? 'text-right' : 'text-left')">
+          <!-- كل المحتوى بتاعك هنا زي ما هو بالظبط -->
+
+          @if ( currentService.contentSection1Body && !currentService.mainSpan1 ) {
+          <p>
+            {{ (currentService.contentSection1Body ) | translate }}
+          </p>
+          }
+          @if (currentService.contentSection5Title && currentService.contentSection5Body ) {
+          <h2 class="text-2xl font-semibold pt-2 text-[#a39669]">
+            {{ currentService.contentSection5Title | translate }}
+          </h2>
+          <p>
+            {{ currentService.contentSection5Body | translate }}
+          </p>
+          }
+          @if (currentService.contentSection3Body && currentService.contentSection1Body &&
+          currentService.contentSection2Body && currentService.mainSpan1 ) {
+          <p>
+            {{ (currentService.contentSection1Body ) | translate }}
+          </p>
+          <p>
+            {{ (currentService.contentSection2Body ) | translate }}
+          </p>
+          <p>
+            {{ (currentService.contentSection3Body ) | translate }}
+          </p>
+          }
+
+          @if (currentService.contentSection6Title && currentService.contentSection6Body ) {
+          <h2 class="text-2xl font-semibold pt-2 text-[#a39669]">
+            {{ currentService.contentSection6Title | translate }}
+          </h2>
+          <p>
+            {{ currentService.contentSection6Body | translate }}
+          </p>
+          }
+          @if (currentService.contentSection7Title && currentService.contentSection7Body ) {
+          <h2 class="text-2xl font-semibold pt-2 text-[#a39669]">
+            {{ currentService.contentSection7Title | translate }}
+          </h2>
+          <p>
+            {{ currentService.contentSection7Body | translate }}
+          </p>
+          }
+
+          @if ( currentService.contentSection1Body && !currentService.mainSpan1 ) {
+          <p>
+            {{ (currentService.contentSection2Body ?? '') | translate }}
+          </p>
+          <p>
+            {{ (currentService.contentSection3Body ?? '') | translate }}
+          </p>
+          <p>
+            {{ (currentService.contentSection4Body ?? '') | translate }}
+          </p>
+          }
+          @if ( currentService.contentSection1Body && !currentService.mainSpan1 ) {
+
+          <ul [dir]="getTextDirection()" [class]="'list-disc space-y-2 ' + (isArabic() ? 'pr-6' : 'pl-6')">
+            @if (currentService.span1) {
+            <li>{{ (currentService.span1) | translate }}</li>
+            }
+            @if (currentService.span2) {
+            <li>{{ (currentService.span2) | translate }}</li>
+            }
+            @if (currentService.span3) {
+            <li>{{ (currentService.span3) | translate }}</li>
+            }
+            @if (currentService.span4) {
+            <li>{{ (currentService.span4) | translate }}</li>
+            }
+            @if (currentService.span5) {
+            <li>{{ (currentService.span5) | translate }}</li>
+            }
+            @if (currentService.span6) {
+            <li>{{ (currentService.span6) | translate }}</li>
+            }
+            @if (currentService.span7) {
+            <li>{{ (currentService.span7) | translate }}</li>
+            }
+            @if (currentService.span8) {
+            <li>{{ (currentService.span8) | translate }}</li>
+            }
+            @if (currentService.span9) {
+            <li>{{ (currentService.span9) | translate }}</li>
+            }
+            @if (currentService.span10) {
+            <li>{{ (currentService.span10) | translate }}</li>
+            }
+
+          </ul>
+          }
+          @else if (currentService.contentSection1Body && currentService.mainSpan1 && currentService.mainSpan2) {
+
+          <span class="text-[#a39669] font-bold"> {{ (currentService.mainSpan1 ) | translate }} </span>
+          <ul [dir]="getTextDirection()" [class]="'list-disc space-y-2 pb-10 ' + (isArabic() ? 'pr-6' : 'pl-6')">
+            @if (currentService.span1) {
+            <li>{{ (currentService.span1) | translate }}</li>
+            }
+            @if (currentService.span2) {
+            <li>{{ (currentService.span2) | translate }}</li>
+            }
+            @if (currentService.span3) {
+            <li>{{ (currentService.span3) | translate }}</li>
+            }
+            @if (currentService.span4) {
+            <li>{{ (currentService.span4) | translate }}</li>
+            }
+            @if (currentService.span5) {
+            <li>{{ (currentService.span5) | translate }}</li>
+            }
+            @if (currentService.span6) {
+            <li>{{ (currentService.span6) | translate }}</li>
+            }
+            @if (currentService.span7) {
+            <li>{{ (currentService.span7) | translate }}</li>
+            }
+          </ul>
+          <span class="text-[#a39669] font-bold"> {{ (currentService.mainSpan2 ) | translate }} </span>
+          <ul [dir]="getTextDirection()" [class]="'list-disc space-y-2 ' + (isArabic() ? 'pr-6' : 'pl-6')">
+            @if (currentService.span8) {
+            <li>{{ (currentService.span8) | translate }}</li>
+            }
+            @if (currentService.span9) {
+            <li>{{ (currentService.span9) | translate }}</li>
+            }
+            @if (currentService.span10) {
+            <li>{{ (currentService.span10) | translate }}</li>
+            }
+            @if (currentService.span11) {
+            <li>{{ (currentService.span11) | translate }}</li>
+            }
+            @if (currentService.span12) {
+            <li>{{ (currentService.span12) | translate }}</li>
+            }
+            @if (currentService.span13) {
+            <li>{{ (currentService.span13) | translate }}</li>
+            }
+          </ul>
+          }
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 
+  <div class="main-content-section bg-gray-200 py-12 md:py-16 lg:py-20" id="content-area">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-start">
+
+        <div class="content-column lg:col-span-2 text-gray-600 space-y-8 leading-relaxed">
+
+          <h2 class="text-2xl font-semibold pt-2 text-[#061933]">
+            {{ (currentService.contentSection1Title ?? '') | translate }}
+          </h2>
+          @if ( currentService.contentSection1Body && !currentService.mainSpan1 ) {
+          <p>
+            {{ (currentService.contentSection1Body ) | translate }}
+          </p>
+          }
+          @if (currentService.contentSection5Title && currentService.contentSection5Body ) {
+          <h2 class="text-2xl font-semibold pt-2 text-[#061933]">
+            {{ currentService.contentSection5Title | translate }}
+          </h2>
+          <p>
+            {{ currentService.contentSection5Body | translate }}
+          </p>
+          }
+          @if (currentService.contentSection3Body && currentService.contentSection1Body &&
+          currentService.contentSection2Body && currentService.mainSpan1 ) {
+          <p>
+            {{ (currentService.contentSection1Body ) | translate }}
+          </p>
+          <p>
+            {{ (currentService.contentSection2Body ) | translate }}
+          </p>
+          <p>
+            {{ (currentService.contentSection3Body ) | translate }}
+          </p>
+          }
+
+          @if(currentService.image1 || currentService.image2) {
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 py-4">
+            @if(currentService.image1) { <img [src]="currentService.image1" alt="Service image 1"
+              class="rounded-lg shadow-md object-cover w-full h-48"> }
+            @if(currentService.image2) { <img [src]="currentService.image2" alt="Service image 2"
+              class="rounded-lg shadow-md object-cover w-full h-48"> }
+          </div>
+          }
+
+          @if (currentService.contentSection6Title && currentService.contentSection6Body ) {
+          <h2 class="text-2xl font-semibold pt-2 text-[#061933]">
+            {{ currentService.contentSection6Title | translate }}
+          </h2>
+          <p>
+            {{ currentService.contentSection6Body | translate }}
+          </p>
+          }
+          @if (currentService.contentSection7Title && currentService.contentSection7Body ) {
+          <h2 class="text-2xl font-semibold pt-2 text-[#061933]">
+            {{ currentService.contentSection7Title | translate }}
+          </h2>
+          <p>
+            {{ currentService.contentSection7Body | translate }}
+          </p>
+          }
+
+          @if ( currentService.contentSection1Body && !currentService.mainSpan1 ) {
+          <p>
+            {{ (currentService.contentSection2Body ?? '') | translate }}
+          </p>
+          <p>
+            {{ (currentService.contentSection3Body ?? '') | translate }}
+          </p>
+          <p>
+            {{ (currentService.contentSection4Body ?? '') | translate }}
+          </p>
+          }
+          @if ( currentService.contentSection1Body && !currentService.mainSpan1 ) {
+
+          <ul [dir]="getTextDirection()" [class]="'list-disc space-y-2 ' + (isArabic() ? 'pr-6' : 'pl-6')">
+            @if (currentService.span1) {
+            <li>{{ (currentService.span1) | translate }}</li>
+            }
+            @if (currentService.span2) {
+            <li>{{ (currentService.span2) | translate }}</li>
+            }
+            @if (currentService.span3) {
+            <li>{{ (currentService.span3) | translate }}</li>
+            }
+            @if (currentService.span4) {
+            <li>{{ (currentService.span4) | translate }}</li>
+            }
+            @if (currentService.span5) {
+            <li>{{ (currentService.span5) | translate }}</li>
+            }
+            @if (currentService.span6) {
+            <li>{{ (currentService.span6) | translate }}</li>
+            }
+            @if (currentService.span7) {
+            <li>{{ (currentService.span7) | translate }}</li>
+            }
+            @if (currentService.span8) {
+            <li>{{ (currentService.span8) | translate }}</li>
+            }
+            @if (currentService.span9) {
+            <li>{{ (currentService.span9) | translate }}</li>
+            }
+            @if (currentService.span10) {
+            <li>{{ (currentService.span10) | translate }}</li>
+            }
+
+          </ul>
+          }
+          @else if (currentService.contentSection1Body && currentService.mainSpan1 && currentService.mainSpan2) {
+
+          <span class="text-slate-900 font-bold"> {{ (currentService.mainSpan1 ) | translate }} </span>
+          <ul class="list-disc pl-6 space-y-2 pb-10">
+            @if (currentService.span1) {
+            <li>{{ (currentService.span1) | translate }}</li>
+            }
+            @if (currentService.span2) {
+            <li>{{ (currentService.span2) | translate }}</li>
+            }
+            @if (currentService.span3) {
+            <li>{{ (currentService.span3) | translate }}</li>
+            }
+            @if (currentService.span4) {
+            <li>{{ (currentService.span4) | translate }}</li>
+            }
+            @if (currentService.span5) {
+            <li>{{ (currentService.span5) | translate }}</li>
+            }
+            @if (currentService.span6) {
+            <li>{{ (currentService.span6) | translate }}</li>
+            }
+            @if (currentService.span7) {
+            <li>{{ (currentService.span7) | translate }}</li>
+            }
+          </ul>
+          <span class="text-slate-900 font-bold"> {{ (currentService.mainSpan2 ) | translate }} </span>
+          <ul [dir]="getTextDirection()" [class]="'list-disc space-y-2 ' + (isArabic() ? 'pr-6' : 'pl-6')">
+            @if (currentService.span8) {
+            <li>{{ (currentService.span8) | translate }}</li>
+            }
+            @if (currentService.span9) {
+            <li>{{ (currentService.span9) | translate }}</li>
+            }
+            @if (currentService.span10) {
+            <li>{{ (currentService.span10) | translate }}</li>
+            }
+            @if (currentService.span11) {
+            <li>{{ (currentService.span11) | translate }}</li>
+            }
+            @if (currentService.span12) {
+            <li>{{ (currentService.span12) | translate }}</li>
+            }
+            @if (currentService.span13) {
+            <li>{{ (currentService.span13) | translate }}</li>
+            }
+
+          </ul>
+          }
+
+        </div>
+
+        <div class="sidebar-form lg:col-span-1">
+                    <img src="/images/timeline1.webp" alt="Main section image" class="rounded-lg shadow-md mb-6">
+        </div>
+
+
+        <div class="sidebar-form lg:col-span-1">
+          <div class="bg-[#061933] p-6 md:p-8 rounded-lg shadow-lg">
+            <form action="#" method="POST" class="space-y-6">
+              <h3 class="text-xl text-start font-semibold text-white mb-6">{{'services.form.contact' |translate}}</h3>
+
+              <div>
+                <label for="name" class="text-start block text-sm font-medium text-white mb-1">{{'services.form.name'
+                  |translate}}</label>
+                <input type="text" name="name" id="name" autocomplete="name" required
+                  class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-100 focus:outline-none focus:ring-[#b3a16c] focus:border-[#b3a16c] sm:text-sm">
+              </div>
+
+              <div>
+                <label for="email" class="text-start block text-sm font-medium text-white mb-1">{{'services.form.email'
+                  |translate}}</label>
+                <input type="email" name="email" id="email" autocomplete="email" required
+                  class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-100 focus:outline-none focus:ring-[#b3a16c] focus:border-[#b3a16c] sm:text-sm">
+              </div>
+
+              <div>
+                <label for="message"
+                  class="text-start block text-sm font-medium text-white mb-1">{{'services.form.message'
+                  |translate}}</label>
+                <textarea id="message" name="message" rows="4" required
+                  class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-100 focus:outline-none focus:ring-[#b3a16c] focus:border-[#b3a16c] sm:text-sm"></textarea>
+              </div>
+
+              <div>
+                <button type="submit"
+                  class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#a39669] hover:bg-[#413c34] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#b3a16c] transition duration-150 ease-in-out">
+                  {{'services.form.send' |translate}}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div> -->
+
+  }
+</div>

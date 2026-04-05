@@ -1,0 +1,22 @@
+/* لتوجيه النص LTR للأرقام والإيميلات */
+.ltr-text {
+    direction: ltr;
+  }
+  
+  /* أنيميشن بسيط للظهور */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out forwards;
+  }
+  .backimg{
+    background-image: linear-gradient(rgba(163, 150, 105, 0.9), rgba(163, 150, 105, 0.9)), url("/images/black-white-view-theatre.webp");
+}
+
+
+.our-section{
+    background-image: linear-gradient(rgba(6,25,51,0.9),rgba(6,25,51,0.9)) ,url("/images/black-white-view-theatre.webp");
+}

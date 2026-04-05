@@ -1,0 +1,124 @@
+<div class="w-full bg-gray-50">
+
+  <div
+    class="banner-section bg-banner relative bg-gray-800 text-white h-64 md:h-[65vh] flex items-center justify-center text-center overflow-hidden ">
+
+    <div class="absolute inset-0 bg-black bg-opacity-50 z-10"></div>
+    <div class="relative z-20 px-4 pt-10">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl hover:text-[#a39669] duration-300 font-bold pb-3">
+        {{ 'navbar.branches' | translate }}
+      </h1>
+      <button (click)="scrollToContent($event)" aria-label="Scroll down" class="mt-4 text-2xl animate-bounce">
+        <i class="fas fa-chevron-down text-[#a39669]"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 my-8 md:my-10 min-h-[80vh] sm:min-h-[90vh]" id="content-area">
+    <div class="flex flex-col items-center mb-8 md:mb-10">
+
+      <div class="flex flex-col sm:flex-row flex-wrap justify-center items-stretch gap-4 sm:gap-6 md:gap-8 lg:gap-10 xl:gap-12">
+        @for (branch of allBranchesData; track branch.id) {
+        <button type="button" (click)="selectBranch(branch)" [class]="getRectangleClasses(branch)"
+          class="w-full sm:w-auto min-w-[280px] sm:min-w-0">
+
+          <div class="flex items-center space-x-2 rtl:space-x-reverse text-right">
+            <div
+              class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-gradient-to-br from-[#061933] to-[#061933] text-white text-base sm:text-lg">
+              <i class="fas fa-building"></i>
+            </div>
+            <div class="flex-1">
+              <h3 class="text-sm sm:text-base font-semibold ms-2 sm:ms-3 text-gray-800">{{ branch.shortName |translate }}</h3>
+            </div>
+          </div>
+
+          @if(selectedBranch?.id === branch.id) {
+          <div
+            class="absolute -bottom-2.5 sm:-bottom-3 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] sm:border-l-[8px] border-l-transparent border-t-[9px] sm:border-t-[12px] border-[#061933] border-r-[6px] sm:border-r-[8px] border-r-transparent">
+          </div>
+          }
+        </button>
+        }
+      </div>
+    </div>
+
+    <div class="details-container-wrapper w-full mx-auto">
+      @if (selectedBranch) {
+      <div class="details-content bg-white rounded-lg shadow-xl overflow-hidden" [@detailsSequence]>
+
+        <div class="p-4 sm:p-6 md:p-8 border-b border-gray-200 text-center details-title-anim">
+          <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-1 sm:mb-2 leading-tight">
+            {{ selectedBranch.name | translate}}
+          </h1>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-6 gap-0">
+          <div class="map-container lg:col-span-3 h-80 sm:h-96 md:h-120 lg:h-full lg:min-h-[400px] map-container-anim">
+            <iframe [src]="selectedBranch.mapEmbedUrl | safeUrl" width="100%" height="100%" style="border:0;"
+              allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+          <div
+            class="contact-details lg:col-span-3 p-4 sm:p-6 md:p-8 grid grid-cols-1 sm:grid-cols-2 gap-x-6 sm:gap-x-8 gap-y-6 sm:gap-y-8 md:gap-y-10 contact-details-anim">
+            <div class="flex items-start gap-3 sm:gap-4">
+              <div
+                class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-gray-200 hover:bg-[#a39669] duration-500 hover:text-white text-[#061933] mt-1">
+                <i class="fa-solid fa-location-dot text-base sm:text-lg"></i>
+              </div>
+              <div>
+                <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-1">{{ 'branches.address' |translate }}</h3>
+                <p class="text-gray-600 ltr-text text-xs sm:text-sm">{{ selectedBranch.addressLines | translate }}</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 sm:gap-4">
+              <div
+                class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-gray-200 hover:bg-[#a39669] duration-500 hover:text-white text-[#061933] mt-1">
+                <i class="fas fa-envelope text-base sm:text-lg"></i>
+              </div>
+              <div>
+                <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-1">{{ 'branches.email' |translate }}</h3>
+                @for(email of selectedBranch.emails; track $index) {
+                  <p class="text-gray-600 ltr-text text-xs sm:text-sm break-all">{{ email }}</p>
+                }
+              </div>
+            </div>
+            <div class="flex items-start gap-3 sm:gap-4">
+              <div
+                class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-gray-200 hover:bg-[#a39669] duration-500 hover:text-white text-[#061933] mt-1">
+                <i class="fas fa-phone-alt text-base sm:text-lg"></i>
+              </div>
+              <div>
+                <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-1">{{ 'branches.phone' |translate }}</h3>
+                <p class="text-gray-600 ltr-text text-xs sm:text-sm">{{ selectedBranch.phoneNumbers }}</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 sm:gap-4">
+              <div
+                class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-gray-200 hover:bg-[#a39669] duration-500 hover:text-white text-[#061933] mt-1">
+                <i class="fas fa-phone-alt text-base sm:text-lg"></i>
+              </div>
+              <div>
+                <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-1">{{ 'branches.phone2' |translate }}</h3>
+                <p class="text-gray-600 ltr-text text-xs sm:text-sm">{{ selectedBranch.MutualNumber }}</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 sm:gap-4">
+              <div
+                class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-gray-200 hover:bg-[#a39669] duration-500 hover:text-white  text-[#061933] mt-1">
+                <i class="fa-solid fa-clock text-base sm:text-lg"></i>
+              </div>
+              <div>
+                <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-1">{{ 'branches.hours' |translate }}</h3>
+                <p class="text-gray-600 ltr-text text-xs sm:text-sm">{{ selectedBranch.hours }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      } @else {
+        <div class="text-center py-10 text-gray-500">
+          <p>{{ 'branches.pleaseSelect' | translate }}</p>
+        </div>
+      } 
+    </div> 
+  </div> 
+</div> 

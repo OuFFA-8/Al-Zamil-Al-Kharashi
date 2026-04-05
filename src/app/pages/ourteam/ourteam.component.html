@@ -1,0 +1,368 @@
+<!-- Banner -->
+<div
+  class="banner-section bg-banner relative bg-gray-800 text-white h-64 md:h-[65vh] flex items-center justify-center text-center overflow-hidden"
+>
+  <div class="absolute inset-0 bg-black bg-opacity-50 z-10"></div>
+  <div class="relative z-20 px-4 pt-10">
+    <h1
+      class="text-4xl md:text-5xl lg:text-6xl hover:text-[#a39669] duration-300 font-bold pb-3"
+    >
+      {{ "navbar.team" | translate }}
+    </h1>
+    <button
+      (click)="scrollToContent($event)"
+      aria-label="Scroll down"
+      class="mt-4 text-2xl animate-bounce"
+    >
+      <i class="fas fa-chevron-down text-[#a39669]"></i>
+    </button>
+    <p class="text-base text-white md:mx-72 my-4">
+      {{ "team.extra_section" | translate }}
+    </p>
+  </div>
+</div>
+
+<!-- Team Grid -->
+<section class="py-12 bg-gray-50" id="content-area">
+  <div class="container mx-auto px-4">
+    <!-- Loading State -->
+    @if (loading) {
+      <div class="flex justify-center items-center py-24">
+        <div
+          class="w-10 h-10 border-4 border-[#a39669] border-t-transparent rounded-full animate-spin"
+        ></div>
+      </div>
+    }
+
+    <!-- Members Grid -->
+    @if (!loading && teamMembers.length > 0) {
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 px-4 md:px-16 gap-8"
+      >
+        @for (member of teamMembers; track member._id) {
+          <div
+            class="team-member group relative overflow-hidden rounded-lg shadow-md cursor-pointer"
+            (click)="openModal(member)"
+          >
+            @if (member.imageUrl) {
+              <img
+                [src]="member.imageUrl"
+                [alt]="getName(member)"
+                class="w-full h-auto object-cover block transition-transform duration-300 ease-in-out group-hover:scale-105"
+                (error)="onImageError($event)"
+              />
+            } @else {
+              <!-- Fallback avatar when no image -->
+              <div
+                class="w-full aspect-square bg-[#1a2035] flex items-center justify-center transition-transform duration-300 group-hover:scale-105"
+              >
+                <span class="text-white text-5xl font-bold">{{
+                  getName(member)[0]
+                }}</span>
+              </div>
+            }
+
+            <div
+              class="overlay absolute bottom-0 left-0 right-0 bg-[#b3a16c] bg-opacity-90 text-white p-4 text-center transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"
+            >
+              <h3 class="text-xl font-bold mb-1">{{ getName(member) }}</h3>
+              <p class="text-md">{{ getTitle(member) }}</p>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Empty State -->
+    @if (!loading && teamMembers.length === 0) {
+      <div class="text-center py-24 text-gray-400">
+        <p class="text-lg">
+          {{ isArabic ? "لا يوجد أعضاء حالياً" : "No team members found." }}
+        </p>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- Contact Form Section -->
+<section
+  class="our-section relative w-full min-h-[110vh] sm:min-h-[90vh] md:h-auto md:min-h-[80vh] lg:h-screen bg-cover bg-center py-10 md:py-0"
+>
+  <div class="absolute inset-0"></div>
+  <div
+    class="relative z-10 flex flex-col md:flex-row items-center justify-center md:justify-between max-w-[1325px] mx-auto px-4 sm:px-6 py-10 md:py-16 h-full gap-10 md:gap-6"
+  >
+    <div
+      class="text-white max-w-lg text-center md:text-start md:mb-0 lg:mb-16 xl:mb-52 w-full md:w-1/2"
+    >
+      <h1 class="text-3xl md:text-4xl font-bold mb-4 leading-loose">
+        {{ "form.title" | translate }}
+      </h1>
+      <p class="mb-6 text-base sm:text-lg">{{ "form.title2" | translate }}</p>
+      <button
+        class="bg-white text-blue-900 font-semibold py-2 px-6 rounded-full hover:bg-gray-100 transition"
+      >
+        {{ "form.connect" | translate }}
+      </button>
+    </div>
+
+    <div
+      class="bg-white bg-opacity-20 backdrop-blur-md p-6 md:p-8 rounded-xl w-full max-w-md md:w-1/2 mt-0"
+    >
+      <form class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <input
+          type="text"
+          placeholder="الاسم الأول"
+          class="p-3 rounded bg-transparent border border-white placeholder-white text-white focus:outline-none focus:ring-2 focus:ring-[#b3a16c] col-span-2 md:col-span-1"
+        />
+        <input
+          type="text"
+          placeholder="الاسم الأخير"
+          class="p-3 rounded bg-transparent border border-white placeholder-white text-white focus:outline-none focus:ring-2 focus:ring-[#b3a16c] col-span-2 md:col-span-1"
+        />
+        <input
+          type="email"
+          placeholder="البريد الإلكتروني"
+          class="p-3 rounded bg-transparent border border-white placeholder-white text-white focus:outline-none focus:ring-2 focus:ring-[#b3a16c] col-span-2"
+        />
+        <input
+          type="tel"
+          placeholder="رقم الهاتف"
+          class="p-3 rounded bg-transparent border border-white placeholder-white text-white focus:outline-none focus:ring-2 focus:ring-[#b3a16c] col-span-2 text-end"
+        />
+        <select
+          class="p-3 rounded bg-transparent border border-white text-white focus:outline-none focus:ring-2 focus:ring-[#b3a16c] col-span-2"
+        >
+          <option class="text-black" value="" disabled selected>
+            اختار الخدمة
+          </option>
+          <option class="text-black">
+            {{ "form.group.Corporate" | translate }}
+          </option>
+          <option class="text-black">
+            {{ "form.group.Legal" | translate }}
+          </option>
+          <option class="text-black">
+            {{ "form.group.Employment" | translate }}
+          </option>
+        </select>
+        <textarea
+          placeholder="رسالتك"
+          rows="4"
+          class="p-3 rounded bg-transparent border border-white placeholder-white text-white focus:outline-none focus:ring-2 focus:ring-[#b3a16c] col-span-2"
+        ></textarea>
+        <button
+          type="submit"
+          class="bg-[#b3a16c] text-white font-semibold py-3 px-6 rounded-full hover:bg-[#837342] transition col-span-2"
+        >
+          {{ "form.send" | translate }}
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Member Modal -->
+@if (isModalOpen() && selectedMember(); as member) {
+  <div
+    class="fixed inset-0 z-50 overflow-y-auto"
+    role="dialog"
+    aria-modal="true"
+  >
+    <!-- Backdrop -->
+    <div
+      class="fixed inset-0 bg-black/70 backdrop-blur-sm"
+      (click)="closeModal()"
+    ></div>
+
+    <!-- Close Button -->
+    <button
+      (click)="closeModal()"
+      class="fixed top-4 right-4 z-[60] rounded-full bg-white/90 hover:bg-white text-gray-800 p-3 sm:p-4 shadow-lg transition-all"
+    >
+      <svg
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="2.5"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </button>
+
+    <!-- Modal Panel -->
+    <div class="flex min-h-full items-center justify-center p-2 sm:p-4">
+      <div
+        class="relative bg-white rounded-2xl sm:rounded-3xl shadow-2xl w-full max-w-sm sm:max-w-2xl md:max-w-4xl lg:max-w-6xl mx-2 sm:mx-4 my-2 sm:my-8 overflow-hidden"
+      >
+        <div class="max-h-[85vh] overflow-y-auto">
+          <div
+            class="flex flex-col lg:flex-row min-h-[400px] sm:min-h-[500px]"
+            [dir]="isArabic ? 'rtl' : 'ltr'"
+          >
+            <!-- Text Content -->
+            <div class="flex-1 p-6 sm:p-8 md:p-10 xl:p-14">
+              <!-- Name & Title -->
+              <div class="mb-6">
+                <h2
+                  class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2 leading-tight"
+                >
+                  {{ getName(member) }}
+                </h2>
+                <p class="text-lg sm:text-xl text-[#a39669] font-semibold">
+                  {{ getTitle(member) }}
+                </p>
+              </div>
+
+              <!-- Bio -->
+              @if (getBioText(member)) {
+                <div class="mb-8">
+                  <h3 class="text-base font-semibold text-gray-700 mb-3">
+                    {{ getBioTitle(member) }}
+                  </h3>
+                  <div
+                    class="bg-gray-50 rounded-xl p-5 border border-gray-100 text-gray-700 leading-relaxed text-sm sm:text-base"
+                  >
+                    {{ getBioText(member) }}
+                  </div>
+                </div>
+              }
+
+              <!-- Specializations -->
+              @if (member.specializations.length > 0) {
+                <div class="mb-8">
+                  <h3 class="text-base font-semibold text-gray-700 mb-3">
+                    {{ isArabic ? "التخصصات" : "Specializations" }}
+                  </h3>
+                  <div class="flex flex-wrap gap-2">
+                    @for (spec of member.specializations; track spec) {
+                      <span
+                        class="bg-[#EEEDFE] text-[#534AB7] text-xs font-medium px-3 py-1 rounded-full"
+                      >
+                        {{ spec }}
+                      </span>
+                    }
+                  </div>
+                </div>
+              }
+
+              <!-- Contact -->
+              @if (member.email || member.website) {
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+                  @if (member.email) {
+                    <a
+                      [href]="'mailto:' + member.email"
+                      class="flex items-center gap-3 p-4 rounded-xl border border-[#a39669]/20 bg-[#a39669]/5 hover:shadow-md transition-all"
+                    >
+                      <div
+                        class="w-10 h-10 bg-[#a39669] rounded-xl flex items-center justify-center flex-shrink-0"
+                      >
+                        <svg
+                          class="w-5 h-5 text-white"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                          />
+                        </svg>
+                      </div>
+                      <span
+                        class="text-sm font-medium text-gray-700 truncate"
+                        >{{ member.email }}</span
+                      >
+                    </a>
+                  }
+                  @if (member.website) {
+                    <a
+                      [href]="member.website"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="flex items-center gap-3 p-4 rounded-xl border border-blue-200 bg-blue-50 hover:shadow-md transition-all"
+                    >
+                      <div
+                        class="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center flex-shrink-0"
+                      >
+                        <svg
+                          class="w-5 h-5 text-white"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                          />
+                        </svg>
+                      </div>
+                      <span class="text-sm font-medium text-gray-700">{{
+                        isArabic ? "الموقع الإلكتروني" : "Website"
+                      }}</span>
+                    </a>
+                  }
+                </div>
+              }
+
+              <!-- CTA -->
+              <a
+                routerLink="/contact"
+                (click)="closeModal()"
+                class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-gradient-to-r from-[#a39669] to-[#696144] text-white font-bold text-sm sm:text-base shadow-xl hover:shadow-2xl transition-all hover:scale-105"
+              >
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                  />
+                </svg>
+                {{ isArabic ? "تواصل معنا" : "Let's Connect" }}
+              </a>
+            </div>
+
+            <!-- Profile Image -->
+            <div
+              class="flex-shrink-0 flex items-center justify-center p-8 lg:pl-0"
+            >
+              <div class="relative group">
+                @if (member.imageUrl) {
+                  <img
+                    [src]="member.imageUrl"
+                    [alt]="getName(member)"
+                    class="w-40 h-40 sm:w-52 sm:h-52 lg:w-64 lg:h-64 rounded-3xl object-cover shadow-2xl ring-4 ring-white/50 group-hover:scale-105 transition-transform duration-300"
+                    (error)="onImageError($event)"
+                  />
+                } @else {
+                  <div
+                    class="w-40 h-40 sm:w-52 sm:h-52 lg:w-64 lg:h-64 rounded-3xl bg-[#1a2035] flex items-center justify-center shadow-2xl"
+                  >
+                    <span class="text-white text-6xl font-bold">{{
+                      getName(member)[0]
+                    }}</span>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,34 @@
+.read-more-text {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 0;
+  vertical-align: bottom;
+  box-sizing: border-box;
+  transition: max-width 0.8s steps(9, end);
+}
+
+.group:hover .read-more-text {
+  max-width: 10em;
+  animation: typing 0.8s steps(9, end) forwards;
+}
+
+@keyframes typing {
+  from { max-width: 0; }
+  to { max-width: 10em; }
+}
+
+.group i.fas.fa-arrow-right {
+  vertical-align: bottom;
+  margin-bottom: 2px; /* يبقى كما هو للمحاذاة الرأسية */
+}
+
+/* --- لا تغييرات هنا تتعلق بـ start/end --- */
+.service-card a {
+  position: relative;
+  z-index: 1;
+}
+
+.service-card > a:first-of-type {
+  z-index: 0;
+}

@@ -1,0 +1,394 @@
+<div class="page-wrapper">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ "messages.title" | translate }}</h1>
+      <p class="page-sub">{{ "messages.subtitle" | translate }}</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn-outline" (click)="exportCSV()">
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" y1="15" x2="12" y2="3" />
+        </svg>
+        {{ "messages.export" | translate }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="mini-stat">
+      <div class="mini-icon icon--blue">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+          />
+          <polyline points="22,6 12,13 2,6" />
+        </svg>
+      </div>
+      <div>
+        <div class="mini-val">{{ stats.totalMessages }}</div>
+        <div class="mini-lbl">{{ "messages.total" | translate }}</div>
+      </div>
+    </div>
+    <div class="mini-stat">
+      <div class="mini-icon icon--amber">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+          />
+          <polyline points="22,6 12,13 2,6" />
+        </svg>
+      </div>
+      <div>
+        <div class="mini-val">{{ stats.unreadMessages }}</div>
+        <div class="mini-lbl">{{ "messages.unread" | translate }}</div>
+      </div>
+    </div>
+    <div class="mini-stat">
+      <div class="mini-icon icon--teal">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <rect x="3" y="4" width="18" height="18" rx="2" />
+          <line x1="3" y1="10" x2="21" y2="10" />
+        </svg>
+      </div>
+      <div>
+        <div class="mini-val">{{ stats.todayMessages }}</div>
+        <div class="mini-lbl">{{ "messages.today" | translate }}</div>
+      </div>
+    </div>
+    <div class="mini-stat">
+      <div class="mini-icon icon--purple">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <rect x="3" y="4" width="18" height="18" rx="2" />
+          <line x1="3" y1="10" x2="21" y2="10" />
+        </svg>
+      </div>
+      <div>
+        <div class="mini-val">{{ stats.thisWeekMessages }}</div>
+        <div class="mini-lbl">{{ "messages.this_week" | translate }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-card">
+    <div class="filters-row">
+      <div class="search-box">
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <input
+          type="text"
+          [placeholder]="'messages.search' | translate"
+          [(ngModel)]="searchQuery"
+          (ngModelChange)="applyFilter()"
+        />
+      </div>
+      <select
+        class="filter-select"
+        [(ngModel)]="filterStatus"
+        (ngModelChange)="applyFilter()"
+      >
+        <option value="">{{ "messages.all" | translate }}</option>
+        <option value="unread">
+          {{ "messages.status_unread" | translate }}
+        </option>
+        <option value="read">{{ "messages.status_read" | translate }}</option>
+        <option value="replied">
+          {{ "messages.status_replied" | translate }}
+        </option>
+      </select>
+    </div>
+
+    @if (loading) {
+      <div class="loading-state">
+        <div class="spinner"></div>
+        {{ "messages.loading" | translate }}
+      </div>
+    } @else {
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>{{ "messages.col_from" | translate }}</th>
+              <th>{{ "messages.col_service" | translate }}</th>
+              <th>{{ "messages.col_message" | translate }}</th>
+              <th>{{ "messages.col_status" | translate }}</th>
+              <th>{{ "messages.col_date" | translate }}</th>
+              <th>{{ "messages.col_actions" | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (msg of messages; track msg._id) {
+              <tr [class.unread-row]="msg.status === 'unread'">
+                <td>
+                  <div class="sender-name">
+                    {{ msg.first_name }} {{ msg.last_name }}
+                  </div>
+                  <div class="sender-email">{{ msg.email }}</div>
+                  <div class="sender-phone">{{ msg.phone }}</div>
+                </td>
+                <td>
+                  <span class="service-badge">{{ msg.service }}</span>
+                </td>
+                <td class="msg-preview-cell">
+                  {{
+                    msg.message.length > 80
+                      ? msg.message.slice(0, 80) + "..."
+                      : msg.message
+                  }}
+                </td>
+                <td>
+                  <span
+                    class="status-badge"
+                    [class.badge--unread]="msg.status === 'unread'"
+                    [class.badge--read]="msg.status === 'read'"
+                    [class.badge--replied]="msg.status === 'replied'"
+                  >
+                    {{ getStatusLabel(msg.status) }}
+                  </span>
+                </td>
+                <td class="date-cell">{{ formatDate(msg.createdAt) }}</td>
+                <td>
+                  <div class="action-btns">
+                    <button
+                      class="btn-icon btn-view"
+                      (click)="viewMessage(msg)"
+                      title="View"
+                    >
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
+                        />
+                        <circle cx="12" cy="12" r="3" />
+                      </svg>
+                    </button>
+                    <button
+                      class="btn-icon btn-del"
+                      (click)="deleteMessage(msg)"
+                      title="Delete"
+                    >
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <polyline points="3 6 5 6 21 6" />
+                        <path
+                          d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"
+                        />
+                        <path d="M10 11v6" />
+                        <path d="M14 11v6" />
+                      </svg>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="6" class="empty-state">
+                  {{ "messages.no_messages" | translate }}
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      @if (totalPages > 1) {
+        <div class="table-footer">
+          <span class="showing-text"
+            >{{ currentPage }} / {{ totalPages }} · {{ totalCount }}</span
+          >
+          <div class="pagination">
+            <button
+              [disabled]="currentPage === 1"
+              (click)="goToPage(currentPage - 1)"
+            >
+              السابق
+            </button>
+            @for (p of pages; track p) {
+              <button [class.active]="p === currentPage" (click)="goToPage(p)">
+                {{ p }}
+              </button>
+            }
+            <button
+              [disabled]="currentPage === totalPages"
+              (click)="goToPage(currentPage + 1)"
+            >
+              التالي
+            </button>
+          </div>
+        </div>
+      }
+    }
+  </div>
+</div>
+
+<!-- Detail Modal -->
+@if (showDetailModal && selectedMessage) {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal modal--lg" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div>
+          <h3>{{ "messages.detail_title" | translate }}</h3>
+          <span
+            class="status-badge ms-2"
+            [class.badge--unread]="selectedMessage.status === 'unread'"
+            [class.badge--read]="selectedMessage.status === 'read'"
+            [class.badge--replied]="selectedMessage.status === 'replied'"
+          >
+            {{ getStatusLabel(selectedMessage.status) }}
+          </span>
+        </div>
+        <button class="modal-close" (click)="closeModal()">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Sender Info -->
+        <div class="detail-grid">
+          <div class="detail-row">
+            <span class="detail-lbl">{{ "messages.name" | translate }}</span>
+            <span class="detail-val"
+              >{{ selectedMessage.first_name }}
+              {{ selectedMessage.last_name }}</span
+            >
+          </div>
+          <div class="detail-row">
+            <span class="detail-lbl">{{ "messages.email" | translate }}</span>
+            <span class="detail-val">{{ selectedMessage.email }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-lbl">{{ "messages.phone" | translate }}</span>
+            <span class="detail-val">{{ selectedMessage.phone }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-lbl">{{ "messages.service" | translate }}</span>
+            <span class="detail-val"
+              ><span class="service-badge">{{
+                selectedMessage.service
+              }}</span></span
+            >
+          </div>
+          <div class="detail-row">
+            <span class="detail-lbl">{{ "messages.date" | translate }}</span>
+            <span class="detail-val">{{
+              formatDate(selectedMessage.createdAt)
+            }}</span>
+          </div>
+        </div>
+
+        <!-- Message -->
+        <div class="msg-full-text">
+          <div class="detail-lbl" style="margin-bottom: 8px">
+            {{ "messages.message" | translate }}
+          </div>
+          <p>{{ selectedMessage.message }}</p>
+        </div>
+
+        <!-- Notes -->
+        <div class="notes-section">
+          <label class="detail-lbl">{{ "messages.notes" | translate }}</label>
+          <textarea
+            [(ngModel)]="notesInput"
+            rows="3"
+            [placeholder]="'messages.notes_ph' | translate"
+            class="notes-input"
+          ></textarea>
+          <button
+            class="btn-save-notes"
+            (click)="saveNotes()"
+            [disabled]="savingNotes"
+          >
+            @if (savingNotes) {
+              <span class="spinner-sm"></span>
+            } @else {
+              {{ "messages.save_notes" | translate }}
+            }
+          </button>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-secondary" (click)="closeModal()">
+          {{ "messages.close" | translate }}
+        </button>
+        @if (selectedMessage.status !== "replied") {
+          <button class="btn-replied" (click)="markReplied(selectedMessage)">
+            {{ "messages.mark_replied" | translate }}
+          </button>
+        }
+        <button class="btn-danger" (click)="deleteMessage(selectedMessage)">
+          {{ "messages.delete" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

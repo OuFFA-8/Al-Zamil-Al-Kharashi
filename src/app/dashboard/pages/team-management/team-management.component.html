@@ -1,0 +1,552 @@
+<div class="page-wrapper">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ "team_mgmt.title" | translate }}</h1>
+      <p class="page-sub">{{ "team_mgmt.subtitle" | translate }}</p>
+    </div>
+    <button class="btn-primary" (click)="openAdd()">
+      <svg
+        width="15"
+        height="15"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+        <circle cx="9" cy="7" r="4" />
+        <line x1="19" y1="8" x2="19" y2="14" />
+        <line x1="16" y1="11" x2="22" y2="11" />
+      </svg>
+      {{ "team_mgmt.add_member" | translate }}
+    </button>
+  </div>
+
+  <div class="stats-row">
+    <div class="mini-stat">
+      <div class="mini-icon icon--blue">
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg>
+      </div>
+      <div>
+        <div class="mini-val">{{ stats.allMembers }}</div>
+        <div class="mini-lbl">{{ "team_mgmt.total_members" | translate }}</div>
+      </div>
+    </div>
+    <div class="mini-stat">
+      <div class="mini-icon icon--green">
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <polyline points="9 11 12 14 22 4" />
+          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+        </svg>
+      </div>
+      <div>
+        <div class="mini-val">{{ stats.activeMembers }}</div>
+        <div class="mini-lbl">{{ "team_mgmt.active_members" | translate }}</div>
+      </div>
+    </div>
+    <div class="mini-stat">
+      <div class="mini-icon icon--amber">
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <rect x="3" y="4" width="18" height="18" rx="2" />
+          <line x1="3" y1="10" x2="21" y2="10" />
+        </svg>
+      </div>
+      <div>
+        <div class="mini-val">{{ totalCount }}</div>
+        <div class="mini-lbl">{{ "team_mgmt.total_records" | translate }}</div>
+      </div>
+    </div>
+  </div>
+
+  @if (error) {
+    <div class="error-banner">
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <line x1="12" y1="8" x2="12" y2="12" />
+        <line x1="12" y1="16" x2="12.01" y2="16" />
+      </svg>
+      {{ "team_mgmt.error_load" | translate }}
+      <button (click)="loadMembers()">
+        {{ "team_mgmt.retry" | translate }}
+      </button>
+    </div>
+  }
+
+  <div class="table-card">
+    <div class="table-header">
+      <div class="table-title">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+        </svg>
+        {{ "team_mgmt.team_members" | translate }}
+      </div>
+      <div class="search-box">
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <input
+          type="text"
+          [placeholder]="'team_mgmt.search' | translate"
+          [(ngModel)]="searchQuery"
+        />
+      </div>
+    </div>
+
+    @if (loading) {
+      <div class="loading-state">
+        <div class="spinner"></div>
+        {{ "team_mgmt.loading" | translate }}
+      </div>
+    } @else {
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>{{ "team_mgmt.col_member" | translate }}</th>
+              <th>{{ "team_mgmt.col_title" | translate }}</th>
+              <th>{{ "team_mgmt.col_specs" | translate }}</th>
+              <th>{{ "team_mgmt.col_contact" | translate }}</th>
+              <th>{{ "team_mgmt.col_status" | translate }}</th>
+              <th>{{ "team_mgmt.col_order" | translate }}</th>
+              <th>{{ "team_mgmt.col_actions" | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (member of filteredMembers; track member._id) {
+              <tr>
+                <td>
+                  <div class="member-avatar-wrap">
+                    <div class="member-avatar-img-wrap">
+                      <img
+                        [src]="getMemberImageUrl(member)"
+                        [alt]="member.name_en"
+                        class="member-photo"
+                        (error)="onImgError($event)"
+                      />
+                      <div class="member-avatar">{{ member.name_en[0] }}</div>
+                    </div>
+                    <div class="member-info">
+                      <div class="member-name">{{ member.name_ar }}</div>
+                      <div class="member-name-en">{{ member.name_en }}</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="member-pos">{{ member.title_ar }}</div>
+                  <div class="member-pos-en">{{ member.title_en }}</div>
+                </td>
+                <td>
+                  <div class="spec-tags">
+                    @for (s of member.specializations.slice(0, 2); track s) {
+                      <span class="spec-tag">{{ s }}</span>
+                    }
+                    @if (member.specializations.length > 2) {
+                      <span class="spec-more"
+                        >+{{ member.specializations.length - 2 }}</span
+                      >
+                    }
+                  </div>
+                </td>
+                <td>
+                  <div class="contact-info">
+                    <span class="contact-email">{{ member.email }}</span>
+                    <span class="contact-phone">{{ member.phone }}</span>
+                  </div>
+                </td>
+                <td>
+                  <span
+                    class="badge-status"
+                    [class.badge-active]="member.status === 'active'"
+                    [class.badge-inactive]="member.status === 'inactive'"
+                  >
+                    {{
+                      (member.status === "active"
+                        ? "team_mgmt.status_active"
+                        : "team_mgmt.status_inactive"
+                      ) | translate
+                    }}
+                  </span>
+                </td>
+                <td class="order-cell">{{ member.displayOrder }}</td>
+                <td>
+                  <div class="action-btns">
+                    <button
+                      class="btn-icon btn-edit"
+                      (click)="openEdit(member)"
+                      [title]="'team_mgmt.edit' | translate"
+                    >
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                        />
+                        <path
+                          d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
+                        />
+                      </svg>
+                    </button>
+                    <button
+                      class="btn-icon btn-del"
+                      (click)="deleteMember(member)"
+                      [title]="'team_mgmt.delete' | translate"
+                    >
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <polyline points="3 6 5 6 21 6" />
+                        <path
+                          d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"
+                        />
+                        <path d="M10 11v6" />
+                        <path d="M14 11v6" />
+                      </svg>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="7" class="empty-state">
+                  {{ "team_mgmt.no_members" | translate }}
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      @if (totalPages > 1) {
+        <div class="table-footer">
+          <span class="showing-text">
+            {{ "team_mgmt.page" | translate }} {{ currentPage }}
+            {{ "team_mgmt.of" | translate }} {{ totalPages }} · {{ totalCount }}
+            {{ "team_mgmt.total_members" | translate }}
+          </span>
+          <div class="pagination">
+            <button
+              [disabled]="currentPage === 1"
+              (click)="goToPage(currentPage - 1)"
+            >
+              {{ "team_mgmt.prev" | translate }}
+            </button>
+            @for (p of pages; track p) {
+              <button [class.active]="p === currentPage" (click)="goToPage(p)">
+                {{ p }}
+              </button>
+            }
+            <button
+              [disabled]="currentPage === totalPages"
+              (click)="goToPage(currentPage + 1)"
+            >
+              {{ "team_mgmt.next" | translate }}
+            </button>
+          </div>
+        </div>
+      }
+    }
+  </div>
+</div>
+
+@if (showModal) {
+  <div class="modal-overlay" (click)="showModal = false">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div>
+          <h3>
+            {{
+              (isEditing ? "team_mgmt.edit_member" : "team_mgmt.add_member")
+                | translate
+            }}
+          </h3>
+        </div>
+        <button class="modal-close" (click)="showModal = false">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-section-title">
+          {{ "team_mgmt.photo" | translate }}
+        </div>
+        <div class="image-upload-area">
+          @if (currentImage) {
+            <div class="image-preview">
+              <img
+                [src]="currentImage"
+                alt="Preview"
+                (error)="onModalImgError($event)"
+              />
+              <button
+                class="remove-image"
+                type="button"
+                (click)="removeImage()"
+              >
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+            </div>
+          } @else {
+            <div class="upload-box" (click)="fileInput.click()">
+              <svg
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="3" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+                <polyline points="21 15 16 10 5 21" />
+              </svg>
+              <p>{{ "team_mgmt.upload_photo" | translate }}</p>
+              <span>PNG, JPG — 5MB</span>
+            </div>
+          }
+          <input
+            #fileInput
+            type="file"
+            accept="image/*"
+            hidden
+            (change)="onFileSelected($event)"
+          />
+        </div>
+
+        <div class="form-section-title">
+          {{ "team_mgmt.basic_info" | translate }}
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>{{ "team_mgmt.name_ar" | translate }}</label>
+            <input
+              type="text"
+              [(ngModel)]="form.name_ar"
+              [placeholder]="'team_mgmt.name_ar_ph' | translate"
+              dir="rtl"
+            />
+          </div>
+          <div class="form-group">
+            <label>{{ "team_mgmt.name_en" | translate }}</label>
+            <input
+              type="text"
+              [(ngModel)]="form.name_en"
+              [placeholder]="'team_mgmt.name_en_ph' | translate"
+            />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>{{ "team_mgmt.title_ar" | translate }}</label>
+            <input
+              type="text"
+              [(ngModel)]="form.title_ar"
+              [placeholder]="'team_mgmt.title_ar_ph' | translate"
+              dir="rtl"
+            />
+          </div>
+          <div class="form-group">
+            <label>{{ "team_mgmt.title_en" | translate }}</label>
+            <input
+              type="text"
+              [(ngModel)]="form.title_en"
+              [placeholder]="'team_mgmt.title_en_ph' | translate"
+            />
+          </div>
+        </div>
+
+        <div class="form-section-title">{{ "team_mgmt.bio" | translate }}</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>{{ "team_mgmt.bio_title_ar" | translate }}</label>
+            <input type="text" [(ngModel)]="form.bio_title_ar" dir="rtl" />
+          </div>
+          <div class="form-group">
+            <label>{{ "team_mgmt.bio_title_en" | translate }}</label>
+            <input type="text" [(ngModel)]="form.bio_title_en" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>{{ "team_mgmt.bio_ar" | translate }}</label>
+            <textarea
+              [(ngModel)]="form.bio_text_ar"
+              rows="4"
+              dir="rtl"
+            ></textarea>
+          </div>
+          <div class="form-group">
+            <label>{{ "team_mgmt.bio_en" | translate }}</label>
+            <textarea [(ngModel)]="form.bio_text_en" rows="4"></textarea>
+          </div>
+        </div>
+
+        <div class="form-section-title">
+          {{ "team_mgmt.contact" | translate }}
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>{{ "team_mgmt.email" | translate }}</label>
+            <input
+              type="email"
+              [(ngModel)]="form.email"
+              placeholder="email@example.com"
+            />
+          </div>
+          <div class="form-group">
+            <label>{{ "team_mgmt.phone" | translate }}</label>
+            <input
+              type="text"
+              [(ngModel)]="form.phone"
+              placeholder="+966512345678"
+            />
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom: 14px">
+          <label>{{ "team_mgmt.website" | translate }}</label>
+          <input
+            type="url"
+            [(ngModel)]="form.website"
+            placeholder="https://..."
+          />
+        </div>
+
+        <div class="form-section-title">
+          {{ "team_mgmt.specializations" | translate }}
+        </div>
+        <div class="form-group" style="margin-bottom: 14px">
+          <label>{{ "team_mgmt.specs_hint" | translate }}</label>
+          <input
+            type="text"
+            [(ngModel)]="specializationsInput"
+            (ngModelChange)="syncSpecializations()"
+            placeholder="Leadership, Strategy, Technology"
+          />
+          @if (form.specializations.length > 0) {
+            <div class="spec-preview">
+              @for (s of form.specializations; track s) {
+                <span class="spec-tag">{{ s }}</span>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>{{ "team_mgmt.status" | translate }}</label>
+            <select [(ngModel)]="form.status">
+              <option value="active">
+                {{ "team_mgmt.status_active" | translate }}
+              </option>
+              <option value="inactive">
+                {{ "team_mgmt.status_inactive" | translate }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>{{ "team_mgmt.display_order" | translate }}</label>
+            <input type="number" [(ngModel)]="form.displayOrder" min="1" />
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-secondary" (click)="showModal = false">
+          {{ "team_mgmt.cancel" | translate }}
+        </button>
+        <button
+          class="btn-primary"
+          (click)="saveModal()"
+          [disabled]="savingMember"
+        >
+          @if (savingMember) {
+            <span class="spinner-sm"></span>
+          } @else {
+            {{
+              (isEditing ? "team_mgmt.save" : "team_mgmt.add_member")
+                | translate
+            }}
+          }
+        </button>
+      </div>
+    </div>
+  </div>
+}

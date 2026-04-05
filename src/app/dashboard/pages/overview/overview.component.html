@@ -1,0 +1,415 @@
+<div class="overview-page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ "overview.welcome" | translate }}</h1>
+      <p class="page-sub">{{ "overview.subtitle" | translate }}</p>
+    </div>
+  </div>
+
+  @if (loading) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+    </div>
+  } @else {
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+      @for (card of statCards; track card.key; let i = $index) {
+        <div class="stat-card" [style.animation-delay]="i * 0.07 + 's'">
+          <div class="stat-icon" [class]="'icon--' + card.color">
+            @switch (card.icon) {
+              @case ("mail") {
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                  />
+                  <polyline points="22,6 12,13 2,6" />
+                </svg>
+              }
+              @case ("mail-alert") {
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                  />
+                  <polyline points="22,6 12,13 2,6" />
+                  <circle cx="18" cy="5" r="3" fill="currentColor" />
+                </svg>
+              }
+              @case ("users") {
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                </svg>
+              }
+              @case ("check") {
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <polyline points="9 11 12 14 22 4" />
+                  <path
+                    d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"
+                  />
+                </svg>
+              }
+              @default {
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <rect x="3" y="4" width="18" height="18" rx="2" />
+                  <line x1="16" y1="2" x2="16" y2="6" />
+                  <line x1="8" y1="2" x2="8" y2="6" />
+                  <line x1="3" y1="10" x2="21" y2="10" />
+                </svg>
+              }
+            }
+          </div>
+          <div class="stat-value">{{ getStatValue(card.key) }}</div>
+          <div class="stat-label">{{ card.label | translate }}</div>
+        </div>
+      }
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions-section">
+      <div class="section-title">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+        </svg>
+        {{ "overview.quick_actions" | translate }}
+      </div>
+      <div class="quick-actions">
+        <a routerLink="/admin/team" class="quick-action-btn">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+          </svg>
+          {{ "overview.manage_team" | translate }}
+        </a>
+        <a routerLink="/admin/blogs" class="quick-action-btn">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+            />
+            <polyline points="14 2 14 8 20 8" />
+          </svg>
+          {{ "overview.manage_blogs" | translate }}
+        </a>
+        <a routerLink="/admin/messages" class="quick-action-btn">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+            />
+            <polyline points="22,6 12,13 2,6" />
+          </svg>
+          {{ "overview.view_messages" | translate }}
+        </a>
+      </div>
+    </div>
+
+    <!-- Bottom -->
+    <div class="bottom-section">
+      <!-- Recent Messages -->
+      <div class="recent-messages-card">
+        <div class="card-header">
+          <span class="card-title">
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+            {{ "overview.recent_messages" | translate }}
+          </span>
+          <a routerLink="/admin/messages" class="view-all-btn">
+            {{ "overview.view_all" | translate }}
+          </a>
+        </div>
+
+        @if (recentMessages.length === 0) {
+          <div class="empty-state">
+            {{ "overview.no_messages" | translate }}
+          </div>
+        } @else {
+          <div class="messages-list">
+            @for (msg of recentMessages; track msg._id) {
+              <div class="message-row">
+                <div class="msg-avatar">{{ getInitials(msg) }}</div>
+                <div class="msg-info">
+                  <div class="msg-name">
+                    {{ getFullName(msg) }}
+                    <span
+                      class="msg-badge"
+                      [class.badge--read]="msg.status === 'read'"
+                      [class.badge--unread]="msg.status === 'unread'"
+                      [class.badge--replied]="msg.status === 'replied'"
+                    >
+                      {{
+                        msg.status === "unread"
+                          ? "جديد"
+                          : msg.status === "replied"
+                            ? "تم الرد"
+                            : "مقروء"
+                      }}
+                    </span>
+                  </div>
+                  <div class="msg-email">{{ msg.email }}</div>
+                  <div class="msg-preview">
+                    {{ msg.message.slice(0, 80)
+                    }}{{ msg.message.length > 80 ? "..." : "" }}
+                  </div>
+                  <div class="msg-date">
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    {{ formatDate(msg.createdAt) }}
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Donut Chart -->
+      <div class="chart-card">
+        <div class="card-header">
+          <span class="card-title">
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+            {{ "overview.summary" | translate }}
+          </span>
+        </div>
+        <div class="donut-wrap">
+          <svg
+            viewBox="0 0 120 120"
+            width="140"
+            height="140"
+            style="overflow: visible"
+          >
+            <circle
+              cx="60"
+              cy="60"
+              r="48"
+              fill="none"
+              stroke="#f0f0f0"
+              stroke-width="20"
+            />
+            <circle
+              class="donut-seg"
+              cx="60"
+              cy="60"
+              r="48"
+              fill="none"
+              stroke="#534AB7"
+              stroke-width="20"
+              [attr.stroke-dasharray]="getSegDash(stats.totalMessages, 0)"
+              stroke-dashoffset="75"
+              stroke-linecap="round"
+              style="animation-delay: 0.2s"
+            />
+            <circle
+              class="donut-seg"
+              cx="60"
+              cy="60"
+              r="48"
+              fill="none"
+              stroke="#1D9E75"
+              stroke-width="20"
+              [attr.stroke-dasharray]="getSegDash(stats.totalMembers, 1)"
+              [attr.stroke-dashoffset]="getSegOffset(1)"
+              stroke-linecap="round"
+              style="animation-delay: 0.5s"
+            />
+            <circle
+              class="donut-seg"
+              cx="60"
+              cy="60"
+              r="48"
+              fill="none"
+              stroke="#EF9F27"
+              stroke-width="20"
+              [attr.stroke-dasharray]="getSegDash(stats.totalBlogs, 2)"
+              [attr.stroke-dashoffset]="getSegOffset(2)"
+              stroke-linecap="round"
+              style="animation-delay: 0.8s"
+            />
+            <circle
+              class="donut-seg"
+              cx="60"
+              cy="60"
+              r="48"
+              fill="none"
+              stroke="#E24B4A"
+              stroke-width="20"
+              [attr.stroke-dasharray]="getSegDash(stats.unreadMessages, 3)"
+              [attr.stroke-dashoffset]="getSegOffset(3)"
+              stroke-linecap="round"
+              style="animation-delay: 1.1s"
+            />
+            <text
+              x="60"
+              y="56"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="500"
+              fill="#1a2035"
+              font-family="inherit"
+            >
+              الإجمالي
+            </text>
+            <text
+              x="60"
+              y="72"
+              text-anchor="middle"
+              font-size="11"
+              fill="#999"
+              font-family="inherit"
+            >
+              {{ getTotalForDonut() }}
+            </text>
+          </svg>
+          <div class="chart-legend">
+            <div class="leg-row">
+              <span class="leg-dot" style="background: #534ab7"></span>
+              <span style="flex: 1">{{
+                "overview.total_messages" | translate
+              }}</span>
+              <div class="leg-bar-wrap">
+                <div
+                  class="leg-bar"
+                  [style.width]="getLegPct(stats.totalMessages) + '%'"
+                  style="background: #534ab7; animation-delay: 0.3s"
+                ></div>
+              </div>
+              <span class="leg-val">{{ stats.totalMessages }}</span>
+            </div>
+            <div class="leg-row">
+              <span class="leg-dot" style="background: #1d9e75"></span>
+              <span style="flex: 1">{{
+                "overview.team_members" | translate
+              }}</span>
+              <div class="leg-bar-wrap">
+                <div
+                  class="leg-bar"
+                  [style.width]="getLegPct(stats.totalMembers) + '%'"
+                  style="background: #1d9e75; animation-delay: 0.45s"
+                ></div>
+              </div>
+              <span class="leg-val">{{ stats.totalMembers }}</span>
+            </div>
+            <div class="leg-row">
+              <span class="leg-dot" style="background: #ef9f27"></span>
+              <span style="flex: 1">{{
+                "overview.total_blogs" | translate
+              }}</span>
+              <div class="leg-bar-wrap">
+                <div
+                  class="leg-bar"
+                  [style.width]="getLegPct(stats.totalBlogs) + '%'"
+                  style="background: #ef9f27; animation-delay: 0.6s"
+                ></div>
+              </div>
+              <span class="leg-val">{{ stats.totalBlogs }}</span>
+            </div>
+            <div class="leg-row">
+              <span class="leg-dot" style="background: #e24b4a"></span>
+              <span style="flex: 1">{{
+                "overview.unread_messages" | translate
+              }}</span>
+              <div class="leg-bar-wrap">
+                <div
+                  class="leg-bar"
+                  [style.width]="getLegPct(stats.unreadMessages) + '%'"
+                  style="background: #e24b4a; animation-delay: 0.75s"
+                ></div>
+              </div>
+              <span class="leg-val">{{ stats.unreadMessages }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

@@ -1,0 +1,58 @@
+<footer class="bg-[#061933] text-white">
+    <div
+        class="md:h-[28vh] px-6 2xl:h-[30vh] text-center container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 overflow-hidden">
+
+        <div class="space-y-4 py-11 col-span-1 lg:col-span-2 flex flex-col items-center lg:items-start">
+            <img src="/images/new-white-logo.png" alt="Al Zamil & Al Kharashi Logo" class="mb-4 w-60">
+            <p [dir]="getTextDirection()" [class]="'text-sm text-gray-300 leading-8 text-center lg:text-justify ' + (isArabic() ? 'lg:text-right' : 'lg:text-left')">
+                {{ 'footer.paragraph' | translate }}
+            </p>
+
+        </div>
+
+        <div [dir]="getTextDirection()" [class]="'space-y-6 sm:px-5 sm:text-center md:py-11 md:ps-16 ' + (isArabic() ? 'md:text-right' : 'md:text-left')">
+            <h3 class="text-lg font-semibold ">{{ 'footer.Branches' | translate }}</h3>
+            <div class="text-sm ">
+                <p class="font-sm text-[#6d7887]">{{ 'footer.riyadh' | translate }} - {{ 'footer.jeddah' | translate }}
+                    - {{
+                    'footer.khobar' | translate }}</p>
+
+            </div>
+            <div class="text-sm space-y-1">
+                <h3 class="font-medium">{{ 'footer.dphone1' | translate }}</h3>
+                <a href="https://wa.me/920009756" target="_blank"
+                    class=" font-bold text-[#6d7887] hover:text-[#a39669] transition-colors duration-200 inline-block">
+                    920009756
+                </a>
+            </div>
+
+        </div>
+
+        <div [dir]="getTextDirection()" [class]="'space-y-6 sm:px-5 sm:text-center md:py-11 md:ps-10 ' + (isArabic() ? 'md:text-right' : 'md:text-left')">
+            <h3 class=" text-lg font-semibold mb-4">{{ 'footer.follow' | translate }}</h3>
+            <div class="flex justify-center md:justify-start gap-x-4 md:gap-x-3">
+                <a href="https://www.linkedin.com/company/zk-legal/?originalSubdomain=sa"
+                    class="w-8 h-8 border border-white rounded-full flex items-center justify-center text-xs hover:bg-white hover:text-[#0d1a3f] transition-colors duration-200">
+                    <i class="fa-brands fa-linkedin-in"></i>
+                </a>
+
+                <a href="mailto:zk@zk-legal.com"
+                    class="w-8 h-8 border border-white rounded-full flex items-center justify-center text-xs hover:bg-white hover:text-[#0d1a3f] transition-colors duration-200">
+                    <i class="fa-solid fa-envelope"></i>
+                </a>
+            </div>
+            <div class="text-sm space-y-1">
+                <p class="font-medium">{{ 'footer.email' | translate }}</p> <a href="mailto:zk@zk-legal.com"
+                    class="text-[#6d7887] hover:text-white transition-colors duration-200 ">{{ 'contact.sec.span3' |
+                    translate}}</a>
+            </div>
+
+        </div>
+
+        <div class="hidden lg:block bg-contain bg-no-repeat bg-right-top  w-full h-[50vh]"
+            style="background-image: url('/images/Untitled-1.webp');">
+        </div>
+    </div>
+    <div [dir]="getTextDirection()" [class]="'border-t border-gray-700 text-center text-gray-400 text-sm mx-10 p-5 sm:mt-5 ' + (isArabic() ? 'text-right' : 'text-left')">
+        Copyright © <span id="current-year"></span> Al Zamil & Al Kharashi. All rights reserved </div>
+</footer>

@@ -1,0 +1,57 @@
+:host {
+  @apply block w-full text-gray-200;
+  direction: rtl;
+}
+
+@media (min-width: 768px) {
+  :host {
+    background-image: linear-gradient(rgb(143, 144, 145,0.8), rgb(143, 144, 145,0.8)), url("/images/black-white-view-theatre.webp");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+}
+
+.section-item {
+  transition: flex 0.7s cubic-bezier(0.645, 0.045, 0.355, 1),
+              background-color 0.5s ease,
+              min-height 0.7s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+@screen md {
+  .section-item:first-child {
+    @apply border-r border-l-0 border-white/10;
+  }
+}
+
+.section-item .nav-title.md\:vertical-text {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+.section-item .nav-number.md\:vertical-text-lg {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  @apply text-4xl;
+}
+
+.section-item.active {
+  @apply md:flex-grow md:flex-shrink md:basis-auto;
+  background-color: #ffffffd9;
+}
+
+.section-item.active .nav-elements {
+  @apply opacity-0 pointer-events-none bg-transparent;
+}
+
+.section-item.active .item-content {
+  @apply md:opacity-100 md:scale-100 md:pointer-events-auto bg-transparent;
+}
+
+.fas {
+    line-height: inherit;
+}
+
+.mobile-specific-content {
+
+background-color: #ffffffd9;}

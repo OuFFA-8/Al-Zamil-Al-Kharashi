@@ -1,0 +1,37 @@
+/* لتوجيه النص LTR للأرقام والإيميلات */
+.ltr-text {
+    direction: ltr;
+  }
+  
+  /* أنيميشن بسيط للظهور */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out forwards;
+  }
+  .backimg{
+    background-image: linear-gradient(rgba(163, 150, 105, 0.9), rgba(163, 150, 105, 0.9)), url("/images/black-white-view-theatre.webp");
+}
+
+
+.our-section{
+    background-image: linear-gradient(rgba(6,25,51,0.9),rgba(6,25,51,0.9)) ,url("/images/black-white-view-theatre.webp");
+}
+
+.glass-effect {
+  /* 1. لون الخلفية شبه الشفاف */
+  /* يمكنك تغيير اللون ودرجة الشفافية (0.2) حسب ذوقك */
+  /* هنا استخدمنا اللون الأبيض بدرجة شفافية 20% */
+  background-color: rgba(255, 255, 255, 0.2);
+
+  /* 2. التأثير الأساسي "الزجاج المصنفر" */
+  /* هذا الفلتر يقوم بعمل تمويه (blur) لكل شيء يقع خلف العنصر */
+  backdrop-filter: blur(12px); /* يمكنك زيادة أو تقليل قيمة الـ blur */
+  -webkit-backdrop-filter: blur(12px); /* لدعم متصفح Safari */
+
+  /* 3. حدود بسيطة لإبراز الحواف (اختياري لكن يضيف لمسة جميلة) */
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}

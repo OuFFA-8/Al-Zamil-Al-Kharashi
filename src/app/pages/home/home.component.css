@@ -1,0 +1,66 @@
+.duration-3000 {
+    transition-duration: 3000ms;
+}
+
+
+.our-section {
+    background-image: linear-gradient(rgba(6, 25, 51, 0.9), rgba(6, 25, 51, 0.9)), url("/images/black-white-view-theatre.webp");
+}
+
+/* متغيرات افتراضية يمكن تجاوزها من الـ HTML */
+:host {
+    --logo-count: 10; /* قيمة افتراضية */
+    --animation-duration: 60s; /* قيمة افتراضية */
+    /* يمكنك إضافة متغير لعرض الفجوة إذا أردت ديناميكية أكبر */
+    /* --logo-gap: 4rem; */ /* مثال: 4rem = gap-x-16 */
+  }
+  
+  @keyframes scroll-continuous {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      /*
+       * السر هنا:
+       * نحرك الحاوية بمقدار يساوي تمامًا عرض *مجموعة واحدة* من الشعارات.
+       * نفترض أن عرض الشعار + الفجوة متساوون تقريبًا (هذا تبسيط).
+       * نستخدم calc() مع متغير CSS `--logo-count`.
+       * نضرب عدد الشعارات في (100% / عدد الشعارات) لكل شعار.
+       * بما أن المحتوى مكرر مرتين (إجمالي 2 * N شعار)، والتحريك بمقدار N شعار (-50% من العرض الكلي)،
+       * هذا يضمن أن بداية النسخة الثانية تكون بالضبط مكان بداية النسخة الأولى.
+       * هذا هو نفس تأثير translateX(-50%) لكنه يوضح الفكرة.
+       */
+      transform: translateX(calc(-100% / (2))); /* يكافئ -50% لأنه مكرر مرتين */
+  
+      /*
+       * طريقة بديلة (إذا كانت الفجوات والعرض متغيرًا بشكل كبير):
+       * قد تحتاج إلى حساب العرض الفعلي باستخدام JavaScript وتمريره كمتغير CSS آخر.
+       * مثال (إذا حسبت العرض الكلي لمجموعة واحدة في JS ومررته كـ --single-set-width):
+       * transform: translateX(calc(var(--single-set-width) * -1));
+       */
+    }
+  }
+  
+  .animate-scroll-continuous {
+    /* استخدام مدة الأنيميشن المحسوبة من متغير CSS */
+    animation: scroll-continuous var(--animation-duration, 60s) linear infinite;
+    will-change: transform;
+    /* التأكد من أن المحتوى يبدأ ملاصقًا للحافة اليسرى */
+    justify-content: flex-start;
+  }
+  
+  /* إيقاف مؤقت عند المرور أو التركيز */
+  .group:hover .animate-scroll-continuous,
+  .animate-scroll-continuous:focus-within {
+    animation-play-state: paused;
+  }
+  
+  /* التعامل مع تفضيل تقليل الحركة */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-scroll-continuous {
+      animation: none;
+    }
+    .group > div[class*="bg-gradient"] {
+      display: none;
+    }
+  }

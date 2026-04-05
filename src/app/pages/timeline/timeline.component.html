@@ -1,0 +1,107 @@
+<div>
+
+
+  <div class="hidden md:flex w-full md:h-[75vh] overflow-hidden flex-col md:flex-row">
+    <div class="content-image w-[25%]  text-center mx-auto md:mx-0 mb-5 md:mb-0 bg-gray-400">
+      <img src="/images/timeline1.webp" [alt]=""
+        class="max-w-full h-auto max-h-[40vh] w-full md:max-h-[80vh] object-contain ">
+    </div>
+    @for (section of sections; track section.id) {
+    <div
+      class="section-item relative  w-[75%] md:w-auto md:h-full cursor-pointer overflow-hidden flex-shrink-0 basis-auto md:basis-[70px] border-b md:border-b-0 md:border-l border-white/10 last:border-b-0 md:last:border-l min-h-[70px] md:min-h-0"
+      [class.active]="selectedSection?.id === section.id" (click)="selectSection(section)">
+      <div
+        class="nav-elements flex flex-row md:flex-col items-center justify-between h-[70px] md:h-full py-4 px-5 md:py-8 md:px-2 box-border bg-black/10 md:bg-black/10 transition-opacity duration-400 ease-linear">
+
+        <div
+          class="nav-title text-base md:text-lg font-medium text-white mx-4 md:mx-0 whitespace-nowrap transition-colors duration-300 ease-linear order-2 md:order-none md:vertical-text">
+          {{ section.navTitle | translate }}
+        </div>
+        <div
+          class="nav-arrow text-xl md:text-2xl text-white transition-colors duration-300 ease-linear order-3 md:order-none transform -rotate-90 md:rotate-0">
+          <i class="fas fa-arrow-up"></i>
+        </div>
+        <!-- <div
+          class="nav-number text-base md:text-4xl font-bold text-white/50 md:text-white/10 whitespace-nowrap transition-colors duration-300 ease-linear order-1 md:order-none md:vertical-text-lg">
+          {{ section.navNumber | translate }}
+        </div> -->
+      </div>
+      <div
+        class="item-content relative md:absolute md:inset-0 w-full h-0 md:h-full p-0 md:px-10 md:py-12 box-border opacity-100 md:opacity-0 scale-100 md:scale-95 pointer-events-auto md:pointer-events-none bg-transparent overflow-hidden md:overflow-y-auto">
+        <div
+          class="content-inner flex flex-col md:flex-row gap-8 md:gap-8 md:items-start h-auto md:h-full pt-8 md:pt-0 pb-8 md:pb-0 px-5 md:px-0 opacity-0 md:opacity-100">
+
+
+
+
+          <div class="content-text flex-1" [dir]="getTextDirection()" [class.md:text-left]="!isArabic()" [class.md:text-right]="isArabic()">
+            <h2
+              class="text-2xl md:text-3xl xl:md:text-4xl font-semibold mb-4 text-[#061933]" [class.text-left]="!isArabic()" [class.text-right]="isArabic()">
+              {{ section.contentTitle | translate }}
+            </h2>
+            <div class="py-3" [class.text-left]="!isArabic()" [class.text-right]="isArabic()">
+
+              @if (section.id === 1) {
+              <p class="text-sm md:text-base text-black leading-relaxed lg:px-6 lg:py-2 2xl:text-xl ">
+                {{ section.contentText1 | translate }}</p>
+
+              <p class="text-sm md:text-base text-black leading-relaxed lg:px-6 lg:py-2 2xl:text-xl">
+                {{ section.contentText2 ?? ""| translate }}</p>
+              <p class="text-sm md:text-base text-black leading-relaxed lg:px-6 lg:py-2 2xl:text-xl">
+                {{ section.contentText3 ?? ""| translate }}</p>
+              <p class="text-sm md:text-base text-black leading-relaxed lg:px-6 lg:py-2 2xl:text-xl">
+                {{ section.contentText4 ?? ""| translate }}</p>
+              }
+              @if (section.id === 4) {
+              <ul [dir]="isArabic() ? 'rtl' : 'ltr'" [class]="'list-disc space-y-2 ps-6 ' + (isArabic() ? 'text-right' : 'text-left')">
+                <li class="text-sm md:text-base text-black lg:py-1">
+                  {{ section.contentText1 | translate }}
+                </li>
+                <li class="text-sm md:text-base text-black lg:py-1">
+                  {{ section.contentText2 ?? "" | translate }}
+                </li>
+                <li class="text-sm md:text-base text-black lg:py-1">
+                  {{ section.contentText3 ?? "" | translate }}
+                </li>
+                <li class="text-sm md:text-base text-black lg:py-1">
+                  {{ section.contentText4 ?? "" | translate }}
+                </li>
+                <li class="text-sm md:text-base text-black lg:py-1">
+                  {{ section.contentText5 ?? "" | translate }}
+                </li>
+              </ul>
+              }
+              @else if (section.id === 2 || section.id === 3) {
+              <p class="text-gray-700 text-lg md:text-base  leading-relaxed lg:px-6 lg:py-2 xl:text-2xl">
+                {{ section.contentText1 | translate }}</p>
+              }
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+
+  <div class="block md:hidden">
+    @if (selectedSection) {
+    <div class="mobile-specific-content p-6 w-full h-[80vh]">
+      <div class="content-image text-center mx-auto mb-5 w-full ">
+        <img src="/images/black-white-view-theatre.webp" [alt]="selectedSection.contentTitle"
+          class="max-w-full h-auto max-h-[40vh] w-full object-contain rounded-lg">
+      </div>
+      <div class="content-text flex-1" [dir]="getTextDirection()" [class.text-center]="true">
+        <h2 class="text-2xl font-semibold mb-4 text-[#061933]">{{ selectedSection.contentTitle | translate }}</h2>
+        <p class="text-sm mb-6 text-black leading-relaxed bg-[#b3a16c] p-4" [class.text-justify]="true">{{
+          selectedSection.contentText1 | translate }}</p>
+        <!-- <button
+          class="cta-button inline-flex items-center bg-[#b3a16c] border border-white/30 text-white text-xs py-2 px-4 rounded-full cursor-pointer transition-colors duration-300 hover:bg-[#80734a] hover:border-white/50 mb-2">
+          {{ 'timeline.button' | translate }} <i class="fas fa-arrow-left mr-2"></i>
+        </button> -->
+      </div>
+    </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,688 @@
+<app-carousel></app-carousel>
+
+<!-- <section>
+  <div class="grid md:grid-cols-[50%_minmax(0,1fr)]">
+
+    <div class="w-full">
+      <div class="bg-white px-4 sm:px-7 py-8 md:py-10 md:ps-[50px] lg:ps-[100px] pe-2 mx-auto">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-bold mb-6 md:mb-8 text-[#061933]">{{'timeline.firm' | translate}}</h2>
+          <p class="text-lg sm:text-xl md:w-[90%]"> {{'timeline.paragraph' | translate}} </p>
+        </div>
+        <div class=" flex justify-end text-[#8F9091] mt-6 mb-4 md:mb-6 me-4 md:me-6">
+          <button class=" text-lg sm:text-xl font-bold hover:underline ">{{'timeline.button' | translate}} <span><i
+                class="fa-solid fa-angle-up fa-rotate-90 "></i></span></button>
+        </div>
+      </div>
+      <img src="/images/LAW2.webp" class="w-full object-cover h-[250px] sm:h-[300px] md:h-[350px]" alt="Law Firm Image">
+    </div>
+
+    <app-timeline></app-timeline>
+
+  </div>
+</section> -->
+
+<app-timeline
+  appAnimateOnScroll
+  animationClass="animate-fade-in-up"
+  class="bg-[#8F9091] opacity-0"
+>
+</app-timeline>
+
+<section
+  appAnimateOnScroll
+  animationClass="animate-fade-in-up"
+  class="bg-[#8F9091] opacity-0"
+  class="our-section w-full min-h-72 py-12 sm:py-16 md:py-20 bg-cover bg-center bg-no-repeat"
+>
+  <div class="m-section container mx-auto px-4">
+    <h2
+      class="text-3xl sm:text-4xl md:text-5xl text-[#8F9091] mb-5 font-bold pb-6 md:pb-10"
+      [class.text-left]="!isArabic()"
+      [class.text-right]="isArabic()"
+    >
+      <span class="text-3xl sm:text-4xl md:text-5xl"
+        ><i class="fas fa-scale-balanced"></i
+      ></span>
+      {{ "navbar.services.main" | translate }}
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+      <!-- <div class="group/1">
+        <div class="1" (click)="toggleOpen1()">
+          <div class="relative text-white flex cursor-pointer items-center">
+            <div class="relative">
+              <span [class.text-[#8F9091]]="open1" [class.text-white]="!open1"
+                class="text-4xl md:text-5xl font-bold relative z-10 duration-1000">
+                01
+              </span>
+              <div class="absolute bottom-1 left-0 right-0 h-px bg-white z-0"></div>
+            </div>
+
+            <div class="flex flex-grow items-center justify-center gap-2 ">
+              <span class="text-base sm:text-md">{{'services.section1.title' | translate}}</span>
+
+            </div>
+            <i class="fa-solid fa-arrow-up fa-rotate-by text-3xl md:text-4xl duration-500 flex-shrink-0"
+              [class.rotate-[225deg]]="open1" [class.text-[#8F9091]]="open1" [class.text-white]="!open1"
+              style="--fa-rotate-angle: 45deg;"></i>
+
+            <div class="absolute bottom-1 left-0 right-0 h-px z-0 duration-1000" [class.bg-[#8F9091]]="open1"
+              [class.bg-white]="!open1">
+            </div>
+          </div>
+
+          @if (open1) {
+          <div class="p-3 bg-gray-50 rounded-lg mt-2 transition-all duration-500 ease-out w-full
+                     opacity-0 -translate-y-4 animate-fadeDown">
+            <p class="text-sm text-black">
+              {{'navbar.services.par1' | translate}}
+            </p>
+          </div>
+          }
+        </div>
+      </div> -->
+
+      <div class="group/1 space-y-8 md:space-y-10">
+        <div class="1">
+          <div
+            class="relative text-white flex w-full cursor-pointer items-center"
+            (click)="toggleOpen1()"
+          >
+            <div class="flex-shrink-0 relative">
+              <span
+                class="text-4xl md:text-4xl font-bold relative z-10 duration-1000"
+                [class.text-[#8F9091]]="open1"
+                [class.text-white]="!open1"
+              >
+                <i class="fas fa-landmark overflow-hidden"></i>
+              </span>
+              <div
+                class="absolute bottom-1 left-0 right-0 h-px bg-white z-0"
+              ></div>
+            </div>
+
+            <div
+              class="flex-grow flex justify-center items-center hover:text-[#8F9091] duration-200"
+            >
+              <span class="text-base sm:text-lg md:text-lg">{{
+                "services.section1.title" | translate
+              }}</span>
+            </div>
+            <i
+              class="fa-solid fa-arrow-up fa-rotate-by font text-3xl md:text-4xl duration-500 flex-shrink-0"
+              [class.rotate-[225deg]]="open1"
+              [class.text-[#8F9091]]="open1"
+              [class.text-white]="!open1"
+              style="--fa-rotate-angle: 45deg"
+            ></i>
+
+            <div
+              class="absolute bottom-1 left-0 right-0 h-px z-0 duration-1000"
+              [class.bg-[#8F9091]]="open1"
+              [class.bg-white]="!open1"
+            ></div>
+          </div>
+
+          @if (open1) {
+            <div
+              [dir]="isArabic() ? 'rtl' : 'ltr'"
+              [class]="
+                'p-3 bg-gray-100 rounded-lg mt-2 transition-all duration-500 ease-out w-full opacity-0 -translate-y-4 animate-fadeDown ' +
+                (isArabic() ? 'text-right' : 'text-left')
+              "
+            >
+              <p class="text-sm text-black">
+                {{ "services.section1.span" | translate }}
+              </p>
+            </div>
+          }
+        </div>
+
+        <div class="2">
+          <div
+            class="relative text-white flex w-full cursor-pointer items-center"
+            (click)="toggleOpen2()"
+          >
+            <div class="flex-shrink-0 relative">
+              <span
+                class="text-4xl md:text-4xl font-bold relative z-10 duration-1000"
+                [class.text-[#8F9091]]="open2"
+                [class.text-white]="!open2"
+              >
+                <i class="fas fa-house-chimney overflow-hidden"></i>
+              </span>
+              <div
+                class="absolute bottom-1 left-0 right-0 h-px bg-white z-0"
+              ></div>
+            </div>
+
+            <div
+              class="flex-grow flex justify-center items-center hover:text-[#8F9091] duration-200 mx-2"
+            >
+              <span class="text-base sm:text-lg">{{
+                "services.section2.title" | translate
+              }}</span>
+            </div>
+            <i
+              class="fa-solid fa-arrow-up fa-rotate-by font text-3xl md:text-4xl duration-500 flex-shrink-0"
+              [class.rotate-[225deg]]="open2"
+              [class.text-[#8F9091]]="open2"
+              [class.text-white]="!open2"
+              style="--fa-rotate-angle: 45deg"
+            ></i>
+
+            <div
+              class="absolute bottom-1 left-0 right-0 h-px z-0 duration-1000"
+              [class.bg-[#8F9091]]="open2"
+              [class.bg-white]="!open2"
+            ></div>
+          </div>
+
+          @if (open2) {
+            <div
+              [dir]="isArabic() ? 'rtl' : 'ltr'"
+              [class]="
+                'p-3 bg-gray-100 rounded-lg mt-2 transition-all duration-500 ease-out w-full opacity-0 -translate-y-4 animate-fadeDown ' +
+                (isArabic() ? 'text-right' : 'text-left')
+              "
+            >
+              <p class="text-sm text-black">
+                {{ "services.section2.span" | translate }}
+              </p>
+            </div>
+          }
+        </div>
+
+        <div class="3">
+          <div
+            class="relative text-white flex w-full cursor-pointer items-center"
+            (click)="toggleOpen3()"
+          >
+            <div class="flex-shrink-0 relative">
+              <span
+                class="text-4xl md:text-4xl font-bold relative z-10 duration-1000"
+                [class.text-[#8F9091]]="open3"
+                [class.text-white]="!open3"
+              >
+                <i class="fas fa-balance-scale overflow-hidden"></i>
+              </span>
+              <div
+                class="absolute bottom-1 left-0 right-0 h-px bg-white z-0"
+              ></div>
+            </div>
+
+            <div
+              class="flex-grow flex justify-center items-center hover:text-[#8F9091] duration-200"
+            >
+              <span class="text-base sm:text-md">{{
+                "services.section3.title" | translate
+              }}</span>
+            </div>
+            <i
+              class="fa-solid fa-arrow-up fa-rotate-by font text-3xl md:text-4xl duration-500 flex-shrink-0"
+              [class.rotate-[225deg]]="open3"
+              [class.text-[#8F9091]]="open3"
+              [class.text-white]="!open3"
+              style="--fa-rotate-angle: 45deg"
+            ></i>
+
+            <div
+              class="absolute bottom-1 left-0 right-0 h-px z-0 duration-1000"
+              [class.bg-[#8F9091]]="open3"
+              [class.bg-white]="!open3"
+            ></div>
+          </div>
+
+          @if (open3) {
+            <div
+              [dir]="isArabic() ? 'rtl' : 'ltr'"
+              [class]="
+                'p-3 bg-gray-100 rounded-lg mt-2 transition-all duration-500 ease-out w-full opacity-0 -translate-y-4 animate-fadeDown ' +
+                (isArabic() ? 'text-right' : 'text-left')
+              "
+            >
+              <p class="text-sm text-black">
+                {{ "services.section3.span" | translate }}
+              </p>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="group/2 space-y-8 md:space-y-10">
+        <div class="4">
+          <div
+            class="relative text-white flex w-full cursor-pointer items-center"
+            (click)="toggleOpen4()"
+          >
+            <div class="flex-shrink-0 relative">
+              <span
+                class="text-4xl md:text-4xl font-bold relative z-10 duration-1000"
+                [class.text-[#8F9091]]="open4"
+                [class.text-white]="!open4"
+              >
+                <i class="fas fa-gavel overflow-hidden"></i>
+              </span>
+              <div
+                class="absolute bottom-1 left-0 right-0 h-px bg-white z-0"
+              ></div>
+            </div>
+
+            <div
+              class="flex-grow flex justify-center items-center hover:text-[#8F9091] duration-200"
+            >
+              <span class="text-base sm:text-lg md:text-lg">{{
+                "services.section4.title" | translate
+              }}</span>
+            </div>
+            <i
+              class="fa-solid fa-arrow-up fa-rotate-by font text-3xl md:text-4xl duration-500 flex-shrink-0"
+              [class.rotate-[225deg]]="open4"
+              [class.text-[#8F9091]]="open4"
+              [class.text-white]="!open4"
+              style="--fa-rotate-angle: 45deg"
+            ></i>
+
+            <div
+              class="absolute bottom-1 left-0 right-0 h-px z-0 duration-1000"
+              [class.bg-[#8F9091]]="open4"
+              [class.bg-white]="!open4"
+            ></div>
+          </div>
+
+          @if (open4) {
+            <div
+              [dir]="isArabic() ? 'rtl' : 'ltr'"
+              [class]="
+                'p-3 bg-gray-100 rounded-lg mt-2 transition-all duration-500 ease-out w-full opacity-0 -translate-y-4 animate-fadeDown ' +
+                (isArabic() ? 'text-right' : 'text-left')
+              "
+            >
+              <p class="text-sm text-black">
+                {{ "services.section4.span" | translate }}
+              </p>
+            </div>
+          }
+        </div>
+
+        <div class="5">
+          <div
+            class="relative text-white flex w-full cursor-pointer items-center"
+            (click)="toggleOpen5()"
+          >
+            <div class="flex-shrink-0 relative">
+              <span
+                class="text-4xl md:text-4xl font-bold relative z-10 duration-1000"
+                [class.text-[#8F9091]]="open5"
+                [class.text-white]="!open5"
+              >
+                <i class="fas fa-coins overflow-hidden"></i>
+              </span>
+              <div
+                class="absolute bottom-1 left-0 right-0 h-px bg-white z-0"
+              ></div>
+            </div>
+
+            <div
+              class="flex-grow flex justify-center items-center hover:text-[#8F9091] duration-200 mx-2"
+            >
+              <span class="text-base sm:text-lg">{{
+                "services.section5.title" | translate
+              }}</span>
+            </div>
+            <i
+              class="fa-solid fa-arrow-up fa-rotate-by font text-3xl md:text-4xl duration-500 flex-shrink-0"
+              [class.rotate-[225deg]]="open5"
+              [class.text-[#8F9091]]="open5"
+              [class.text-white]="!open5"
+              style="--fa-rotate-angle: 45deg"
+            ></i>
+
+            <div
+              class="absolute bottom-1 left-0 right-0 h-px z-0 duration-1000"
+              [class.bg-[#8F9091]]="open5"
+              [class.bg-white]="!open5"
+            ></div>
+          </div>
+
+          @if (open5) {
+            <div
+              [dir]="isArabic() ? 'rtl' : 'ltr'"
+              [class]="
+                'p-3 bg-gray-100 rounded-lg mt-2 transition-all duration-500 ease-out w-full opacity-0 -translate-y-4 animate-fadeDown ' +
+                (isArabic() ? 'text-right' : 'text-left')
+              "
+            >
+              <p class="text-sm text-black">
+                {{ "services.section5.span" | translate }}
+              </p>
+            </div>
+          }
+        </div>
+
+        <div class="6">
+          <div
+            class="relative text-white flex w-full cursor-pointer items-center"
+            (click)="toggleOpen6()"
+          >
+            <div class="flex-shrink-0 relative">
+              <span
+                class="text-4xl md:text-4xl font-bold relative z-10 duration-1000"
+                [class.text-[#8F9091]]="open6"
+                [class.text-white]="!open6"
+              >
+                <i class="fas fa-file-contract overflow-hidden"></i>
+              </span>
+              <div
+                class="absolute bottom-1 left-0 right-0 h-px bg-white z-0"
+              ></div>
+            </div>
+
+            <div
+              class="flex-grow flex justify-center items-center hover:text-[#8F9091] duration-200"
+            >
+              <span class="text-base sm:text-md">{{
+                "services.section6.title" | translate
+              }}</span>
+            </div>
+            <i
+              class="fa-solid fa-arrow-up fa-rotate-by font text-3xl md:text-4xl duration-500 flex-shrink-0"
+              [class.rotate-[225deg]]="open6"
+              [class.text-[#8F9091]]="open6"
+              [class.text-white]="!open6"
+              style="--fa-rotate-angle: 45deg"
+            ></i>
+
+            <div
+              class="absolute bottom-1 left-0 right-0 h-px z-0 duration-1000"
+              [class.bg-[#8F9091]]="open6"
+              [class.bg-white]="!open6"
+            ></div>
+          </div>
+
+          @if (open6) {
+            <div
+              [dir]="isArabic() ? 'rtl' : 'ltr'"
+              [class]="
+                'p-3 bg-gray-100 rounded-lg mt-2 transition-all duration-500 ease-out w-full opacity-0 -translate-y-4 animate-fadeDown ' +
+                (isArabic() ? 'text-right' : 'text-left')
+              "
+            >
+              <p class="text-sm text-black">
+                {{ "services.section6.span" | translate }}
+              </p>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="group/3 space-y-8 md:space-y-10">
+        <div class="7">
+          <div
+            class="relative text-white flex w-full cursor-pointer items-center"
+            (click)="toggleOpen7()"
+          >
+            <div class="flex-shrink-0 relative">
+              <span
+                class="text-4xl md:text-4xl font-bold relative z-10 duration-1000"
+                [class.text-[#8F9091]]="open7"
+                [class.text-white]="!open7"
+              >
+                <i class="fa-solid fa-people-roof overflow-hidden"></i>
+              </span>
+              <div
+                class="absolute bottom-1 left-0 right-0 h-px bg-white z-0"
+              ></div>
+            </div>
+            <div
+              class="flex-grow flex justify-center items-center hover:text-[#8F9091] duration-200 mx-2"
+            >
+              <span class="text-base sm:text-lg md:text-xl">{{
+                "services.section7.title" | translate
+              }}</span>
+            </div>
+            <i
+              class="fa-solid fa-arrow-up fa-rotate-by font text-3xl md:text-4xl duration-500 flex-shrink-0"
+              [class.rotate-[225deg]]="open7"
+              [class.text-[#8F9091]]="open7"
+              [class.text-white]="!open7"
+              style="--fa-rotate-angle: 45deg"
+            ></i>
+            <div
+              class="absolute bottom-1 left-0 right-0 h-px z-0 duration-1000"
+              [class.bg-[#8F9091]]="open7"
+              [class.bg-white]="!open7"
+            ></div>
+          </div>
+
+          @if (open7) {
+            <div
+              [dir]="isArabic() ? 'rtl' : 'ltr'"
+              [class]="
+                'p-3 bg-gray-100 rounded-lg mt-2 transition-all duration-500 ease-out w-full opacity-0 -translate-y-4 animate-fadeDown ' +
+                (isArabic() ? 'text-right' : 'text-left')
+              "
+            >
+              <p class="text-sm text-black">
+                {{ "services.section7.span" | translate }}
+              </p>
+            </div>
+          }
+        </div>
+
+        <div class="8">
+          <div
+            class="relative text-white flex w-full cursor-pointer items-center"
+            (click)="toggleOpen8()"
+          >
+            <div class="flex-shrink-0 relative">
+              <span
+                class="text-4xl md:text-4xl font-bold relative z-10 duration-1000"
+                [class.text-[#8F9091]]="open8"
+                [class.text-white]="!open8"
+              >
+                <i class="fas fa-handshake overflow-hidden"></i>
+              </span>
+              <div
+                class="absolute bottom-1 left-0 right-0 h-px bg-white z-0"
+              ></div>
+            </div>
+            <div
+              class="flex-grow flex justify-center items-center hover:text-[#8F9091] duration-200 mx-2"
+            >
+              <span class="text-base sm:text-lg md:text-lg">{{
+                "services.section8.title" | translate
+              }}</span>
+            </div>
+            <i
+              class="fa-solid fa-arrow-up fa-rotate-by font text-3xl md:text-4xl duration-500 flex-shrink-0"
+              [class.rotate-[225deg]]="open8"
+              [class.text-[#8F9091]]="open8"
+              [class.text-white]="!open8"
+              style="--fa-rotate-angle: 45deg"
+            ></i>
+            <div
+              class="absolute bottom-1 left-0 right-0 h-px z-0 duration-1000"
+              [class.bg-[#8F9091]]="open8"
+              [class.bg-white]="!open8"
+            ></div>
+          </div>
+
+          @if (open8) {
+            <div
+              [dir]="isArabic() ? 'rtl' : 'ltr'"
+              [class]="
+                'p-3 bg-gray-100 rounded-lg mt-2 transition-all duration-500 ease-out w-full opacity-0 -translate-y-4 animate-fadeDown ' +
+                (isArabic() ? 'text-right' : 'text-left')
+              "
+            >
+              <p class="text-sm text-black">
+                {{ "services.section8.span" | translate }}
+              </p>
+            </div>
+          }
+        </div>
+
+        <div class="9">
+          <div
+            class="relative text-white flex w-full cursor-pointer items-center"
+            (click)="toggleOpen9()"
+          >
+            <div class="flex-shrink-0 relative">
+              <span
+                class="text-4xl md:text-4xl font-bold relative z-10 duration-1000"
+                [class.text-[#8F9091]]="open9"
+                [class.text-white]="!open9"
+              >
+                <i class="fas fa-book overflow-hidden"></i>
+              </span>
+              <div
+                class="absolute bottom-1 left-0 right-0 h-px bg-white z-0"
+              ></div>
+            </div>
+            <div
+              class="flex-grow flex justify-center items-center hover:text-[#8F9091] duration-200 mx-2"
+            >
+              <span class="text-base sm:text-lg md:text-xl">{{
+                "services.section9.title" | translate
+              }}</span>
+            </div>
+            <i
+              class="fa-solid fa-arrow-up fa-rotate-by font text-3xl md:text-4xl duration-500 flex-shrink-0"
+              [class.rotate-[225deg]]="open9"
+              [class.text-[#8F9091]]="open9"
+              [class.text-white]="!open9"
+              style="--fa-rotate-angle: 45deg"
+            ></i>
+            <div
+              class="absolute bottom-1 left-0 right-0 h-px z-0 duration-1000"
+              [class.bg-[#8F9091]]="open9"
+              [class.bg-white]="!open9"
+            ></div>
+          </div>
+
+          @if (open9) {
+            <div
+              [dir]="isArabic() ? 'rtl' : 'ltr'"
+              [class]="
+                'p-3 bg-gray-100 rounded-lg mt-2 transition-all duration-500 ease-out w-full opacity-0 -translate-y-4 animate-fadeDown ' +
+                (isArabic() ? 'text-right' : 'text-left')
+              "
+            >
+              <p class="text-sm text-black">
+                {{ "services.section9.span" | translate }}
+              </p>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-end text-[#8F9091] mt-8 md:mt-10">
+      <button
+        routerLink="/services"
+        class="text-lg sm:text-xl font-bold hover:underline"
+      >
+        {{ "timeline.button" | translate }}
+        <span><i class="fa-solid fa-angle-up fa-rotate-90"></i></span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<section
+  appAnimateOnScroll
+  animationClass="animate-fade-in-up"
+  class="bg-[#8F9091] py-10 opacity-0"
+>
+  <div
+    id="counterSection"
+    class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 text-center"
+  >
+    <div class="flex flex-col items-center">
+      <i class="fa-solid fa-people-group text-white text-6xl mb-3"></i>
+      <h2 class="text-4xl sm:text-5xl md:text-6xl font-bold text-white">
+        +{{ counter1 }}
+      </h2>
+      <p class="mt-2 text-white text-lg md:text-xl">
+        {{ "counter.1" | translate }}
+      </p>
+    </div>
+
+    <div class="flex flex-col items-center">
+      <i class="fas fa-scale-balanced text-white text-6xl mb-3"></i>
+      <h2 class="text-4xl sm:text-5xl md:text-6xl font-bold text-white">
+        +{{ counter2 }}
+      </h2>
+      <p class="mt-2 text-white text-lg md:text-xl">
+        {{ "counter.2" | translate }}
+      </p>
+    </div>
+
+    <div class="flex flex-col items-center">
+      <i class="fas fa-file-circle-check text-white text-6xl mb-3"></i>
+      <h2 class="text-4xl sm:text-5xl md:text-6xl font-bold text-white">
+        +{{ counter3 }}
+      </h2>
+      <p class="mt-2 text-white text-lg md:text-xl">
+        {{ "counter.3" | translate }}
+      </p>
+    </div>
+
+    <div class="flex flex-col items-center">
+      <i class="fas fa-users text-white text-6xl mb-3"></i>
+      <h2 class="text-4xl sm:text-5xl md:text-6xl font-bold text-white">
+        +{{ counter4 }}
+      </h2>
+      <p class="mt-2 text-white text-lg md:text-xl">
+        {{ "counter.4" | translate }}
+      </p>
+    </div>
+  </div>
+</section>
+
+<section
+  appAnimateOnScroll
+  animationClass="animate-fade-in-up"
+  class="bg-[#8F9091] opacity-0"
+  class="bg-white w-full container mx-auto px-4 pt-10"
+>
+  <h2
+    class="text-3xl sm:text-4xl md:text-4xl text-[#061933] mb-5 font-bold pb-6 md:pb-10"
+    [class.text-left]="!isArabic()"
+    [class.text-right]="isArabic()"
+  >
+    {{ "title3" | translate }}
+  </h2>
+</section>
+
+<div class="relative w-full overflow-hidden bg-white pb-10 group" dir="ltr">
+  <div
+    class="absolute left-0 top-0 h-full w-20 md:w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"
+  ></div>
+  <div
+    class="absolute right-0 top-0 h-full w-20 md:w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"
+  ></div>
+
+  <div
+    class="flex w-max animate-scroll-continuous items-center gap-x-12 sm:gap-x-16 md:gap-x-20 group-hover:[animation-play-state:paused]"
+    role="marquee"
+    aria-label="شركاؤنا ورعاتنا"
+    [style.--logo-count]="logoCount()"
+    [style.--animation-duration]="animationDuration()"
+  >
+    @for (logo of duplicatedLogos(); track logo.id + "-" + $index) {
+      <div class="shrink-0">
+        <img
+          [src]="logo.src"
+          [alt]="logo.alt"
+          class="h-12 md:h-16 w-auto max-w-none object-contain"
+          loading="lazy"
+          height="64"
+          width="150"
+        />
+      </div>
+    }
+  </div>
+</div>

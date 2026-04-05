@@ -1,0 +1,63 @@
+<div
+  class="banner-section bg-banner relative bg-gray-800 text-white h-64 md:h-[65vh] flex items-center justify-center text-center overflow-hidden ">
+
+  <div class="absolute inset-0 bg-black bg-opacity-50 z-10"></div>
+  <div class="relative z-20 px-4 pt-10">
+    <h1 class="text-4xl md:text-5xl lg:text-6xl hover:text-[#a39669] duration-300 font-bold pb-3">
+      {{ 'navbar.services.main' | translate }}
+    </h1>
+    <button (click)="scrollToContent($event)" aria-label="Scroll down" class="mt-4 text-2xl animate-bounce">
+      <i class="fas fa-chevron-down text-[#a39669]"></i>
+    </button>
+  </div>
+</div>
+
+
+<div class="py-16 px-4 sm:px-6 lg:px-8 bg-white " id="content-area">
+  <div class="max-w-7xl mx-auto">
+
+    <div class="text-center mb-12 md:mb-16">
+      <p class="text-sm font-semibold text-[#a39669] tracking-wider uppercase mb-2">
+        {{ sectionSubtitle | translate }}
+      </p>
+      <h2 class="text-3xl md:text-4xl  font-bold text-gray-800">
+        {{ sectionTitle | translate }}
+      </h2>
+      <p [dir]="getTextDirection()" [class]="'mt-4 text-lg text-gray-600 max-w-2xl mx-auto ' + (isArabic() ? 'text-right' : 'text-left')">
+        {{ sectionDescription | translate}}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 ">
+
+      @for (service of services(); track service.id) {
+      <div
+        class="service-card group flex flex-col items-center py-16 px-5 bg-[#e7e8e7]  text-center transition-shadow duration-300 hover:shadow-lg">
+
+        <div class="mb-6 text-5xl text-[#a39669] group-hover:text-slate-900 duration-500 ">
+          <i [class]="service.iconClass"></i>
+        </div>
+
+        <div class="flex flex-col items-center flex-grow w-full ">
+          <h4
+            class="text-xl  font-semibold tracking-wide group-hover:text-slate-900 duration-500  text-slate-900 mb-3">
+            {{ service.title | translate }}
+          </h4>
+          <!-- **** استخدام shortDescription **** -->
+          <p [dir]="getTextDirection()" class="text-slate-900 leading-relaxed mb-6 flex-grow group-hover:text-slate-900 duration-500 text-center">
+            {{ service.shortDescription | translate}}
+          </p>
+          <div class="mt-auto">
+            <!-- **** استخدام routerLink **** -->
+            <a [routerLink]="['/service', service.id]"
+              class="inline-flex items-center font-semibold text-sm  text-[#a39669] duration-500 group-hover:text-slate-900  transition-colors">
+              <i class="fas fa-arrow-right transition-transform duration-200 group-hover:translate-x-1"></i>
+              <span class="ms-2 uppercase tracking-wider">{{ "services.button" | translate}}</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+<section class="mt-8 md:mt-24">
+  <div class="w-full h-[50vh] md:h-[60vh]">
+    <google-map height="100%" width="100%" [options]="mapOptions">
+
+      @for(branch of branches(); track branch.id) {
+      <map-marker [position]="{ lat: branch.lat, lng: branch.lng }" [title]="branch.name"
+        [options]="markerOptions"></map-marker>
+      }
+    </google-map>
+  </div>
+
+  <div class="bg-gray-100 p-4 md:p-6">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+      @for (branch of branches(); track branch.id) {
+      <div (click)="goToBranch(branch.id)" role="button" tabindex="0" (keydown.enter)="goToBranch(branch.id)"
+        class="bg-white p-4 rounded-md shadow cursor-pointer hover:shadow-lg hover:bg-gray-50 transition duration-200 ease-in-out text-center min-w-[180px]">
+        <p class="font-semibold text-gray-800 text-lg mb-1">{{ branch.name | translate}}</p>
+        @if(branch.address) {
+        <p class="text-xs text-gray-500">{{ branch.address | translate}}</p>
+        } @else {
+        <p class="text-xs text-gray-400 italic">لا يوجد عنوان متوفر</p>
+        }
+      </div>
+      } @empty {
+      <p class="text-gray-500 col-span-full text-center py-4">No branches available.</p>
+      }
+    </div>
+  </div>
+</section>
