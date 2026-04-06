@@ -1,3 +1,4 @@
 {
+  "outputDirectory": "dist/elzamel/browser",
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }
