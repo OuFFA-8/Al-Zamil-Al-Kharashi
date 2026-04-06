@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "dist/elzamel/server/server.mjs",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "dist/elzamel/browser/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "^/assets/(.*)",
+      "dest": "dist/elzamel/browser/assets/$1"
+    },
+    {
+      "src": "/(.*\\.(js|css|ico|png|jpg|svg|woff|woff2|ttf|eot|webp))",
+      "dest": "dist/elzamel/browser/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "dist/elzamel/server/server.mjs"
+    }
+  ]
+}
