@@ -550,5 +550,14 @@
     "view_all": "عرض الكل",
     "no_messages": "لا توجد رسائل",
     "summary": "ملخص"
+  },
+  "dashboard": {
+    "nav": {
+      "dashboard": "الرئيسية",
+      "team": "إدارة الفريق",
+      "events": "المدونة",
+      "messages": "رسائل التواصل",
+      "logout": "تسجيل الخروج"
+    }
   }
 }

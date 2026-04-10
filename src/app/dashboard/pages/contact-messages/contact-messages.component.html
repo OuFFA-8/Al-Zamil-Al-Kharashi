@@ -164,8 +164,12 @@
             </tr>
           </thead>
           <tbody>
-            @for (msg of messages; track msg._id) {
-              <tr [class.unread-row]="msg.status === 'unread'">
+            @for (msg of messages; track msg._id; let i = $index) {
+              <tr
+                class="msg-row"
+                [class.unread-row]="msg.status === 'unread'"
+                [style.animation-delay]="i * 0.05 + 's'"
+              >
                 <td>
                   <div class="sender-name">
                     {{ msg.first_name }} {{ msg.last_name }}

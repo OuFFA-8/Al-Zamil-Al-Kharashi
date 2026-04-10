@@ -550,5 +550,14 @@
     "view_all": "View All",
     "no_messages": "No messages yet",
     "summary": "Summary"
+  },
+  "dashboard": {
+    "nav": {
+      "dashboard": "Dashboard",
+      "team": "Team Management",
+      "events": "Blog",
+      "messages": "Contact Messages",
+      "logout": "Logout"
+    }
   }
 }

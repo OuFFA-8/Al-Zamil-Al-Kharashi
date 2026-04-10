@@ -135,8 +135,8 @@
             </tr>
           </thead>
           <tbody>
-            @for (blog of blogs; track blog._id) {
-              <tr>
+            @for (blog of blogs; track blog._id; let i = $index) {
+              <tr class="blog-row" [style.animation-delay]="i * 0.05 + 's'">
                 <td>
                   <div class="blog-title-cell">
                     @if (getBlogImageUrl(blog)) {

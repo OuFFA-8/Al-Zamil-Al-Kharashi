@@ -1,5 +1,6 @@
 .overview-page {
   max-width: 1200px;
+  animation: pageEnter 0.4s ease both;
 }
 
 .page-header {
@@ -373,4 +374,81 @@
   min-width: 28px;
   text-align: right;
   font-size: 12px;
+}
+/* ── Page Entry Animation ── */
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Mobile Responsive ── */
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 12px;
+  }
+  .page-header .btn-primary,
+  .page-header .header-actions {
+    width: 100%;
+    justify-content: center;
+  }
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+  .bottom-grid,
+  .two-col-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  table {
+    min-width: 600px;
+  }
+  .form-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .filter-bar {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .filter-bar input,
+  .filter-bar select {
+    width: 100%;
+  }
+  .card-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .page-title {
+    font-size: 18px !important;
+  }
+  .stat-card {
+    padding: 14px !important;
+  }
+}
+@media (max-width: 768px) {
+  .bottom-section {
+    grid-template-columns: 1fr;
+  }
+  .chart-card {
+    order: 2;
+  }
+  .recent-messages-card {
+    order: 1;
+  }
 }

@@ -34,19 +34,23 @@ import { AlertComponent } from '../../shared/components/alert/alert/alert.compon
     `
       .dash-layout {
         display: flex;
-        min-height: 100vh;
+        height: 100vh;
+        overflow: hidden;
         background: #f5f6fa;
       }
       .dash-main {
         flex: 1;
         display: flex;
         flex-direction: column;
+        height: 100vh;
         overflow: hidden;
+        min-width: 0;
       }
       .dash-content {
         flex: 1;
         padding: 28px;
         overflow-y: auto;
+        height: 0;
       }
     `,
   ],

@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, inject, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -18,9 +18,10 @@ export class HeaderComponent {
   private translateService = inject(MyTranslateService);
 
   currentLang = localStorage.getItem('lang') || 'ar';
+  dropdownOpen = false;
 
   get currentUser() {
-    return this.auth.currentUser ?? { name: 'Admin User', role: 'admin' };
+    return this.auth.currentUser ?? { name: 'Admin', role: 'admin' };
   }
 
   get userInitials(): string {
@@ -40,5 +41,13 @@ export class HeaderComponent {
 
   logout() {
     this.auth.logout();
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.user-wrap')) {
+      this.dropdownOpen = false;
+    }
   }
 }
