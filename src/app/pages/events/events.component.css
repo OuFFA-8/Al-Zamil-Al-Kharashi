@@ -1,142 +1,42 @@
-.backimg{
-    background-image: linear-gradient(rgba(163, 150, 105, 0.9), rgba(163, 150, 105, 0.9)), url("/images/black-white-view-theatre.webp");
+.backimg {
+  background-image:
+    linear-gradient(rgba(163, 150, 105, 0.9), rgba(163, 150, 105, 0.9)),
+    url("/images/black-white-view-theatre.webp");
 }
 
-
-.our-section{
-    background-image: linear-gradient(rgba(6,25,51,0.9),rgba(6,25,51,0.9)) ,url("/images/black-white-view-theatre.webp");
+.our-section {
+  background-image:
+    linear-gradient(rgba(6, 25, 51, 0.9), rgba(6, 25, 51, 0.9)),
+    url("/images/black-white-view-theatre.webp");
 }
 
-/* Line clamp utility for description text */
-.line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-/* Ensure HTML content in descriptions renders properly */
-.line-clamp-3 p {
-    margin: 0;
-    display: inline;
-}
-
-.line-clamp-3 p:not(:last-child) {
-    margin-bottom: 0.5rem;
-}
-
-/* Ensure proper spacing and layout for event cards */
 .event-card {
-    transition: all 0.3s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
-
 .event-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(6, 25, 51, 0.1);
 }
 
-/* External close button styling */
-.modal-close-button {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    z-index: 60;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    transition: all 0.3s ease;
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.line-clamp-2 p {
+  margin: 0;
+  display: inline;
 }
 
-.modal-close-button:hover {
-    background: rgba(255, 255, 255, 1);
-    transform: scale(1.05);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+.ql-align-justify {
+  text-align: justify;
 }
-
-/* Mobile-specific modal improvements */
-@media (max-width: 640px) {
-    /* Ensure modal takes full width on very small screens */
-    .modal-container {
-        margin: 0.5rem;
-        max-width: calc(100vw - 1rem);
-    }
-    
-    /* Better spacing for mobile content */
-    .modal-content {
-        padding: 1rem;
-    }
-    
-    /* Ensure text is readable on small screens */
-    .modal-text {
-        font-size: 0.875rem;
-        line-height: 1.5;
-    }
-    
-    /* Improve image sizing on mobile */
-    .modal-hero-image {
-        height: 12rem;
-        object-fit: cover;
-    }
-    
-    /* Better spacing for key points on mobile */
-    .key-points-container {
-        gap: 0.75rem;
-    }
-    
-    .key-point-item {
-        gap: 0.5rem;
-    }
-    
-    /* External close button styling for mobile */
-    .modal-close-button {
-        position: fixed;
-        top: 1rem;
-        right: 1rem;
-        z-index: 60;
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(8px);
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        min-height: 44px;
-        min-width: 44px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
+.ql-align-center {
+  text-align: center;
 }
-
-/* Extra small screens (phones in portrait) */
-@media (max-width: 375px) {
-    .modal-container {
-        margin: 0.25rem;
-        max-width: calc(100vw - 0.5rem);
-    }
-    
-    .modal-content {
-        padding: 0.75rem;
-    }
-    
-    .modal-hero-image {
-        height: 10rem;
-    }
-    
-    /* Extra spacing for very small screens */
-    .modal-header-content {
-        padding-right: 3.5rem; /* Slightly less space on very small screens */
-    }
-    
-    .modal-close-button {
-        top: 0.75rem;
-        right: 0.75rem;
-        padding: 0.5rem;
-    }
-}
-
-/* Landscape orientation on mobile */
-@media (max-height: 500px) and (orientation: landscape) {
-    .modal-body {
-        max-height: 60vh;
-    }
-    
-    .modal-hero-image {
-        height: 8rem;
-    }
+.ql-direction-rtl {
+  direction: rtl;
 }

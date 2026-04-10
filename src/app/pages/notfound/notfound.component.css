@@ -1,0 +1,134 @@
+.notfound-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f7f4;
+  padding: 2rem 1rem;
+  direction: rtl;
+}
+
+.notfound-card {
+  text-align: center;
+  max-width: 520px;
+  width: 100%;
+  padding: 3rem 2rem;
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid #e8e2d4;
+  box-shadow: 0 4px 32px rgba(6, 25, 51, 0.07);
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.notfound-code {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.num {
+  font-size: 7rem;
+  font-weight: 700;
+  color: #061933;
+  line-height: 1;
+  font-family: "Montserrat", sans-serif;
+}
+
+.gavel-icon {
+  width: 90px;
+  height: 90px;
+}
+
+.divider {
+  width: 60px;
+  height: 3px;
+  background: #b3a16c;
+  border-radius: 2px;
+  margin: 0 auto 1.5rem;
+}
+
+.notfound-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #061933;
+  margin-bottom: 0.75rem;
+}
+
+.notfound-sub {
+  font-size: 1rem;
+  color: #5a6a7e;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+}
+
+.notfound-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  display: inline-block;
+  padding: 0.65rem 1.75rem;
+  background: #061933;
+  color: #fff;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    background 0.2s,
+    transform 0.15s;
+}
+.btn-primary:hover {
+  background: #0c2d55;
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  display: inline-block;
+  padding: 0.65rem 1.75rem;
+  background: transparent;
+  color: #061933;
+  border: 1.5px solid #b3a16c;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    transform 0.15s;
+}
+.btn-outline:hover {
+  background: #b3a16c;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 480px) {
+  .num {
+    font-size: 5rem;
+  }
+  .gavel-icon {
+    width: 65px;
+    height: 65px;
+  }
+  .notfound-card {
+    padding: 2rem 1.25rem;
+  }
+}

@@ -21,7 +21,6 @@ export interface ApiMember {
   specializations: string[];
   status: 'active' | 'inactive';
   displayOrder: number;
-  // الـ API ممكن يرجع الصورة بأي اسم
   photo?: string;
   imageUrl?: string;
   image?: string;
@@ -96,37 +95,56 @@ export class TeamDataService {
   readonly UPLOADS_URL = 'http://76.13.43.147:5000/uploads/members';
 
   private membersSubject = new BehaviorSubject<Section[]>([]);
+  private loaded = false;
+
   members$ = this.membersSubject.asObservable();
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
-    if (isPlatformBrowser(this.platformId)) {
-      this.loadAll();
-    }
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
+  initForWebsite(): void {
+    if (!isPlatformBrowser(this.platformId) || this.loaded) return;
+    this.loaded = true;
+    this.loadAll();
   }
 
   private loadAll(): void {
+    this.fetchAllPages(1, []);
+  }
+
+  private fetchAllPages(page: number, accumulated: Section[]): void {
     this.http
-      .get<MembersListResponse>(`${this.BASE_URL}/members?limit=100`)
+      .get<MembersListResponse>(
+        `${this.BASE_URL}/members?page=${page}&limit=100&sort=displayOrder`,
+      )
       .pipe(
-        map((res) => res.data.map((m) => this.toSection(m))),
         catchError((err) => {
           console.error('TeamDataService: loadAll failed', err);
-          return of([]);
+          return of(null);
         }),
-        tap((members) => this.membersSubject.next(members)),
       )
-      .subscribe();
+      .subscribe((res) => {
+        if (!res) {
+          this.membersSubject.next(accumulated);
+          return;
+        }
+        const all = [...accumulated, ...res.data.map((m) => this.toSection(m))];
+        if (page < res.totalPages) {
+          this.fetchAllPages(page + 1, all);
+        } else {
+          this.membersSubject.next(all);
+        }
+      });
   }
 
   buildImageUrl(m: ApiMember): string {
     const fromApi = m.photo || m.imageUrl || m.image || '';
-
     if (fromApi.startsWith('http')) return fromApi;
     if (fromApi)
       return `http://76.13.43.147:5000${fromApi.startsWith('/') ? '' : '/'}${fromApi}`;
     if (m.member_id) return `${this.UPLOADS_URL}/${m.member_id}.png`;
     return '';
   }
+
   private toSection(m: ApiMember): Section {
     return {
       _id: m._id,
@@ -154,11 +172,21 @@ export class TeamDataService {
   // ─── Public: Website ───
 
   getTeamMembersObservable(): Observable<Section[]> {
-    return this.members$;
+    this.initForWebsite();
+    return this.members$.pipe(
+      map((members) =>
+        members
+          .filter((m) => m.status === 'active')
+          .sort((a, b) => a.displayOrder - b.displayOrder),
+      ),
+    );
   }
 
   getTeamMembers(): Section[] {
-    return this.membersSubject.getValue();
+    return this.membersSubject
+      .getValue()
+      .filter((m) => m.status === 'active')
+      .sort((a, b) => a.displayOrder - b.displayOrder);
   }
 
   getMemberById(id: string): Observable<Section | undefined> {
@@ -190,7 +218,10 @@ export class TeamDataService {
       .post<MemberResponse>(`${this.BASE_URL}/members`, data)
       .pipe(
         map((res) => res.data),
-        tap(() => this.loadAll()),
+        tap((newMember) => {
+          const current = this.membersSubject.getValue();
+          this.membersSubject.next([...current, this.toSection(newMember)]);
+        }),
       );
   }
 
@@ -199,13 +230,21 @@ export class TeamDataService {
       .patch<MemberResponse>(`${this.BASE_URL}/members/${id}`, data)
       .pipe(
         map((res) => res.data),
-        tap(() => this.loadAll()),
+        tap((updated) => {
+          const current = this.membersSubject.getValue();
+          this.membersSubject.next(
+            current.map((m) => (m._id === id ? this.toSection(updated) : m)),
+          );
+        }),
       );
   }
 
   deleteMember(id: string): Observable<void> {
-    return this.http
-      .delete<void>(`${this.BASE_URL}/members/${id}`)
-      .pipe(tap(() => this.loadAll()));
+    return this.http.delete<void>(`${this.BASE_URL}/members/${id}`).pipe(
+      tap(() => {
+        const current = this.membersSubject.getValue();
+        this.membersSubject.next(current.filter((m) => m._id !== id));
+      }),
+    );
   }
 }

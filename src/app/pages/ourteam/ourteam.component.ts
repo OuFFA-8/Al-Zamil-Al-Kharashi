@@ -80,7 +80,12 @@ export class OurteamComponent implements OnInit, OnDestroy {
   }
 
   onImageError(event: Event): void {
-    (event.target as HTMLImageElement).src = '/images/1.jpg';
+    const img = event.target as HTMLImageElement;
+    img.onerror = null; // ✅ امنع الـ infinite loop
+    img.style.display = 'none'; // أخبي الصورة المكسورة
+    // أظهر الـ fallback avatar اللي جنبها
+    const fallback = img.nextElementSibling as HTMLElement;
+    if (fallback) fallback.style.display = 'flex';
   }
 
   get isArabic(): boolean {

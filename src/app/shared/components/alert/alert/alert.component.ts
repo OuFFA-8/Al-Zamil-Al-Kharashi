@@ -13,7 +13,67 @@ import {
     <div class="alert-stack">
       @for (alert of alertSvc.alerts$ | async; track alert.id) {
         <div class="al al-{{ alert.type }}" [class.closing]="alert.closing">
-          <span class="al-icon" [innerHTML]="icon(alert.type)"></span>
+          <span class="al-icon">
+            @switch (alert.type) {
+              @case ('error') {
+                <svg
+                  width="17"
+                  height="17"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="8" x2="12" y2="12" />
+                  <circle cx="12" cy="16" r=".5" fill="currentColor" />
+                </svg>
+              }
+              @case ('success') {
+                <svg
+                  width="17"
+                  height="17"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="9 11 12 14 22 4" />
+                </svg>
+              }
+              @case ('warning') {
+                <svg
+                  width="17"
+                  height="17"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+                  />
+                  <line x1="12" y1="9" x2="12" y2="13" />
+                  <circle cx="12" cy="17" r=".5" fill="currentColor" />
+                </svg>
+              }
+              @default {
+                <svg
+                  width="17"
+                  height="17"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="16" x2="12" y2="12" />
+                  <circle cx="12" cy="8" r=".5" fill="currentColor" />
+                </svg>
+              }
+            }
+          </span>
           <div class="al-body">
             <p class="al-title">{{ alert.title }}</p>
             @if (alert.message) {
@@ -94,7 +154,6 @@ import {
         width: 360px;
         max-width: calc(100vw - 40px);
       }
-
       .al {
         display: flex;
         align-items: flex-start;
@@ -116,7 +175,6 @@ import {
         animation: alOut 0.35s ease both;
         pointer-events: none;
       }
-
       .al-icon {
         width: 17px;
         height: 17px;

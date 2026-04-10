@@ -57,8 +57,7 @@ export class TeamManagementComponent implements OnInit {
   selectedFile: File | null = null;
 
   ngOnInit(): void {
-    this.loadMembers();
-    this.loadStats();
+    this.reload();
   }
 
   emptyForm(): MemberForm {
@@ -145,6 +144,11 @@ export class TeamManagementComponent implements OnInit {
       next: (data) => (this.stats = data),
       error: () => {},
     });
+  }
+
+  reload(): void {
+    this.loadMembers();
+    this.loadStats();
   }
 
   get filteredMembers(): any[] {
@@ -265,8 +269,7 @@ export class TeamManagementComponent implements OnInit {
             ? 'تم تحديث بيانات العضو بنجاح'
             : 'تمت إضافة العضو إلى الفريق',
         );
-        this.loadMembers();
-        this.loadStats();
+        this.reload();
       },
       error: (err: any) => {
         this.savingMember = false;
@@ -283,8 +286,7 @@ export class TeamManagementComponent implements OnInit {
     this.teamService.deleteMember(member._id).subscribe({
       next: () => {
         this.alertSvc.success('تم الحذف', `تم حذف "${member.name_ar}" بنجاح`);
-        this.loadMembers();
-        this.loadStats();
+        this.reload();
       },
       error: (err: any) => {
         this.alertSvc.error(
