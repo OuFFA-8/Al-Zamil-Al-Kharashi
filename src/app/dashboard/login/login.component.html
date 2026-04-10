@@ -1,54 +1,101 @@
 <div class="login-page">
   <div class="login-card">
-    <div class="login-logo">
-      <div class="logo-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-        </svg>
-      </div>
-      <div>
-        <div class="logo-title">ZK Legal</div>
-        <div class="logo-sub">Admin Panel</div>
-      </div>
+    <div class="logo-wrap">
+      <img src="/images/new-white-logo.png" alt="ZK Legal" class="logo-img" />
     </div>
 
-    <h2 class="login-heading">Welcome back</h2>
-    <p class="login-sub">Sign in to your admin account</p>
+    <div class="gold-divider"></div>
+
+    <h1 class="card-title">تسجيل الدخول</h1>
+    <p class="card-sub">أدخل بياناتك للمتابعة</p>
 
     <div *ngIf="error" class="error-alert">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <line x1="12" y1="8" x2="12" y2="12" />
+        <line x1="12" y1="16" x2="12.01" y2="16" />
+      </svg>
       {{ error }}
     </div>
 
     <div class="form-group">
-      <label>Email</label>
+      <label>البريد الإلكتروني</label>
       <input
         type="email"
         [(ngModel)]="credentials.email"
         placeholder="admin@zklegal.com"
         (keyup.enter)="login()"
-      >
+      />
     </div>
 
     <div class="form-group">
-      <label>Password</label>
+      <label>كلمة المرور</label>
       <div class="password-wrap">
         <input
           [type]="showPassword ? 'text' : 'password'"
           [(ngModel)]="credentials.password"
           placeholder="••••••••"
           (keyup.enter)="login()"
+        />
+        <button
+          class="eye-btn"
+          (click)="showPassword = !showPassword"
+          type="button"
         >
-        <button class="eye-btn" (click)="showPassword = !showPassword" type="button">
-          <svg *ngIf="!showPassword" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-          <svg *ngIf="showPassword" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          <svg
+            *ngIf="!showPassword"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
+          <svg
+            *ngIf="showPassword"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"
+            />
+            <line x1="1" y1="1" x2="23" y2="23" />
+          </svg>
         </button>
       </div>
     </div>
 
     <button class="btn-login" (click)="login()" [disabled]="loading">
-      <span *ngIf="!loading">Sign In</span>
+      <span *ngIf="!loading">دخول</span>
       <span *ngIf="loading" class="spinner"></span>
     </button>
+
+    <a routerLink="/home" class="back-link">
+      <svg
+        width="13"
+        height="13"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="M19 12H5M12 19l-7-7 7-7" />
+      </svg>
+      العودة للموقع
+    </a>
   </div>
 </div>
