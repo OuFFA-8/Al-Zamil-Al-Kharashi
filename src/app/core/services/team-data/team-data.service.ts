@@ -120,7 +120,6 @@ export class TeamDataService {
 
   buildImageUrl(m: ApiMember): string {
     const fromApi = m.photo || m.imageUrl || m.image || '';
-    console.log('photo field:', fromApi); // ← شوف إيه اللي بييجي
 
     if (fromApi.startsWith('http')) return fromApi;
     if (fromApi)

@@ -56,9 +56,10 @@ export class EventsComponent implements OnInit, OnDestroy {
   isModalOpen = signal<boolean>(false);
 
   ngOnInit(): void {
-    // لما اللغة تتغير → refresh البلوجز
+    this.loading = true;
+
     this.subscription.add(
-      this.translateService.onLangChange.subscribe((e: LangChangeEvent) => {
+      this.translateService.onLangChange.subscribe(() => {
         this.eventService.refresh();
       }),
     );
@@ -69,6 +70,9 @@ export class EventsComponent implements OnInit, OnDestroy {
         this.loading = false;
       }),
     );
+
+    // force refresh عند فتح الصفحة
+    this.eventService.refresh();
   }
 
   ngOnDestroy(): void {

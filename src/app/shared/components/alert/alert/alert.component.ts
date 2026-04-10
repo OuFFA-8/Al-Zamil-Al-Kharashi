@@ -84,10 +84,15 @@ import {
       }
 
       .alert-stack {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 99999;
         display: flex;
         flex-direction: column;
         gap: 8px;
-        margin-bottom: 16px;
+        width: 360px;
+        max-width: calc(100vw - 40px);
       }
 
       .al {

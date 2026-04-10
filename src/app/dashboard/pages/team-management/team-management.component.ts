@@ -243,7 +243,9 @@ export class TeamManagementComponent implements OnInit {
     fd.append('bio_text_en', this.form.bio_text_en);
     fd.append('email', this.form.email);
     fd.append('phone', this.form.phone);
-    fd.append('website', this.form.website);
+    if (this.form.website && this.form.website.trim()) {
+      fd.append('website', this.form.website.trim());
+    }
     fd.append('status', this.form.status);
     fd.append('displayOrder', this.form.displayOrder.toString());
     this.form.specializations.forEach((s) => fd.append('specializations', s));

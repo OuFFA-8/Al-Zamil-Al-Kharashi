@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -8,6 +8,8 @@ import {
 import { AlertService } from '../../services/alert.service';
 import { TranslatePipe } from '@ngx-translate/core';
 
+declare const Quill: any;
+
 @Component({
   selector: 'app-events-management',
   standalone: true,
@@ -15,7 +17,7 @@ import { TranslatePipe } from '@ngx-translate/core';
   templateUrl: './events-management.component.html',
   styleUrls: ['./events-management.component.css'],
 })
-export class EventsManagementComponent implements OnInit {
+export class EventsManagementComponent implements OnInit, OnDestroy {
   private svc = inject(EventDataService);
   private alertSvc = inject(AlertService);
 
@@ -23,7 +25,6 @@ export class EventsManagementComponent implements OnInit {
 
   blogs: ApiBlog[] = [];
   loading = false;
-  error = '';
   currentPage = 1;
   pageSize = 10;
   totalPages = 1;
@@ -35,6 +36,7 @@ export class EventsManagementComponent implements OnInit {
   isEditing = false;
   savingBlog = false;
   editingId = '';
+  activeTab: 'ar' | 'en' | 'settings' = 'ar';
 
   showPreview = false;
   previewBlog: ApiBlog | null = null;
@@ -44,8 +46,24 @@ export class EventsManagementComponent implements OnInit {
   existingImageUrl = '';
   selectedFile: File | null = null;
 
+  private editors: Record<string, any> = {};
+
+  private readonly TOOLBAR = [
+    [{ header: [1, 2, 3, false] }],
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ color: [] }, { background: [] }],
+    [{ align: [] }],
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    ['blockquote', 'code-block'],
+    ['link'],
+    ['clean'],
+  ];
+
   ngOnInit(): void {
     this.loadBlogs();
+  }
+  ngOnDestroy(): void {
+    this.editors = {};
   }
 
   emptyForm() {
@@ -85,10 +103,7 @@ export class EventsManagementComponent implements OnInit {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (!file) return;
     if (file.size > 5 * 1024 * 1024) {
-      this.alertSvc.warning(
-        'الصورة كبيرة جداً',
-        'الحد الأقصى لحجم الصورة هو 5MB',
-      );
+      this.alertSvc.warning('الصورة كبيرة جداً', 'الحد الأقصى 5MB');
       return;
     }
     this.selectedFile = file;
@@ -109,7 +124,6 @@ export class EventsManagementComponent implements OnInit {
 
   loadBlogs(): void {
     this.loading = true;
-    this.error = '';
     this.svc
       .getBlogs(
         this.currentPage,
@@ -138,11 +152,9 @@ export class EventsManagementComponent implements OnInit {
     this.currentPage = 1;
     this.loadBlogs();
   }
-
   get pages(): number[] {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
-
   goToPage(p: number): void {
     if (p < 1 || p > this.totalPages) return;
     this.currentPage = p;
@@ -156,7 +168,10 @@ export class EventsManagementComponent implements OnInit {
     this.selectedFile = null;
     this.isEditing = false;
     this.editingId = '';
+    this.activeTab = 'ar';
+    this.editors = {};
     this.showModal = true;
+    setTimeout(() => this.initTab('ar'), 150);
   }
 
   openEdit(blog: ApiBlog): void {
@@ -177,7 +192,10 @@ export class EventsManagementComponent implements OnInit {
     this.existingImageUrl = this.getBlogImageUrl(blog);
     this.isEditing = true;
     this.editingId = blog._id;
+    this.activeTab = 'ar';
+    this.editors = {};
     this.showModal = true;
+    setTimeout(() => this.initTab('ar'), 150);
   }
 
   openPreview(blog: ApiBlog): void {
@@ -185,18 +203,113 @@ export class EventsManagementComponent implements OnInit {
     this.showPreview = true;
   }
 
+  closeModal(): void {
+    this.showModal = false;
+    this.editors = {};
+  }
+
+  onTabChange(tab: 'ar' | 'en' | 'settings'): void {
+    // حفظ الـ content الحالي قبل التغيير
+    this.saveCurrentEditors();
+    this.activeTab = tab;
+    if (tab !== 'settings') {
+      setTimeout(() => this.initTab(tab), 100);
+    }
+  }
+
+  private saveCurrentEditors(): void {
+    if (this.editors['desc-ar'])
+      this.form.description_ar = this.editors['desc-ar'].root.innerHTML;
+    if (this.editors['content-ar'])
+      this.form.content_ar = this.editors['content-ar'].root.innerHTML;
+    if (this.editors['desc-en'])
+      this.form.description_en = this.editors['desc-en'].root.innerHTML;
+    if (this.editors['content-en'])
+      this.form.content_en = this.editors['content-en'].root.innerHTML;
+  }
+
+  private async initTab(tab: 'ar' | 'en'): Promise<void> {
+    await this.loadQuillScript();
+
+    const ids =
+      tab === 'ar'
+        ? [
+            {
+              id: 'quill-desc-ar',
+              key: 'desc-ar',
+              val: () => this.form.description_ar,
+              rtl: true,
+            },
+            {
+              id: 'quill-content-ar',
+              key: 'content-ar',
+              val: () => this.form.content_ar,
+              rtl: true,
+            },
+          ]
+        : [
+            {
+              id: 'quill-desc-en',
+              key: 'desc-en',
+              val: () => this.form.description_en,
+              rtl: false,
+            },
+            {
+              id: 'quill-content-en',
+              key: 'content-en',
+              val: () => this.form.content_en,
+              rtl: false,
+            },
+          ];
+
+    for (const { id, key, val, rtl } of ids) {
+      const el = document.getElementById(id);
+      if (!el) continue;
+
+      // امسح الـ Quill القديم خالص
+      delete this.editors[key];
+      el.innerHTML = '';
+
+      const q = new Quill(`#${id}`, {
+        theme: 'snow',
+        modules: { toolbar: this.TOOLBAR },
+      });
+      if (rtl) {
+        q.root.setAttribute('dir', 'rtl');
+        q.root.style.textAlign = 'right';
+      }
+      const content = val();
+      if (content) q.root.innerHTML = content;
+      this.editors[key] = q;
+    }
+  }
+
+  private loadQuillScript(): Promise<void> {
+    return new Promise((resolve) => {
+      if (typeof Quill !== 'undefined') {
+        resolve();
+        return;
+      }
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href =
+        'https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.snow.min.css';
+      document.head.appendChild(link);
+      const script = document.createElement('script');
+      script.src =
+        'https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.min.js';
+      script.onload = () => resolve();
+      document.head.appendChild(script);
+    });
+  }
+
   saveModal(): void {
+    this.saveCurrentEditors();
+
     if (!this.form.title_ar.trim() || !this.form.title_en.trim()) {
       this.alertSvc.error(
         'حقول مطلوبة',
         'يرجى إدخال عنوان المقال بالعربي والإنجليزي',
-      );
-      return;
-    }
-    if (!this.form.content_ar.trim() || !this.form.content_en.trim()) {
-      this.alertSvc.error(
-        'حقول مطلوبة',
-        'يرجى إدخال محتوى المقال بالعربي والإنجليزي',
       );
       return;
     }
@@ -213,10 +326,7 @@ export class EventsManagementComponent implements OnInit {
     fd.append('category_en', this.form.category_en);
     fd.append('status', this.form.status);
     fd.append('publishedDate', this.form.publishedDate);
-    if (this.selectedFile) {
-      fd.append(this.isEditing ? 'image' : 'featureImage', this.selectedFile);
-    }
-
+    if (this.selectedFile) fd.append('image', this.selectedFile);
     const obs = this.isEditing
       ? this.svc.updateBlog(this.editingId, fd)
       : this.svc.createBlog(fd);
@@ -225,6 +335,10 @@ export class EventsManagementComponent implements OnInit {
       next: () => {
         this.savingBlog = false;
         this.showModal = false;
+        this.editors = {};
+        this.filterStatus = '';
+        this.currentPage = 1;
+        this.svc.refresh();
         this.alertSvc.success(
           this.isEditing ? 'تم التحديث' : 'تمت الإضافة',
           this.isEditing ? 'تم تحديث المقال بنجاح' : 'تمت إضافة المقال بنجاح',
@@ -254,9 +368,8 @@ export class EventsManagementComponent implements OnInit {
         );
         this.loadBlogs();
       },
-      error: (err: any) => {
-        this.alertSvc.error('فشل العملية', err.error?.message || 'حدث خطأ');
-      },
+      error: (err: any) =>
+        this.alertSvc.error('فشل العملية', err.error?.message || 'حدث خطأ'),
     });
   }
 
@@ -267,12 +380,11 @@ export class EventsManagementComponent implements OnInit {
         this.alertSvc.success('تم الحذف', `تم حذف "${blog.title_ar}" بنجاح`);
         this.loadBlogs();
       },
-      error: (err: any) => {
+      error: (err: any) =>
         this.alertSvc.error(
           'فشل الحذف',
           err.error?.message || 'حدث خطأ أثناء الحذف',
-        );
-      },
+        ),
     });
   }
 
