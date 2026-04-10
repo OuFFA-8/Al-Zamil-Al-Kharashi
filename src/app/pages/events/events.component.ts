@@ -70,8 +70,6 @@ export class EventsComponent implements OnInit, OnDestroy {
         this.loading = false;
       }),
     );
-
-    // force refresh عند فتح الصفحة
     this.eventService.refresh();
   }
 

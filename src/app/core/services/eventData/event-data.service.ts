@@ -17,8 +17,8 @@ export interface ApiBlog {
   author: string;
   status: 'published' | 'draft';
   publishedDate: string;
-  featureImage?: string; // ← الاسم الحقيقي
-  photo?: string; // ← احتياطي
+  featureImage?: string;
+  photo?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -65,6 +65,8 @@ export class EventDataService {
   readonly BASE_URL = 'http://76.13.43.147:5000/api/v1';
   readonly SERVER_URL = 'http://76.13.43.147:5000';
 
+  // ✅ cache كامل للبيانات (published + draft) للداشبورد
+  private allBlogsSubject = new BehaviorSubject<ApiBlog[]>([]);
   private workItemsSubject = new BehaviorSubject<WorkItem[]>([]);
 
   constructor(
@@ -76,7 +78,6 @@ export class EventDataService {
     }
   }
 
-  // ← يقرأ featureImage أولاً ثم photo احتياطاً
   private getImageUrl(blog: ApiBlog): string {
     const raw = blog.featureImage || blog.photo || '';
     if (!raw) return '/images/event.webp';
@@ -113,23 +114,35 @@ export class EventDataService {
     };
   }
 
-  private loadEvents(): void {
+  // ✅ يحدث الـ workItems من الـ allBlogs cache
+  private syncWorkItems(): void {
     const lang =
       (typeof window !== 'undefined' && localStorage.getItem('lang')) || 'ar';
+    const published = this.allBlogsSubject
+      .getValue()
+      .filter((b) => b.status === 'published');
+    this.workItemsSubject.next(published.map((b) => this.toWorkItem(b, lang)));
+  }
+
+  private loadEvents(): void {
     this.http
       .get<BlogsListResponse>(
-        `${this.BASE_URL}/blogs?limit=100&status=published&sort=-createdAt`,
+        `${this.BASE_URL}/blogs?limit=100&sort=-createdAt`,
       )
       .pipe(
-        map((res) => res.data.map((b) => this.toWorkItem(b, lang))),
+        map((res) => res.data),
         catchError((err) => {
           console.error('EventDataService: failed to load blogs', err);
-          return of(this.getStaticFallback());
+          return of([] as ApiBlog[]);
         }),
-        tap((items) => this.workItemsSubject.next(items)),
       )
-      .subscribe();
+      .subscribe((blogs) => {
+        this.allBlogsSubject.next(blogs);
+        this.syncWorkItems();
+      });
   }
+
+  // ─── Public: Website ───
 
   getEventsObservable(): Observable<WorkItem[]> {
     return this.workItemsSubject.asObservable();
@@ -150,6 +163,8 @@ export class EventDataService {
     this.loadEvents();
   }
 
+  // ─── Public: Dashboard ───
+
   getBlogs(
     page = 1,
     limit = 10,
@@ -162,28 +177,46 @@ export class EventDataService {
     return this.http.get<BlogsListResponse>(url);
   }
 
+  // ✅ بعد create — نضيف للـ cache مباشرة
   createBlog(data: FormData): Observable<ApiBlog> {
     return this.http.post<BlogResponse>(`${this.BASE_URL}/blogs`, data).pipe(
       map((r) => r.data),
-      tap(() => this.loadEvents()),
+      tap((newBlog) => {
+        const current = this.allBlogsSubject.getValue();
+        this.allBlogsSubject.next([newBlog, ...current]);
+        this.syncWorkItems();
+      }),
     );
   }
 
+  // ✅ بعد update — نحدث العنصر في الـ cache
   updateBlog(id: string, data: FormData): Observable<ApiBlog> {
     return this.http
       .patch<BlogResponse>(`${this.BASE_URL}/blogs/${id}`, data)
       .pipe(
         map((r) => r.data),
-        tap(() => this.loadEvents()),
+        tap((updated) => {
+          const current = this.allBlogsSubject.getValue();
+          this.allBlogsSubject.next(
+            current.map((b) => (b._id === id ? updated : b)),
+          );
+          this.syncWorkItems();
+        }),
       );
   }
 
+  // ✅ بعد delete — نشيله من الـ cache
   deleteBlog(id: string): Observable<void> {
-    return this.http
-      .delete<void>(`${this.BASE_URL}/blogs/${id}`)
-      .pipe(tap(() => this.loadEvents()));
+    return this.http.delete<void>(`${this.BASE_URL}/blogs/${id}`).pipe(
+      tap(() => {
+        const current = this.allBlogsSubject.getValue();
+        this.allBlogsSubject.next(current.filter((b) => b._id !== id));
+        this.syncWorkItems();
+      }),
+    );
   }
 
+  // ✅ publish — نحدث الـ status في الـ cache
   publishBlog(id: string): Observable<ApiBlog> {
     const fd = new FormData();
     fd.append('status', 'published');
@@ -191,42 +224,29 @@ export class EventDataService {
       .patch<BlogResponse>(`${this.BASE_URL}/blogs/${id}`, fd)
       .pipe(
         map((r) => r.data),
-        tap(() => this.loadEvents()),
+        tap((updated) => {
+          const current = this.allBlogsSubject.getValue();
+          this.allBlogsSubject.next(
+            current.map((b) => (b._id === id ? updated : b)),
+          );
+          this.syncWorkItems();
+        }),
       );
   }
 
+  // ✅ unpublish — نحدث الـ status في الـ cache
   unpublishBlog(id: string): Observable<ApiBlog> {
     return this.http
       .patch<BlogResponse>(`${this.BASE_URL}/blogs/${id}/unpublish`, {})
       .pipe(
         map((r) => r.data),
-        tap(() => this.loadEvents()),
+        tap((updated) => {
+          const current = this.allBlogsSubject.getValue();
+          this.allBlogsSubject.next(
+            current.map((b) => (b._id === id ? updated : b)),
+          );
+          this.syncWorkItems();
+        }),
       );
-  }
-
-  private getStaticFallback(): WorkItem[] {
-    return [
-      {
-        _id: '1',
-        imageUrl: '/images/event.webp',
-        date: 'event.item1.date',
-        category: 'event.item1.category',
-        title: 'event.item1.title',
-        description: 'event.item1.description',
-        content: '',
-        titleAr: '',
-        titleEn: '',
-        descriptionAr: '',
-        descriptionEn: '',
-        contentAr: '',
-        contentEn: '',
-        categoryAr: '',
-        categoryEn: '',
-        status: 'published',
-        author: '',
-        publishedDate: '',
-        createdAt: '',
-      },
-    ];
   }
 }
