@@ -91,8 +91,8 @@ export interface MembersStatsResponse {
 export class TeamDataService {
   private http = inject(HttpClient);
 
-  readonly BASE_URL = 'http://76.13.43.147:5000/api/v1';
-  readonly UPLOADS_URL = 'http://76.13.43.147:5000/uploads/members';
+  readonly BASE_URL = 'http://api.zk-legal.com/api/v1';
+  readonly UPLOADS_URL = 'http://api.zk-legal.com/uploads/members';
 
   private membersSubject = new BehaviorSubject<Section[]>([]);
   private loaded = false;
@@ -140,7 +140,7 @@ export class TeamDataService {
     const fromApi = m.photo || m.imageUrl || m.image || '';
     if (fromApi.startsWith('http')) return fromApi;
     if (fromApi)
-      return `http://76.13.43.147:5000${fromApi.startsWith('/') ? '' : '/'}${fromApi}`;
+      return `http://api.zk-legal.com${fromApi.startsWith('/') ? '' : '/'}${fromApi}`;
     if (m.member_id) return `${this.UPLOADS_URL}/${m.member_id}.png`;
     return '';
   }

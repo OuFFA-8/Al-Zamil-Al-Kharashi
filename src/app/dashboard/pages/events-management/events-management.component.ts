@@ -21,7 +21,7 @@ export class EventsManagementComponent implements OnInit, OnDestroy {
   private svc = inject(EventDataService);
   private alertSvc = inject(AlertService);
 
-  readonly SERVER_URL = 'http://76.13.43.147:5000';
+  readonly SERVER_URL = 'http://api.zk-legal.com';
 
   blogs: ApiBlog[] = [];
   loading = false;

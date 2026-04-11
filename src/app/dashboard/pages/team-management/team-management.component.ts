@@ -33,7 +33,7 @@ export class TeamManagementComponent implements OnInit {
   private teamService = inject(TeamDataService);
   private alertSvc = inject(AlertService);
 
-  readonly SERVER_URL = 'http://76.13.43.147:5000';
+  readonly SERVER_URL = 'http://api.zk-legal.com';
 
   members: any[] = [];
   loading = false;
