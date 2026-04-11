@@ -67,7 +67,6 @@ export class OurteamComponent implements OnInit, OnDestroy {
             }));
           }
           this.loading = false;
-          console.log('تم تحميل الأعضاء بنجاح:', this.teamMembers);
         },
         error: (err) => {
           console.error('خطأ في التحميل:', err);
