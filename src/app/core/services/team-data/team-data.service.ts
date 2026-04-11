@@ -215,9 +215,12 @@ export class TeamDataService {
       .pipe(map((res) => res.data));
   }
 
-  createMember(data: FormData): Observable<ApiMember> {
+  createMember(data: any): Observable<ApiMember> {
+    // تنظيف البيانات وتحويلها هنا
+    const cleanFormData = this.convertToFormData(data);
+
     return this.http
-      .post<MemberResponse>(`${this.BASE_URL}/members`, data)
+      .post<MemberResponse>(`${this.BASE_URL}/members`, cleanFormData)
       .pipe(
         map((res) => res.data),
         tap((newMember) => {
@@ -227,9 +230,12 @@ export class TeamDataService {
       );
   }
 
-  updateMember(id: string, data: FormData): Observable<ApiMember> {
+  updateMember(id: string, data: any): Observable<ApiMember> {
+    // نفس الشيء هنا
+    const cleanFormData = this.convertToFormData(data);
+
     return this.http
-      .patch<MemberResponse>(`${this.BASE_URL}/members/${id}`, data)
+      .patch<MemberResponse>(`${this.BASE_URL}/members/${id}`, cleanFormData)
       .pipe(
         map((res) => res.data),
         tap((updated) => {
@@ -248,5 +254,24 @@ export class TeamDataService {
         this.membersSubject.next(current.filter((m) => m._id !== id));
       }),
     );
+  }
+  private convertToFormData(rawData: any): FormData {
+    const formData = new FormData();
+
+    Object.keys(rawData).forEach((key) => {
+      const value = rawData[key];
+      // نتحقق أن القيمة ليست (نص فارغ، null، أو undefined)
+      // بنسيب الـ 0 والـ false عشان لو قيم منطقية مهمة
+      if (value !== '' && value !== null && value !== undefined) {
+        // لو القيمة مصفوفة (مثل صور متعددة)
+        if (Array.isArray(value)) {
+          value.forEach((item) => formData.append(key, item));
+        } else {
+          formData.append(key, value);
+        }
+      }
+    });
+
+    return formData;
   }
 }
