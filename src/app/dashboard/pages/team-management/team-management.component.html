@@ -147,217 +147,115 @@
         {{ "team_mgmt.loading" | translate }}
       </div>
     } @else {
-      <!-- Desktop Table -->
-      <div class="table-wrap desktop-only">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>{{ "team_mgmt.col_member" | translate }}</th>
-              <th>{{ "team_mgmt.col_title" | translate }}</th>
-              <th>{{ "team_mgmt.col_specs" | translate }}</th>
-              <th>{{ "team_mgmt.col_contact" | translate }}</th>
-              <th>{{ "team_mgmt.col_status" | translate }}</th>
-              <th>{{ "team_mgmt.col_order" | translate }}</th>
-              <th>{{ "team_mgmt.col_actions" | translate }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (member of filteredMembers; track member._id; let i = $index) {
-              <tr class="member-row" [style.animation-delay]="i * 0.06 + 's'">
-                <td>
-                  <div class="member-avatar-wrap">
-                    <div class="member-avatar-img-wrap">
-                      <img
-                        [src]="getMemberImageUrl(member)"
-                        [alt]="member.name_en"
-                        class="member-photo"
-                        (error)="onImgError($event)"
-                      />
-                      <div class="member-avatar">{{ member.name_en[0] }}</div>
+      @if (!isMobile()) {
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>{{ "team_mgmt.col_member" | translate }}</th>
+                <th>{{ "team_mgmt.col_title" | translate }}</th>
+                <th>{{ "team_mgmt.col_specs" | translate }}</th>
+                <th>{{ "team_mgmt.col_contact" | translate }}</th>
+                <th>{{ "team_mgmt.col_status" | translate }}</th>
+                <th>{{ "team_mgmt.col_order" | translate }}</th>
+                <th>{{ "team_mgmt.col_actions" | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (
+                member of filteredMembers;
+                track member._id;
+                let i = $index
+              ) {
+                <tr class="member-row" [style.animation-delay]="i * 0.06 + 's'">
+                  <td>
+                    <div class="member-avatar-wrap">
+                      <div class="member-avatar-img-wrap">
+                        <img
+                          [src]="getMemberImageUrl(member)"
+                          class="member-photo"
+                          (error)="onImgError($event)"
+                        />
+                        <div class="member-avatar">{{ member.name_en[0] }}</div>
+                      </div>
+                      <div class="member-info">
+                        <div class="member-name">{{ member.name_ar }}</div>
+                        <div class="member-name-en">{{ member.name_en }}</div>
+                      </div>
                     </div>
-                    <div class="member-info">
-                      <div class="member-name">{{ member.name_ar }}</div>
-                      <div class="member-name-en">{{ member.name_en }}</div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <div class="member-pos">{{ member.title_ar }}</div>
-                  <div class="member-pos-en">{{ member.title_en }}</div>
-                </td>
-                <td>
-                  <div class="spec-tags">
+                  </td>
+                  <td>{{ member.title_ar }}</td>
+                  <td>
                     @for (s of member.specializations.slice(0, 2); track s) {
                       <span class="spec-tag">{{ s }}</span>
                     }
-                    @if (member.specializations.length > 2) {
-                      <span class="spec-more"
-                        >+{{ member.specializations.length - 2 }}</span
-                      >
-                    }
-                  </div>
-                </td>
-                <td>
-                  <div class="contact-info">
-                    <span class="contact-email">{{ member.email }}</span>
-                    <span class="contact-phone">{{ member.phone }}</span>
-                  </div>
-                </td>
-                <td>
-                  <span
-                    class="badge-status"
-                    [class.badge-active]="member.status === 'active'"
-                    [class.badge-inactive]="member.status === 'inactive'"
-                  >
-                    {{
-                      (member.status === "active"
-                        ? "team_mgmt.status_active"
-                        : "team_mgmt.status_inactive"
-                      ) | translate
-                    }}
-                  </span>
-                </td>
-                <td class="order-cell">{{ member.displayOrder }}</td>
-                <td>
-                  <div class="action-btns">
-                    <button
-                      class="btn-icon btn-edit"
-                      (click)="openEdit(member)"
-                      [title]="'team_mgmt.edit' | translate"
+                  </td>
+                  <td>{{ member.email }}</td>
+                  <td>
+                    <span
+                      class="badge-status"
+                      [class.badge-active]="member.status === 'active'"
                     >
-                      <svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
+                      {{
+                        (member.status === "active"
+                          ? "team_mgmt.status_active"
+                          : "team_mgmt.status_inactive"
+                        ) | translate
+                      }}
+                    </span>
+                  </td>
+                  <td class="order-cell">{{ member.displayOrder }}</td>
+                  <td>
+                    <div class="action-btns">
+                      <button
+                        class="btn-icon btn-edit"
+                        (click)="openEdit(member)"
                       >
-                        <path
-                          d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
-                        />
-                        <path
-                          d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
-                        />
-                      </svg>
-                    </button>
-                    <button
-                      class="btn-icon btn-del"
-                      (click)="deleteMember(member)"
-                      [title]="'team_mgmt.delete' | translate"
-                    >
-                      <svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
+                        ✎
+                      </button>
+                      <button
+                        class="btn-icon btn-del"
+                        (click)="deleteMember(member)"
                       >
-                        <polyline points="3 6 5 6 21 6" />
-                        <path
-                          d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"
-                        />
-                        <path d="M10 11v6" />
-                        <path d="M14 11v6" />
-                      </svg>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Mobile Cards -->
-      <div class="mobile-cards mobile-only">
-        @for (member of filteredMembers; track member._id; let i = $index) {
-          <div class="member-card" [style.animation-delay]="i * 0.08 + 's'">
-            <div class="mc-header">
-              <div class="mc-avatar-wrap">
-                <img
-                  [src]="getMemberImageUrl(member)"
-                  [alt]="member.name_en"
-                  class="mc-photo"
-                  (error)="onImgError($event)"
-                />
-                <div class="mc-avatar-fallback">{{ member.name_en[0] }}</div>
+                        🗑
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      } @else {
+        <div class="mobile-cards">
+          @for (member of filteredMembers; track member._id; let i = $index) {
+            <div class="member-card" [style.animation-delay]="i * 0.08 + 's'">
+              <div class="mc-header">
+                <div class="mc-avatar-wrap">
+                  <img
+                    [src]="getMemberImageUrl(member)"
+                    class="mc-photo"
+                    (error)="onImgError($event)"
+                  />
+                  <div class="mc-avatar-fallback">{{ member.name_en[0] }}</div>
+                </div>
+                <div class="mc-info">
+                  <div class="mc-name">{{ member.name_ar }}</div>
+                  <div class="mc-title">{{ member.title_ar }}</div>
+                </div>
               </div>
-              <div class="mc-info">
-                <div class="mc-name">{{ member.name_ar }}</div>
-                <div class="mc-name-en">{{ member.name_en }}</div>
-                <div class="mc-title">{{ member.title_ar }}</div>
-              </div>
-              <span
-                class="badge-status"
-                [class.badge-active]="member.status === 'active'"
-                [class.badge-inactive]="member.status === 'inactive'"
-              >
-                {{
-                  (member.status === "active"
-                    ? "team_mgmt.status_active"
-                    : "team_mgmt.status_inactive"
-                  ) | translate
-                }}
-              </span>
-            </div>
-            @if (member.specializations.length > 0) {
-              <div class="mc-specs">
-                @for (s of member.specializations.slice(0, 3); track s) {
-                  <span class="spec-tag">{{ s }}</span>
-                }
-                @if (member.specializations.length > 3) {
-                  <span class="spec-more"
-                    >+{{ member.specializations.length - 3 }}</span
-                  >
-                }
-              </div>
-            }
-            <div class="mc-footer">
-              <span class="mc-email">{{ member.email }}</span>
-              <div class="action-btns">
-                <button class="btn-icon btn-edit" (click)="openEdit(member)">
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  >
-                    <path
-                      d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
-                    />
-                    <path
-                      d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
-                    />
-                  </svg>
-                </button>
-                <button class="btn-icon btn-del" (click)="deleteMember(member)">
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  >
-                    <polyline points="3 6 5 6 21 6" />
-                    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
-                    <path d="M10 11v6" />
-                    <path d="M14 11v6" />
-                  </svg>
-                </button>
+              <div class="mc-footer">
+                <span class="mc-email">{{ member.email }}</span>
+                <div class="action-btns">
+                  <button class="btn-icon btn-edit" (click)="openEdit(member)">
+                    ✎
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        } @empty {
-          <div class="empty-state">
-            {{ "team_mgmt.no_members" | translate }}
-          </div>
-        }
-      </div>
+          }
+        </div>
+      }
 
       @if (totalPages > 1) {
         <div class="table-footer">

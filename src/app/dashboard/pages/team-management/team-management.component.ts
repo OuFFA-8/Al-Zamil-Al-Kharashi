@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, HostListener, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -55,9 +55,21 @@ export class TeamManagementComponent implements OnInit {
   imagePreview = '';
   existingImageUrl = '';
   selectedFile: File | null = null;
+  isMobile = signal(false);
 
   ngOnInit(): void {
     this.reload();
+    this.checkScreenSize();
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.checkScreenSize();
+  }
+
+  private checkScreenSize() {
+    // لو العرض أقل من 768px نعتبره موبايل
+    this.isMobile.set(window.innerWidth < 768);
   }
 
   emptyForm(): MemberForm {

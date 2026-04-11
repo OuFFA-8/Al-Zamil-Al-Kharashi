@@ -49,7 +49,7 @@
                 [src]="member.imageUrl"
                 [alt]="getName(member)"
                 class="w-full h-auto object-cover block transition-transform duration-300 ease-in-out group-hover:scale-105"
-                (error)="onImageError($event)"
+                (error)="handleImageError($event)"
               />
             } @else {
               <!-- Fallback avatar when no image -->
@@ -211,7 +211,7 @@
                 [src]="member.imageUrl"
                 [alt]="getName(member)"
                 class="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl object-cover shadow-lg mb-4"
-                (error)="onImageError($event)"
+                (error)="handleImageError($event)"
               />
             } @else {
               <div

@@ -176,17 +176,19 @@ export class TeamDataService {
     return this.members$.pipe(
       map((members) =>
         members
-          .filter((m) => m.status === 'active')
+          // .filter((m) => m.status === 'active')
           .sort((a, b) => a.displayOrder - b.displayOrder),
       ),
     );
   }
 
   getTeamMembers(): Section[] {
-    return this.membersSubject
-      .getValue()
-      .filter((m) => m.status === 'active')
-      .sort((a, b) => a.displayOrder - b.displayOrder);
+    return (
+      this.membersSubject
+        .getValue()
+        // .filter((m) => m.status === 'active')
+        .sort((a, b) => a.displayOrder - b.displayOrder)
+    );
   }
 
   getMemberById(id: string): Observable<Section | undefined> {

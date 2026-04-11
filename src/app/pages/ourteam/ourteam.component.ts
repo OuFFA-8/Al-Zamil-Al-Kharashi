@@ -23,6 +23,7 @@ export class OurteamComponent implements OnInit, OnDestroy {
   private teamDataService = inject(TeamDataService);
   private translateService = inject(TranslateService);
   private sub = new Subscription();
+  private firstLoad = true;
 
   teamMembers: Section[] = [];
   loading = true;
@@ -32,25 +33,55 @@ export class OurteamComponent implements OnInit, OnDestroy {
   isModalOpen = signal(false);
 
   ngOnInit(): void {
-    // تحديد اللغة الأولية
     this.currentLang =
       this.translateService.currentLang ??
       this.translateService.defaultLang ??
       'ar';
 
-    // الاستماع لتغيير اللغة — ده هو الحل الصح
     this.sub.add(
       this.translateService.onLangChange.subscribe((e: LangChangeEvent) => {
         this.currentLang = e.lang;
       }),
     );
 
+    this.loading = true;
+
+    // استدعاء البيانات مباشرة وتخطي الـ Subject مؤقتاً لحل المشكلة
     this.sub.add(
-      this.teamDataService.getTeamMembersObservable().subscribe((members) => {
-        this.teamMembers = members;
-        this.loading = false;
+      this.teamDataService.getMembers(1, 100).subscribe({
+        next: (res) => {
+          if (res && res.data) {
+            // التعديل هنا: نستخدم دالة map بشكل مباشر وبسيط
+            this.teamMembers = res.data.map((m: any) => ({
+              ...m,
+              // التأكد من تسمية الحقول لتطابق الـ Interface Section
+              nameAr: m.name_ar,
+              nameEn: m.name_en,
+              titleAr: m.title_ar,
+              titleEn: m.title_en,
+              bioTitleAr: m.bio_title_ar,
+              bioTitleEn: m.bio_title_en,
+              bioTextAr: m.bio_text_ar,
+              bioTextEn: m.bio_text_en,
+              imageUrl: this.teamDataService.buildImageUrl(m),
+            }));
+          }
+          this.loading = false;
+          console.log('تم تحميل الأعضاء بنجاح:', this.teamMembers);
+        },
+        error: (err) => {
+          console.error('خطأ في التحميل:', err);
+          this.loading = false;
+        },
       }),
     );
+  }
+  handleImageError(event: any) {
+    // الخيار الأول: تحط مسار صورة افتراضية (لو عندك صورة في الـ assets)
+    // event.target.src = 'assets/images/default-avatar.png';
+
+    // الخيار التاني: لو مش عايز تعرض صورة خالص لو هي مش موجودة، امسح السطر اللي فوق وشغل السطر ده:
+    event.target.style.display = 'none';
   }
 
   ngOnDestroy(): void {
