@@ -23,7 +23,6 @@ export class AuthService {
 
   private readonly TOKEN_KEY = 'zk_admin_token';
   private readonly USER_KEY = 'zk_admin_user';
-
   private readonly API_URL = 'https://api.zk-legal.com';
 
   private currentUserSubject = new BehaviorSubject<AdminUser | null>(
