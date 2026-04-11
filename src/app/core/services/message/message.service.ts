@@ -51,7 +51,7 @@ export interface MessagesStatsResponse {
 @Injectable({ providedIn: 'root' })
 export class MessageService {
   private http = inject(HttpClient);
-  readonly BASE_URL = 'http://api.zk-legal.com/api/v1';
+  readonly BASE_URL = 'https://api.zk-legal.com/api/v1';
 
   getMessages(
     page = 1,

@@ -62,8 +62,8 @@ export interface WorkItem {
 
 @Injectable({ providedIn: 'root' })
 export class EventDataService {
-  readonly BASE_URL = 'http://api.zk-legal.com/api/v1';
-  readonly SERVER_URL = 'http://api.zk-legal.com';
+  readonly BASE_URL = 'https://api.zk-legal.com/api/v1';
+  readonly SERVER_URL = 'https://api.zk-legal.com';
 
   // ✅ cache كامل للبيانات (published + draft) للداشبورد
   private allBlogsSubject = new BehaviorSubject<ApiBlog[]>([]);
