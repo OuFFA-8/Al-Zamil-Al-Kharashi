@@ -198,7 +198,7 @@
     <!-- Modal Panel -->
     <div class="flex min-h-full items-center justify-center p-3 sm:p-6">
       <div
-        class="relative bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden"
+        class="relative bg-white rounded-2xl shadow-2xl w-full max-w-4xl overflow-hidden"
         [dir]="isArabic ? 'rtl' : 'ltr'"
       >
         <div class="max-h-[90vh] overflow-y-auto">
@@ -231,7 +231,7 @@
           </div>
 
           <!-- Body -->
-          <div class="px-6 py-6 space-y-6">
+          <div class="px-6 py-6 space-y-6 text-justify">
             <!-- Bio -->
             @if (getBioText(member)) {
               <div>
