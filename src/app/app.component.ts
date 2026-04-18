@@ -18,6 +18,7 @@ import { Observable } from 'rxjs';
 import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
 import { AnalyticsComponent } from './shared/components/analytics/analytics.component';
 import { LoadingService } from './core/services/loading/loading.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -43,17 +44,21 @@ export class AppComponent implements OnInit {
   constructor(
     private flowbiteService: FlowbiteService,
     private router: Router,
+    private http: HttpClient,
     @Inject(PLATFORM_ID) private platformId: Object,
     @Inject(DOCUMENT) private document: Document,
     private loadingService: LoadingService,
   ) {
     this.isLoading$ = this.loadingService.loading$;
 
-    // تتبع الـ route عشان نعرف هل احنا في الـ admin أو لا
     this.router.events
       .pipe(filter((e) => e instanceof NavigationEnd))
       .subscribe((e: any) => {
         this.isAdminRoute = e.urlAfterRedirects.startsWith('/admin');
+
+        if (isPlatformBrowser(this.platformId)) {
+          this.http.post('/api/v1/users/ping', {}).subscribe();
+        }
       });
   }
 
