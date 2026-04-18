@@ -9,7 +9,7 @@ export const routes: Routes = [
     path: 'home',
     loadComponent: () =>
       import('./pages/home/home.component').then((m) => m.HomeComponent),
-    title: 'الزامل والخرّاشي',
+    title: ' الصفحة الرئيسية - الزامل والخرّاشي',
   },
   {
     path: 'services',
@@ -17,7 +17,7 @@ export const routes: Routes = [
       import('./pages/services/services.component').then(
         (m) => m.ServicesComponent,
       ),
-    title: 'الزامل والخرّاشي',
+    title: 'الزامل والخرّاشي - الخدمات',
   },
   {
     path: 'ourteam',
@@ -25,13 +25,13 @@ export const routes: Routes = [
       import('./pages/ourteam/ourteam.component').then(
         (m) => m.OurteamComponent,
       ),
-    title: 'الزامل والخرّاشي',
+    title: 'فريق العمل - الزامل والخرّاشي',
   },
   {
     path: 'events',
     loadComponent: () =>
       import('./pages/events/events.component').then((m) => m.EventsComponent),
-    title: 'الزامل والخرّاشي',
+    title: 'الفعاليات - الزامل والخرّاشي',
   },
   {
     path: 'branches',
@@ -39,7 +39,7 @@ export const routes: Routes = [
       import('./pages/branches/branches.component').then(
         (m) => m.BranchesComponent,
       ),
-    title: 'الزامل والخرّاشي',
+    title: 'الزامل والخرّاشي - الفروع',
   },
   {
     path: 'contact',
@@ -47,7 +47,7 @@ export const routes: Routes = [
       import('./pages/contact/contact.component').then(
         (m) => m.ContactComponent,
       ),
-    title: 'الزامل والخرّاشي',
+    title: 'الزامل والخرّاشي - اتصل بنا',
   },
   {
     path: 'service/:id',
@@ -55,7 +55,7 @@ export const routes: Routes = [
       import('./pages/service-detail/service-detail.component').then(
         (m) => m.ServiceDetailComponent,
       ),
-    title: 'الزامل والخرّاشي',
+    title: 'الزامل والخرّاشي - تفاصيل الخدمة',
   },
 
   // team-details اتشالت — المعلومات دلوقتي في popup في صفحة ourteam
