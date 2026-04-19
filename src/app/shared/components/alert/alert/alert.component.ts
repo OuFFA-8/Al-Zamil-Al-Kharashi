@@ -1,4 +1,4 @@
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
   AlertService,
@@ -16,61 +16,16 @@ import {
           <span class="al-icon">
             @switch (alert.type) {
               @case ('error') {
-                <svg
-                  width="17"
-                  height="17"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <line x1="12" y1="8" x2="12" y2="12" />
-                  <circle cx="12" cy="16" r=".5" fill="currentColor" />
-                </svg>
+                <i class="fas fa-exclamation-circle"></i>
               }
               @case ('success') {
-                <svg
-                  width="17"
-                  height="17"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <polyline points="9 11 12 14 22 4" />
-                </svg>
+                <i class="fas fa-check-circle"></i>
               }
               @case ('warning') {
-                <svg
-                  width="17"
-                  height="17"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
-                  />
-                  <line x1="12" y1="9" x2="12" y2="13" />
-                  <circle cx="12" cy="17" r=".5" fill="currentColor" />
-                </svg>
+                <i class="fas fa-exclamation-triangle"></i>
               }
               @default {
-                <svg
-                  width="17"
-                  height="17"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <line x1="12" y1="16" x2="12" y2="12" />
-                  <circle cx="12" cy="8" r=".5" fill="currentColor" />
-                </svg>
+                <i class="fas fa-info-circle"></i>
               }
             }
           </span>
@@ -85,17 +40,7 @@ import {
             (click)="alertSvc.dismiss(alert.id)"
             aria-label="إغلاق"
           >
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.5"
-            >
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
+            <i class="fas fa-times"></i>
           </button>
           @if (alert.duration > 0) {
             <div
@@ -176,10 +121,9 @@ import {
         pointer-events: none;
       }
       .al-icon {
-        width: 17px;
-        height: 17px;
         flex-shrink: 0;
         margin-top: 1px;
+        font-size: 16px;
       }
       .al-body {
         flex: 1;
@@ -211,6 +155,7 @@ import {
         opacity: 0.55;
         transition: opacity 0.15s;
         color: inherit;
+        font-size: 12px;
       }
       .al-close:hover {
         opacity: 1;
@@ -239,6 +184,9 @@ import {
       .al-error .al-close {
         color: #a32d2d;
       }
+      .al-error .al-icon {
+        color: #e24b4a;
+      }
 
       .al-success {
         background: #eaf3de;
@@ -255,6 +203,9 @@ import {
       }
       .al-success .al-close {
         color: #27500a;
+      }
+      .al-success .al-icon {
+        color: #3b6d11;
       }
 
       .al-warning {
@@ -273,6 +224,9 @@ import {
       .al-warning .al-close {
         color: #633806;
       }
+      .al-warning .al-icon {
+        color: #854f0b;
+      }
 
       .al-info {
         background: #e6f1fb;
@@ -290,20 +244,12 @@ import {
       .al-info .al-close {
         color: #0c447c;
       }
+      .al-info .al-icon {
+        color: #185fa5;
+      }
     `,
   ],
 })
 export class AlertComponent {
   alertSvc = inject(AlertService);
-
-  private ICONS: Record<string, string> = {
-    error: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r=".5" fill="currentColor"/></svg>`,
-    success: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="9 11 12 14 22 4"/></svg>`,
-    warning: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><circle cx="12" cy="17" r=".5" fill="currentColor"/></svg>`,
-    info: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><circle cx="12" cy="8" r=".5" fill="currentColor"/></svg>`,
-  };
-
-  icon(type: string): string {
-    return this.ICONS[type] ?? this.ICONS['info'];
-  }
 }

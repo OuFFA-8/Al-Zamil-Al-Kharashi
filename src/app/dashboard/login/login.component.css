@@ -186,3 +186,12 @@
     padding: 30px 22px;
   }
 }
+.error-alert i {
+  font-size: 14px;
+}
+.eye-btn i {
+  font-size: 15px;
+}
+.back-link i {
+  font-size: 12px;
+}

@@ -96,6 +96,7 @@
 }
 .chevron {
   color: #bbb;
+  font-size: 11px;
   transition: transform 0.2s;
 }
 .chevron.open {
