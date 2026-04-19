@@ -863,3 +863,25 @@ hr {
     padding: 14px;
   }
 }
+.search-box i {
+  position: absolute;
+  left: 10px;
+  color: #bbb;
+  font-size: 13px;
+}
+
+.btn-icon i {
+  font-size: 13px;
+}
+.mini-icon i {
+  font-size: 20px;
+}
+.modal-icon i {
+  font-size: 18px;
+}
+.field-label i {
+  font-size: 12px;
+}
+.tab-btn i {
+  font-size: 13px;
+}

@@ -817,3 +817,23 @@
   white-space: nowrap;
   flex: 1;
 }
+.search-box i {
+  position: absolute;
+  left: 10px;
+  color: #bbb;
+  font-size: 13px;
+  pointer-events: none;
+}
+
+.table-title i {
+  font-size: 15px;
+}
+.mini-icon i {
+  font-size: 20px;
+}
+.btn-icon i {
+  font-size: 13px;
+}
+.error-banner i {
+  font-size: 14px;
+}

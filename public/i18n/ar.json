@@ -552,7 +552,9 @@
     "summary": "ملخص",
     "visits": "إحصائيات الزيارات",
     "total_visits": "إجمالي الزيارات",
-    "today_visits": "زيارات اليوم"
+    "today_visits": "زيارات اليوم",
+    "visits_by_country": "الزيارات حسب الدولة",
+    "no_visits": "لا توجد زيارات بعد"
   },
   "dashboard": {
     "nav": {

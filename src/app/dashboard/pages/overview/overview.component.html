@@ -7,9 +7,7 @@
   </div>
 
   @if (loading) {
-    <div class="loading-state">
-      <div class="spinner"></div>
-    </div>
+    <div class="loading-state"><div class="spinner"></div></div>
   } @else {
     <!-- Stats Grid -->
     <div class="stats-grid">
@@ -18,80 +16,31 @@
           <div class="stat-icon" [class]="'icon--' + card.color">
             @switch (card.icon) {
               @case ("mail") {
-                <svg
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
-                  />
-                  <polyline points="22,6 12,13 2,6" />
-                </svg>
+                <i class="fas fa-envelope"></i>
               }
               @case ("mail-alert") {
-                <svg
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
-                  />
-                  <polyline points="22,6 12,13 2,6" />
-                  <circle cx="18" cy="5" r="3" fill="currentColor" />
-                </svg>
+                <i class="fas fa-envelope-open-text"></i>
               }
               @case ("users") {
-                <svg
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                  <circle cx="9" cy="7" r="4" />
-                  <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                </svg>
+                <i class="fas fa-users"></i>
               }
               @case ("check") {
-                <svg
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <polyline points="9 11 12 14 22 4" />
-                  <path
-                    d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"
-                  />
-                </svg>
+                <i class="fas fa-user-check"></i>
+              }
+              @case ("today") {
+                <i class="fas fa-calendar-day"></i>
+              }
+              @case ("week") {
+                <i class="fas fa-calendar-week"></i>
+              }
+              @case ("calendar") {
+                <i class="fas fa-newspaper"></i>
+              }
+              @case ("published") {
+                <i class="fas fa-check-circle"></i>
               }
               @default {
-                <svg
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <rect x="3" y="4" width="18" height="18" rx="2" />
-                  <line x1="16" y1="2" x2="16" y2="6" />
-                  <line x1="8" y1="2" x2="8" y2="6" />
-                  <line x1="3" y1="10" x2="21" y2="10" />
-                </svg>
+                <i class="fas fa-chart-bar"></i>
               }
             }
           </div>
@@ -104,133 +53,138 @@
     <!-- Quick Actions -->
     <div class="quick-actions-section">
       <div class="section-title">
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-        </svg>
+        <i class="fas fa-bolt"></i>
         {{ "overview.quick_actions" | translate }}
       </div>
       <div class="quick-actions">
         <a routerLink="/admin/team" class="quick-action-btn">
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-            <circle cx="9" cy="7" r="4" />
-          </svg>
+          <i class="fas fa-users"></i>
           {{ "overview.manage_team" | translate }}
         </a>
         <a routerLink="/admin/blogs" class="quick-action-btn">
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path
-              d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
-            />
-            <polyline points="14 2 14 8 20 8" />
-          </svg>
+          <i class="fas fa-newspaper"></i>
           {{ "overview.manage_blogs" | translate }}
         </a>
         <a routerLink="/admin/messages" class="quick-action-btn">
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path
-              d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
-            />
-            <polyline points="22,6 12,13 2,6" />
-          </svg>
+          <i class="fas fa-envelope"></i>
           {{ "overview.view_messages" | translate }}
         </a>
       </div>
     </div>
 
-    <div class="visits-card">
-      <div class="card-header">
-        <span class="card-title">
-          <svg
-            width="15"
-            height="15"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-            <circle cx="9" cy="7" r="4" />
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-          </svg>
-          {{ "overview.visits" | translate }}
-        </span>
+    <!-- Visits + Countries Section -->
+    <div class="visits-section">
+      <!-- Visits Chart Card -->
+      <div class="visits-card">
+        <div class="card-header">
+          <span class="card-title">
+            <i class="fas fa-chart-pie"></i>
+            {{ "overview.visits" | translate }}
+          </span>
+        </div>
+        <div class="visits-body">
+          <div class="visits-numbers">
+            <div class="visits-num-card visits-num-total">
+              <div class="visits-num-val">{{ stats.totalVisits }}</div>
+              <div class="visits-num-lbl">
+                {{ "overview.total_visits" | translate }}
+              </div>
+            </div>
+            <div class="visits-num-card visits-num-today">
+              <div class="visits-num-val">{{ stats.todayVisits }}</div>
+              <div class="visits-num-lbl">
+                {{ "overview.today_visits" | translate }}
+              </div>
+            </div>
+          </div>
+          <div class="visits-chart-wrap">
+            <canvas #visitsChart width="200" height="200"></canvas>
+            <div class="visits-chart-center">
+              <div class="visits-pct">
+                {{
+                  stats.totalVisits > 0
+                    ? ((stats.todayVisits / stats.totalVisits) * 100
+                      | number: "1.0-0")
+                    : 0
+                }}%
+              </div>
+              <div class="visits-pct-lbl">اليوم</div>
+            </div>
+          </div>
+          <div class="visits-legend">
+            <div class="visits-leg-item">
+              <span class="visits-leg-dot" style="background: #3396d8"></span>
+              <span>{{ "overview.today_visits" | translate }}</span>
+              <strong>{{ stats.todayVisits }}</strong>
+            </div>
+            <div class="visits-leg-item">
+              <span
+                class="visits-leg-dot"
+                style="background: #eeedfe; border: 2px solid #534ab7"
+              ></span>
+              <span>{{ "overview.total_visits" | translate }}</span>
+              <strong>{{ stats.totalVisits }}</strong>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="visits-body">
-        <div class="visits-numbers">
-          <div class="visits-num-card visits-num-total">
-            <div class="visits-num-val">{{ stats.totalVisits }}</div>
-            <div class="visits-num-lbl">
-              {{ "overview.total_visits" | translate }}
-            </div>
-          </div>
-          <div class="visits-num-card visits-num-today">
-            <div class="visits-num-val">{{ stats.todayVisits }}</div>
-            <div class="visits-num-lbl">
-              {{ "overview.today_visits" | translate }}
-            </div>
-          </div>
-        </div>
 
-        <div class="visits-chart-wrap">
-          <canvas #visitsChart width="200" height="200"></canvas>
-          <div class="visits-chart-center">
-            <div class="visits-pct">
-              {{
-                stats.totalVisits > 0
-                  ? ((stats.todayVisits / stats.totalVisits) * 100
-                    | number: "1.0-0")
-                  : 0
-              }}%
-            </div>
-            <div class="visits-pct-lbl">اليوم</div>
-          </div>
+      <!-- Countries Card -->
+      <div class="countries-card">
+        <div class="card-header">
+          <span class="card-title">
+            <i class="fas fa-globe"></i>
+            {{ "overview.visits_by_country" | translate }}
+          </span>
         </div>
-
-        <div class="visits-legend">
-          <div class="visits-leg-item">
-            <span class="visits-leg-dot" style="background: #3396d8"></span>
-            <span>{{ "overview.today_visits" | translate }}</span>
-            <strong>{{ stats.todayVisits }}</strong>
+        @if (visitsByCountry.length === 0) {
+          <div class="empty-state">{{ "overview.no_visits" | translate }}</div>
+        } @else {
+          <div class="countries-list">
+            @for (
+              country of visitsByCountry;
+              track country._id;
+              let i = $index
+            ) {
+              <div class="country-row" [style.animation-delay]="i * 0.08 + 's'">
+                <div class="country-flag">
+                  <img
+                    [src]="
+                      'https://flagcdn.com/24x18/' +
+                      getCountryCode(country._id) +
+                      '.png'
+                    "
+                    [alt]="country._id"
+                    width="24"
+                    height="18"
+                    style="
+                      border-radius: 3px;
+                      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+                    "
+                  />
+                </div>
+                <div class="country-info">
+                  <div class="country-name">
+                    {{ getCountryName(country._id) }}
+                  </div>
+                  <div class="country-bar-track">
+                    <div
+                      class="country-bar-fill"
+                      [style.width]="getCountryPct(country.count) + '%'"
+                      [style.animation-delay]="i * 0.08 + 0.3 + 's'"
+                    ></div>
+                  </div>
+                </div>
+                <div class="country-count">
+                  <span class="country-num">{{ country.count }}</span>
+                  <span class="country-pct"
+                    >{{ getCountryPct(country.count) }}%</span
+                  >
+                </div>
+              </div>
+            }
           </div>
-          <div class="visits-leg-item">
-            <span
-              class="visits-leg-dot"
-              style="background: #eeedfe; border: 2px solid #534ab7"
-            ></span>
-            <span>{{ "overview.total_visits" | translate }}</span>
-            <strong>{{ stats.totalVisits }}</strong>
-          </div>
-        </div>
+        }
       </div>
     </div>
 
@@ -240,24 +194,13 @@
       <div class="recent-messages-card">
         <div class="card-header">
           <span class="card-title">
-            <svg
-              width="15"
-              height="15"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <polyline points="12 6 12 12 16 14" />
-            </svg>
+            <i class="fas fa-clock"></i>
             {{ "overview.recent_messages" | translate }}
           </span>
           <a routerLink="/admin/messages" class="view-all-btn">
             {{ "overview.view_all" | translate }}
           </a>
         </div>
-
         @if (recentMessages.length === 0) {
           <div class="empty-state">
             {{ "overview.no_messages" | translate }}
@@ -291,17 +234,7 @@
                     }}{{ msg.message.length > 80 ? "..." : "" }}
                   </div>
                   <div class="msg-date">
-                    <svg
-                      width="12"
-                      height="12"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    >
-                      <circle cx="12" cy="12" r="10" />
-                      <polyline points="12 6 12 12 16 14" />
-                    </svg>
+                    <i class="fas fa-clock" style="font-size: 10px"></i>
                     {{ formatDate(msg.createdAt) }}
                   </div>
                 </div>
@@ -315,17 +248,7 @@
       <div class="chart-card">
         <div class="card-header">
           <span class="card-title">
-            <svg
-              width="15"
-              height="15"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <polyline points="12 6 12 12 16 14" />
-            </svg>
+            <i class="fas fa-chart-donut"></i>
             {{ "overview.summary" | translate }}
           </span>
         </div>

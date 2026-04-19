@@ -192,7 +192,12 @@
   gap: 20px;
   align-items: start;
 }
-
+.visits-section {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+}
 .visits-card {
   background: #fff;
   border-radius: 12px;
@@ -200,7 +205,6 @@
   padding: 20px 24px;
   opacity: 0;
   animation: fadeUp 0.5s 0.6s ease both;
-  margin-bottom: 24px;
 }
 .visits-body {
   display: flex;
@@ -584,4 +588,110 @@
   .visits-numbers {
     grid-template-columns: 1fr;
   }
+}
+.countries-card {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #eee;
+  padding: 20px 24px;
+  opacity: 0;
+  animation: fadeUp 0.5s 0.7s ease both;
+}
+
+.countries-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: 4px;
+}
+
+.country-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+  animation: fadeUp 0.4s ease both;
+}
+
+.country-flag {
+  flex-shrink: 0;
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.country-flag .fi {
+  width: 24px;
+  height: 18px;
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.country-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.country-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1a2035;
+  margin-bottom: 6px;
+}
+
+.country-bar-track {
+  height: 6px;
+  background: #f0f0f0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.country-bar-fill {
+  height: 100%;
+  background: linear-gradient(135deg, #3396d8, #2a83bd);
+  border-radius: 3px;
+  transition: width 0.8s ease;
+}
+.country-count {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  flex-shrink: 0;
+}
+.country-num {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a2035;
+  line-height: 1;
+}
+.country-pct {
+  font-size: 11px;
+  color: #999;
+}
+
+@media (max-width: 768px) {
+  .visits-section {
+    grid-template-columns: 1fr;
+  }
+}
+.stat-icon i,
+.card-title i,
+.section-title i,
+.quick-action-btn i {
+  font-size: 18px;
+}
+
+.stat-icon i {
+  font-size: 20px;
+}
+.card-title i {
+  font-size: 14px;
+}
+.section-title i {
+  font-size: 15px;
+}
+.quick-action-btn i {
+  font-size: 14px;
 }

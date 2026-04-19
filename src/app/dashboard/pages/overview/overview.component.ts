@@ -53,6 +53,7 @@ export class DashboardOverviewComponent implements OnInit, OnDestroy {
   };
 
   recentMessages: ApiMessage[] = [];
+  visitsByCountry: { _id: string; count: number }[] = [];
 
   statCards = [
     {
@@ -114,7 +115,9 @@ export class DashboardOverviewComponent implements OnInit, OnDestroy {
       visits: this.http
         .get<any>('https://api.zk-legal.com/api/v1/admin/visits')
         .pipe(
-          catchError(() => of({ data: { totalVisits: 0, todayVisits: 0 } })),
+          catchError(() =>
+            of({ data: { totalVisits: 0, todayVisits: 0, byCountry: [] } }),
+          ),
         ),
     }).subscribe({
       next: ({ msgStats, teamStats, blogsList, recentMsgs, visits }) => {
@@ -130,6 +133,7 @@ export class DashboardOverviewComponent implements OnInit, OnDestroy {
         ).length;
         this.stats.totalVisits = visits.data.totalVisits;
         this.stats.todayVisits = visits.data.todayVisits;
+        this.visitsByCountry = visits.data.byCountry || [];
         this.recentMessages = recentMsgs.data.slice(0, 5);
         this.loading = false;
         setTimeout(() => this.initVisitsChart(), 100);
@@ -168,9 +172,7 @@ export class DashboardOverviewComponent implements OnInit, OnDestroy {
         plugins: {
           legend: { display: false },
           tooltip: {
-            callbacks: {
-              label: (ctx) => ` ${ctx.label}: ${ctx.raw}`,
-            },
+            callbacks: { label: (ctx) => ` ${ctx.label}: ${ctx.raw}` },
           },
         },
         animation: {
@@ -185,6 +187,85 @@ export class DashboardOverviewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.visitsChart) this.visitsChart.destroy();
+  }
+
+  getCountryName(name: string): string {
+    const countries: Record<string, string> = {
+      Egypt: 'مصر',
+      'Saudi Arabia': 'السعودية',
+      'United Arab Emirates': 'الإمارات',
+      Kuwait: 'الكويت',
+      Qatar: 'قطر',
+      Bahrain: 'البحرين',
+      Oman: 'عُمان',
+      Jordan: 'الأردن',
+      Lebanon: 'لبنان',
+      Iraq: 'العراق',
+      Syria: 'سوريا',
+      Yemen: 'اليمن',
+      Morocco: 'المغرب',
+      Tunisia: 'تونس',
+      Algeria: 'الجزائر',
+      Libya: 'ليبيا',
+      Sudan: 'السودان',
+      'United States': 'أمريكا',
+      'United Kingdom': 'بريطانيا',
+      Germany: 'ألمانيا',
+      France: 'فرنسا',
+      Turkey: 'تركيا',
+      India: 'الهند',
+      Pakistan: 'باكستان',
+    };
+    return countries[name] || name;
+  }
+
+  getCountryCode(name: string): string {
+    const codes: Record<string, string> = {
+      Egypt: 'eg',
+      'Saudi Arabia': 'sa',
+      'United Arab Emirates': 'ae',
+      Kuwait: 'kw',
+      Qatar: 'qa',
+      Bahrain: 'bh',
+      Oman: 'om',
+      Jordan: 'jo',
+      Lebanon: 'lb',
+      Iraq: 'iq',
+      Syria: 'sy',
+      Yemen: 'ye',
+      Morocco: 'ma',
+      Tunisia: 'tn',
+      Algeria: 'dz',
+      Libya: 'ly',
+      Sudan: 'sd',
+      'United States': 'us',
+      'United Kingdom': 'gb',
+      Germany: 'de',
+      France: 'fr',
+      Turkey: 'tr',
+      India: 'in',
+      Pakistan: 'pk',
+      China: 'cn',
+      Russia: 'ru',
+      Italy: 'it',
+      Spain: 'es',
+      Canada: 'ca',
+      Australia: 'au',
+      Japan: 'jp',
+      'South Korea': 'kr',
+      Brazil: 'br',
+      Mexico: 'mx',
+      Netherlands: 'nl',
+      Belgium: 'be',
+      Sweden: 'se',
+      Norway: 'no',
+    };
+    return codes[name] || 'un';
+  }
+
+  getCountryPct(count: number): number {
+    const total = this.visitsByCountry.reduce((s, c) => s + c.count, 0);
+    return total > 0 ? Math.round((count / total) * 100) : 0;
   }
 
   getStatValue(key: string): number {

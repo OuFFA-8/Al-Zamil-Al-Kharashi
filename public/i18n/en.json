@@ -552,7 +552,9 @@
     "summary": "Summary",
     "visits": "Visit Statistics",
     "total_visits": "Total Visits",
-    "today_visits": "Today's Visits"
+    "today_visits": "Today's Visits",
+    "visits_by_country": "Visits by Country",
+    "no_visits": "No visits yet"
   },
   "dashboard": {
     "nav": {
