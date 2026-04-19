@@ -166,6 +166,74 @@
       </div>
     </div>
 
+    <div class="visits-card">
+      <div class="card-header">
+        <span class="card-title">
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+          </svg>
+          {{ "overview.visits" | translate }}
+        </span>
+      </div>
+      <div class="visits-body">
+        <div class="visits-numbers">
+          <div class="visits-num-card visits-num-total">
+            <div class="visits-num-val">{{ stats.totalVisits }}</div>
+            <div class="visits-num-lbl">
+              {{ "overview.total_visits" | translate }}
+            </div>
+          </div>
+          <div class="visits-num-card visits-num-today">
+            <div class="visits-num-val">{{ stats.todayVisits }}</div>
+            <div class="visits-num-lbl">
+              {{ "overview.today_visits" | translate }}
+            </div>
+          </div>
+        </div>
+
+        <div class="visits-chart-wrap">
+          <canvas #visitsChart width="200" height="200"></canvas>
+          <div class="visits-chart-center">
+            <div class="visits-pct">
+              {{
+                stats.totalVisits > 0
+                  ? ((stats.todayVisits / stats.totalVisits) * 100
+                    | number: "1.0-0")
+                  : 0
+              }}%
+            </div>
+            <div class="visits-pct-lbl">اليوم</div>
+          </div>
+        </div>
+
+        <div class="visits-legend">
+          <div class="visits-leg-item">
+            <span class="visits-leg-dot" style="background: #3396d8"></span>
+            <span>{{ "overview.today_visits" | translate }}</span>
+            <strong>{{ stats.todayVisits }}</strong>
+          </div>
+          <div class="visits-leg-item">
+            <span
+              class="visits-leg-dot"
+              style="background: #eeedfe; border: 2px solid #534ab7"
+            ></span>
+            <span>{{ "overview.total_visits" | translate }}</span>
+            <strong>{{ stats.totalVisits }}</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Bottom -->
     <div class="bottom-section">
       <!-- Recent Messages -->

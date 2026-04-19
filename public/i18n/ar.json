@@ -549,7 +549,10 @@
     "recent_messages": "آخر الرسائل",
     "view_all": "عرض الكل",
     "no_messages": "لا توجد رسائل",
-    "summary": "ملخص"
+    "summary": "ملخص",
+    "visits": "إحصائيات الزيارات",
+    "total_visits": "إجمالي الزيارات",
+    "today_visits": "زيارات اليوم"
   },
   "dashboard": {
     "nav": {

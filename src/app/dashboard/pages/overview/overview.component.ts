@@ -1,14 +1,25 @@
-import { Component, OnInit, inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  inject,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
-import { forkJoin } from 'rxjs';
+import { catchError, forkJoin, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Chart, registerables } from 'chart.js';
 import { TeamDataService } from '../../../core/services/team-data/team-data.service';
 import { EventDataService } from '../../../core/services/eventData/event-data.service';
 import {
   ApiMessage,
   MessageService,
 } from '../../../core/services/message/message.service';
+
+Chart.register(...registerables);
 
 @Component({
   selector: 'app-dashboard-overview',
@@ -17,10 +28,14 @@ import {
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.css'],
 })
-export class DashboardOverviewComponent implements OnInit {
+export class DashboardOverviewComponent implements OnInit, OnDestroy {
   private msgSvc = inject(MessageService);
   private teamSvc = inject(TeamDataService);
   private blogSvc = inject(EventDataService);
+  private http = inject(HttpClient);
+
+  @ViewChild('visitsChart') visitsChartRef!: ElementRef<HTMLCanvasElement>;
+  private visitsChart: Chart | null = null;
 
   loading = true;
 
@@ -33,10 +48,11 @@ export class DashboardOverviewComponent implements OnInit {
     activeMembers: 0,
     totalBlogs: 0,
     publishedBlogs: 0,
+    totalVisits: 0,
+    todayVisits: 0,
   };
 
   recentMessages: ApiMessage[] = [];
-  serviceStats: { _id: string; count: number }[] = [];
 
   statCards = [
     {
@@ -95,34 +111,80 @@ export class DashboardOverviewComponent implements OnInit {
       teamStats: this.teamSvc.getMembersStats(),
       blogsList: this.blogSvc.getBlogs(1, 100),
       recentMsgs: this.msgSvc.getMessages(1, 5),
+      visits: this.http
+        .get<any>('https://api.zk-legal.com/api/v1/admin/visits')
+        .pipe(
+          catchError(() => of({ data: { totalVisits: 0, todayVisits: 0 } })),
+        ),
     }).subscribe({
-      next: ({ msgStats, teamStats, blogsList, recentMsgs }) => {
-        // Messages stats
+      next: ({ msgStats, teamStats, blogsList, recentMsgs, visits }) => {
         this.stats.totalMessages = msgStats.totalMessages;
         this.stats.unreadMessages = msgStats.unreadMessages;
         this.stats.todayMessages = msgStats.todayMessages;
         this.stats.thisWeekMessages = msgStats.thisWeekMessages;
-
-        // Team stats
         this.stats.totalMembers = teamStats.allMembers;
         this.stats.activeMembers = teamStats.activeMembers;
-
-        // Blogs stats
         this.stats.totalBlogs = blogsList.documentCounts;
         this.stats.publishedBlogs = blogsList.data.filter(
           (b) => b.status === 'published',
         ).length;
-
-        // Recent messages
+        this.stats.totalVisits = visits.data.totalVisits;
+        this.stats.todayVisits = visits.data.todayVisits;
         this.recentMessages = recentMsgs.data.slice(0, 5);
-
         this.loading = false;
+        setTimeout(() => this.initVisitsChart(), 100);
       },
       error: (err) => {
         console.error('Overview stats error:', err);
         this.loading = false;
       },
     });
+  }
+
+  private initVisitsChart(): void {
+    if (!this.visitsChartRef) return;
+    const ctx = this.visitsChartRef.nativeElement.getContext('2d');
+    if (!ctx) return;
+    if (this.visitsChart) this.visitsChart.destroy();
+
+    this.visitsChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['زيارات اليوم', 'باقي الزيارات'],
+        datasets: [
+          {
+            data: [
+              this.stats.todayVisits,
+              Math.max(0, this.stats.totalVisits - this.stats.todayVisits),
+            ],
+            backgroundColor: ['#3396d8', '#eeedfe'],
+            borderWidth: 0,
+            hoverOffset: 6,
+          },
+        ],
+      },
+      options: {
+        cutout: '75%',
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ` ${ctx.label}: ${ctx.raw}`,
+            },
+          },
+        },
+        animation: {
+          animateRotate: true,
+          animateScale: true,
+          duration: 1000,
+          easing: 'easeInOutQuart',
+        },
+      },
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.visitsChart) this.visitsChart.destroy();
   }
 
   getStatValue(key: string): number {
@@ -137,6 +199,7 @@ export class DashboardOverviewComponent implements OnInit {
     if (!date) return '';
     return new Date(date).toLocaleDateString('ar-SA');
   }
+
   getInitials(msg: ApiMessage): string {
     return (msg.first_name?.[0] || '') + (msg.last_name?.[0] || '');
   }

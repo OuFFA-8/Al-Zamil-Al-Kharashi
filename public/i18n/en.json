@@ -549,7 +549,10 @@
     "recent_messages": "Recent Messages",
     "view_all": "View All",
     "no_messages": "No messages yet",
-    "summary": "Summary"
+    "summary": "Summary",
+    "visits": "Visit Statistics",
+    "total_visits": "Total Visits",
+    "today_visits": "Today's Visits"
   },
   "dashboard": {
     "nav": {
