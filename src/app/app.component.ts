@@ -57,7 +57,7 @@ export class AppComponent implements OnInit {
         this.isAdminRoute = e.urlAfterRedirects.startsWith('/admin');
 
         if (isPlatformBrowser(this.platformId)) {
-          this.http.post('/api/v1/users/ping', {}).subscribe();
+          this.http.post('https://api.zk-legal.com/', {}).subscribe();
         }
       });
   }
