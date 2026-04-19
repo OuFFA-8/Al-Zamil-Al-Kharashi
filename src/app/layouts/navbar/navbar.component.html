@@ -1,173 +1,222 @@
-<nav [class.main-col2]="showBackground()" [class.bg-transparent]="!showBackground()"
-  class="py-4 md:py-6 border-[#b3a16c] absolute top-0 left-0 w-full capitalize transition-all duration-700 z-50">
-
-  <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto px-4">
-
+<nav
+  [class.main-col2]="showBackground()"
+  [class.bg-transparent]="!showBackground()"
+  class="py-4 md:py-6 border-[#b3a16c] absolute top-0 left-0 w-full capitalize transition-all duration-700 z-50"
+>
+  <div
+    class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto px-4"
+  >
     <a class="flex items-center space-x-1 rtl:space-x-reverse">
-      <img src="/images/new-white-logo.png" class="h-10 md:h-12 w-auto" alt="Flowbite Logo" />
+      <img
+        src="/images/new-white-logo.png"
+        class="h-10 md:h-12 w-auto"
+        alt="ZK Legal Logo"
+      />
     </a>
 
-    <div class="flex items-center md:order-2 space-x-1 md:space-x-2 rtl:space-x-reverse">
-      <!-- زرار تغيير اللغة المباشر -->
-      <button (click)="toggleLanguage()" type="button"
+    <div
+      class="flex items-center md:order-2 space-x-1 md:space-x-2 rtl:space-x-reverse"
+    >
+      <button
+        (click)="toggleLanguage()"
+        type="button"
         class="inline-flex items-center justify-center p-2 rounded-full text-white hover:text-[#b3a16c] hover:bg-white/10 duration-300"
-        aria-label="Change language">
-
-        <!-- SVG Icon: Globe -->
-        <svg class="w-7 h-7 md:w-8 md:h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
-        </svg>
-
+        aria-label="Change language"
+      >
+        <i class="fas fa-globe" style="font-size: 28px"></i>
       </button>
 
-      <button #mobileMenuButton data-collapse-toggle="navbar-language" type="button"
+      <button
+        #mobileMenuButton
+        data-collapse-toggle="navbar-language"
+        type="button"
         class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm rounded-lg md:hidden hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-[#b3a16c]"
-        [class.text-white]="showBackground()" [class.text-white]="!showBackground()" aria-controls="navbar-language"
-        aria-expanded="false">
+        [class.text-white]="showBackground()"
+        [class.text-white]="!showBackground()"
+        aria-controls="navbar-language"
+        aria-expanded="false"
+      >
         <span class="sr-only">Open main menu</span>
-        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M1 1h15M1 7h15M1 13h15" style="color: white" />
-        </svg>
+        <i class="fas fa-bars text-white text-lg"></i>
       </button>
     </div>
 
-    <div #mobileMenu class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
-      id="navbar-language">
+    <div
+      #mobileMenu
+      class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
+      id="navbar-language"
+    >
       <ul
-        class=" text-white flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent bg-gray-300">
-
+        class="text-white flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent bg-gray-300"
+      >
         <li>
-          <a (click)="closeMobileMenuOnClick()" aria-current="page" routerLink="/home" routerLinkActive="text-[#b3a16c]"
-            class="block py-2 text-[#061933]
-            md:text-white
-            px-3 md:p-0 rounded md:bg-transparent hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#b3a16c] transition-colors duration-200">
-            {{ 'navbar.home' | translate }}
+          <a
+            (click)="closeMobileMenuOnClick()"
+            routerLink="/home"
+            routerLinkActive="text-[#b3a16c]"
+            class="block py-2 text-[#061933] md:text-white px-3 md:p-0 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#b3a16c] transition-colors duration-200"
+          >
+            {{ "navbar.home" | translate }}
           </a>
         </li>
+
         <li>
-          <button (click)="closeMobileMenuOnClick()" id="dropdownNavbarLink" routerLink="/services"
-            routerLinkActive="text-[#b3a16c] font-medium" data-dropdown-toggle="dropdownNavbar"
-            data-dropdown-trigger="hover" class="flex items-center justify-between w-full py-2 px-3 md:p-0 rounded hover:bg-gray-100
-            md:hover:bg-transparent md:border-0 text-[#061933]
-            md:text-white
-            md:hover:text-[#b3a16c] transition-colors duration-200">
-            {{ 'navbar.services.main' | translate }}
-            <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-              viewBox="0 0 10 6">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="m1 1 4 4 4-4" />
-            </svg>
+          <button
+            (click)="closeMobileMenuOnClick()"
+            id="dropdownNavbarLink"
+            routerLink="/services"
+            routerLinkActive="text-[#b3a16c] font-medium"
+            data-dropdown-toggle="dropdownNavbar"
+            data-dropdown-trigger="hover"
+            class="flex items-center justify-between w-full py-2 px-3 md:p-0 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 text-[#061933] md:text-white md:hover:text-[#b3a16c] transition-colors duration-200"
+          >
+            {{ "navbar.services.main" | translate }}
+            <i class="fas fa-chevron-down ms-2 text-xs"></i>
           </button>
 
-          <!-- Dropdown menu -->
-          <div id="dropdownNavbar"
-            class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-xl shadow-lg w-60 md:w-64 mt-1 md:mt-1.5">
-            <!-- 
-      - rounded-xl: For a softer, more modern look.
-      - shadow-lg: A more pronounced shadow.
-      - w-60 md:w-64: Increased width. Adjust as needed for your longest text.
-      - mt-1 md:mt-1.5: Slight margin-top to visually separate from the trigger, especially since md:p-0 on trigger.
-      - Removed divide-y as items will have their own rounded corners.
-    -->
-            <ul [class]="'p-1.5 text-gray-800 ' + (isArabic() ? 'text-sm' : 'text-xs')" aria-labelledby="dropdownLargeButton">
-              <!-- 
-        - p-1.5: Padding around all items.
-        - text-gray-800: Slightly darker text for better readability.
-      -->
+          <div
+            id="dropdownNavbar"
+            class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-xl shadow-lg w-60 md:w-64 mt-1 md:mt-1.5"
+          >
+            <ul
+              [class]="
+                'p-1.5 text-gray-800 ' + (isArabic() ? 'text-sm' : 'text-xs')
+              "
+              aria-labelledby="dropdownLargeButton"
+            >
               <li>
-                <a (click)="closeMobileMenuOnClick()" routerLink="service/1"  routerLinkActive="bg-[#b3a16c] text-white"
-                  [routerLinkActiveOptions]="{exact: true}"
-                  class="block px-3.5 py-2.5 rounded-lg hover:bg-gray-100 hover:text-[#b3a16c] whitespace-nowrap transition-colors duration-150 ease-in-out">
-                  {{ 'services.section1.title' | translate }}
+                <a
+                  (click)="closeMobileMenuOnClick()"
+                  routerLink="service/1"
+                  routerLinkActive="bg-[#b3a16c] text-white"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  class="block px-3.5 py-2.5 rounded-lg hover:bg-gray-100 hover:text-[#b3a16c] whitespace-nowrap transition-colors duration-150"
+                >
+                  {{ "services.section1.title" | translate }}
                 </a>
               </li>
               <li>
-                <a (click)="closeMobileMenuOnClick()" routerLink="service/2"  routerLinkActive="bg-[#b3a16c] text-white"
-                  [routerLinkActiveOptions]="{exact: true}"
-                  class="block px-3.5 py-2.5 rounded-lg hover:bg-gray-100 hover:text-[#b3a16c] whitespace-nowrap transition-colors duration-150 ease-in-out">
-                  {{ 'services.section2.title' | translate }}
+                <a
+                  (click)="closeMobileMenuOnClick()"
+                  routerLink="service/2"
+                  routerLinkActive="bg-[#b3a16c] text-white"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  class="block px-3.5 py-2.5 rounded-lg hover:bg-gray-100 hover:text-[#b3a16c] whitespace-nowrap transition-colors duration-150"
+                >
+                  {{ "services.section2.title" | translate }}
                 </a>
               </li>
               <li>
-                <a (click)="closeMobileMenuOnClick()" routerLink="service/3"  routerLinkActive="bg-[#b3a16c] text-white"
-                  [routerLinkActiveOptions]="{exact: true}"
-                  class="block px-3.5 py-2.5 rounded-lg hover:bg-gray-100 hover:text-[#b3a16c] whitespace-nowrap transition-colors duration-150 ease-in-out">
-                  {{ 'services.section3.title' | translate }}
+                <a
+                  (click)="closeMobileMenuOnClick()"
+                  routerLink="service/3"
+                  routerLinkActive="bg-[#b3a16c] text-white"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  class="block px-3.5 py-2.5 rounded-lg hover:bg-gray-100 hover:text-[#b3a16c] whitespace-nowrap transition-colors duration-150"
+                >
+                  {{ "services.section3.title" | translate }}
                 </a>
               </li>
               <li>
-                <a (click)="closeMobileMenuOnClick()" routerLink="service/4"  routerLinkActive="bg-[#b3a16c] text-white"
-                  [routerLinkActiveOptions]="{exact: true}"
-                  class="block px-3.5 py-2.5 rounded-lg hover:bg-gray-100 hover:text-[#b3a16c] whitespace-nowrap transition-colors duration-150 ease-in-out">
-                  {{ 'services.section4.title' | translate }}
+                <a
+                  (click)="closeMobileMenuOnClick()"
+                  routerLink="service/4"
+                  routerLinkActive="bg-[#b3a16c] text-white"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  class="block px-3.5 py-2.5 rounded-lg hover:bg-gray-100 hover:text-[#b3a16c] whitespace-nowrap transition-colors duration-150"
+                >
+                  {{ "services.section4.title" | translate }}
                 </a>
               </li>
               <li>
-                <a (click)="closeMobileMenuOnClick()" routerLink="service/5"  routerLinkActive="bg-[#b3a16c] text-white"
-                  [routerLinkActiveOptions]="{exact: true}"
-                  class="block px-3.5 py-2.5 rounded-lg hover:bg-gray-100 hover:text-[#b3a16c] whitespace-nowrap transition-colors duration-150 ease-in-out">
-                  {{ 'services.section5.title' | translate }}
+                <a
+                  (click)="closeMobileMenuOnClick()"
+                  routerLink="service/5"
+                  routerLinkActive="bg-[#b3a16c] text-white"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  class="block px-3.5 py-2.5 rounded-lg hover:bg-gray-100 hover:text-[#b3a16c] whitespace-nowrap transition-colors duration-150"
+                >
+                  {{ "services.section5.title" | translate }}
                 </a>
               </li>
               <li>
-                <a (click)="closeMobileMenuOnClick()" routerLink="service/6"  routerLinkActive="bg-[#b3a16c] text-white"
-                  [routerLinkActiveOptions]="{exact: true}"
-                  class="block px-3.5 py-2.5 rounded-lg hover:bg-gray-100 hover:text-[#b3a16c] whitespace-nowrap transition-colors duration-150 ease-in-out">
-                  {{ 'services.section6.title' | translate }}
+                <a
+                  (click)="closeMobileMenuOnClick()"
+                  routerLink="service/6"
+                  routerLinkActive="bg-[#b3a16c] text-white"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  class="block px-3.5 py-2.5 rounded-lg hover:bg-gray-100 hover:text-[#b3a16c] whitespace-nowrap transition-colors duration-150"
+                >
+                  {{ "services.section6.title" | translate }}
                 </a>
               </li>
               <li>
-                <a (click)="closeMobileMenuOnClick()" routerLink="service/7"  routerLinkActive="bg-[#b3a16c] text-white"
-                  [routerLinkActiveOptions]="{exact: true}"
-                  class="block px-3.5 py-2.5 rounded-lg hover:bg-gray-100 hover:text-[#b3a16c] whitespace-nowrap transition-colors duration-150 ease-in-out">
-                  {{ 'services.section7.title' | translate }}
+                <a
+                  (click)="closeMobileMenuOnClick()"
+                  routerLink="service/7"
+                  routerLinkActive="bg-[#b3a16c] text-white"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  class="block px-3.5 py-2.5 rounded-lg hover:bg-gray-100 hover:text-[#b3a16c] whitespace-nowrap transition-colors duration-150"
+                >
+                  {{ "services.section7.title" | translate }}
                 </a>
               </li>
               <li>
-                <a (click)="closeMobileMenuOnClick()" routerLink="service/8"  routerLinkActive="bg-[#b3a16c] text-white"
-                  [routerLinkActiveOptions]="{exact: true}"
-                  class="block px-3.5 py-2.5 rounded-lg hover:bg-gray-100 hover:text-[#b3a16c] whitespace-nowrap transition-colors duration-150 ease-in-out">
-                  {{ 'services.section8.title' | translate }}
+                <a
+                  (click)="closeMobileMenuOnClick()"
+                  routerLink="service/8"
+                  routerLinkActive="bg-[#b3a16c] text-white"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  class="block px-3.5 py-2.5 rounded-lg hover:bg-gray-100 hover:text-[#b3a16c] whitespace-nowrap transition-colors duration-150"
+                >
+                  {{ "services.section8.title" | translate }}
                 </a>
               </li>
               <li>
-                <a (click)="closeMobileMenuOnClick()" routerLink="service/9"  routerLinkActive="bg-[#b3a16c] text-white"
-                  [routerLinkActiveOptions]="{exact: true}"
-                  class="block px-3.5 py-2.5 rounded-lg hover:bg-gray-100 hover:text-[#b3a16c] whitespace-nowrap transition-colors duration-150 ease-in-out">
-                  {{ 'services.section9.title' | translate }}
+                <a
+                  (click)="closeMobileMenuOnClick()"
+                  routerLink="service/9"
+                  routerLinkActive="bg-[#b3a16c] text-white"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  class="block px-3.5 py-2.5 rounded-lg hover:bg-gray-100 hover:text-[#b3a16c] whitespace-nowrap transition-colors duration-150"
+                >
+                  {{ "services.section9.title" | translate }}
                 </a>
               </li>
             </ul>
           </div>
         </li>
+
         <li>
-          <a (click)="closeMobileMenuOnClick()" routerLink="/ourteam" routerLinkActive="text-[#b3a16c]"
-            class="block py-2 text-[#061933]
-            md:text-white
-            px-3 md:p-0 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#b3a16c] transition-colors duration-200">
-            {{ 'navbar.team' | translate }}
+          <a
+            (click)="closeMobileMenuOnClick()"
+            routerLink="/ourteam"
+            routerLinkActive="text-[#b3a16c]"
+            class="block py-2 text-[#061933] md:text-white px-3 md:p-0 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#b3a16c] transition-colors duration-200"
+          >
+            {{ "navbar.team" | translate }}
           </a>
         </li>
+
         <li>
-          <a (click)="closeMobileMenuOnClick()" routerLink="/events" routerLinkActive="text-[#b3a16c]" class="block py-2 px-3 md:p-0  text-[#061933]
-            md:text-white
-            hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#b3a16c] transition-colors duration-200">
-            {{ 'navbar.event' | translate }}
+          <a
+            (click)="closeMobileMenuOnClick()"
+            routerLink="/events"
+            routerLinkActive="text-[#b3a16c]"
+            class="block py-2 px-3 md:p-0 text-[#061933] md:text-white hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#b3a16c] transition-colors duration-200"
+          >
+            {{ "navbar.event" | translate }}
           </a>
         </li>
-        <!-- <li>
-          <a (click)="closeMobileMenuOnClick()" routerLink="/branches" routerLinkActive="text-[#b3a16c]"
-            class="block py-2 px-3 md:p-0 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#b3a16c] transition-colors duration-200">
-            {{ 'navbar.branches' | translate }}
-          </a>
-        </li> -->
+
         <li>
-          <a (click)="closeMobileMenuOnClick()" routerLink="/contact" routerLinkActive="text-[#b3a16c]"
-            class="text-[#061933]
-            md:text-white
-            block py-2 px-3 md:p-0 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#b3a16c] transition-colors duration-200">
-            {{ 'navbar.contact' | translate }}
+          <a
+            (click)="closeMobileMenuOnClick()"
+            routerLink="/contact"
+            routerLinkActive="text-[#b3a16c]"
+            class="text-[#061933] md:text-white block py-2 px-3 md:p-0 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#b3a16c] transition-colors duration-200"
+          >
+            {{ "navbar.contact" | translate }}
           </a>
         </li>
       </ul>
