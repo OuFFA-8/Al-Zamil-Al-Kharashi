@@ -153,7 +153,7 @@ export class BranchesComponent implements OnInit {
       hours: 'Sat-Thur 8:30am- 5pm',
       emails: ['jed@zk-legal.com'],
       mapEmbedUrl:
-        'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3709.5804973583886!2d39.108277199999996!3d21.6022921!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15c3db561395220d%3A0x5522ee6036204b1f!2z2KfZhNiy2KfZhdmEINmI2KfZhNiu2LHYp9i02Yog2YTZhNmF2K3Yp9mF2KfYqSDZiNin2YTYp9iz2KrYtNin2LHYp9iqINin2YTZgtin2YbZiNmG2YrZhw!5e0!3m2!1sen!2seg!4v1780912847549!5m2!1sen!2seg',
+        'https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d927.2820550757034!2d39.12902284795719!3d21.6199267425437!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjHCsDM3JzEwLjMiTiAzOcKwMDcnNDUuMiJF!5e0!3m2!1sen!2seg!4v1780933514562!5m2!1sen!2seg',
       socialLinks: [],
     },
   ];
