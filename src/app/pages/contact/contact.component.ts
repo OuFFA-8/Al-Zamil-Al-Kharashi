@@ -146,7 +146,7 @@ export class ContactComponent implements OnInit, OnDestroy {
       hours: 'Sat-Thur 8:30am - 5pm',
       emails: ['jed@zk-legal.com'],
       mapEmbedUrl:
-        'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7419.153308684319!2d39.108289!3d21.602442!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15c3dbabb0e53c41%3A0xf11d981517c55a1f!2sThe%20Headquarters%20Business%20Park!5e0!3m2!1sen!2sus!4v1746332044326!5m2!1sen!2sus',
+        'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3709.5804973583886!2d39.108277199999996!3d21.6022921!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15c3db561395220d%3A0x5522ee6036204b1f!2z2KfZhNiy2KfZhdmEINmI2KfZhNiu2LHYp9i02Yog2YTZhNmF2K3Yp9mF2KfYqSDZiNin2YTYp9iz2KrYtNin2LHYp9iqINin2YTZgtin2YbZiNmG2YrZhw!5e0!3m2!1sen!2seg!4v1780912847549!5m2!1sen!2seg',
       socialLinks: [],
       backgroundImageUrl: '/images/جدة.webp',
     },
